@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:38:24 by tiyang            #+#    #+#             */
-/*   Updated: 2025/11/24 10:48:47 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/11/24 13:57:48 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,14 @@ void	create_image_buffer(t_game *game)
 			&game->img.bpp, &game->img.line_length, &game->img.endian);
 }
 
+static int	handle_keypress(int keycode, t_game *game)
+{
+	if (keycode == KEY_ESC)
+		close_game(game, EXIT_SUCCESS);
+	return (0);
+}
+
+
 // registers event hooks. See further notes below.
 void	register_mlx_hooks(t_game *game)
 {
@@ -101,52 +109,3 @@ void	load_game(t_game *game)
 	render_map(game);
 	register_mlx_hooks(game);
 }
-
-/* NOTES ON LOAD_GAME WORKFLOW
-1. mlx_init() - Initialize MiniLibX
-	This function initializes the connection 
-	to the graphical display system.
-	It returns a void pointer (mlx_ptr) 
-	which is like a handle to this connection.
-	If it fails (e.g., no display server), 
-	it returns NULL. Always check for NULL.
-2. mlx_new_window() - Create a Window
-	Creates a new window on the screen.
-		- mlx_ptr: The pointer returned by mlx_init().
-		- size_x: The width of the window in pixels.
-		- size_y: The height of the window in pixels.
-		- title: A string that will appear in the window's title bar.
-	It returns a void pointer (win_ptr) to the newly created window.
-	Returns NULL on failure.
-3. mlx_new_image() - Create an Image in Memory (The Drawing Canvas)
-	Allocates memory for an image that you can draw pixels to.
-	This image is *not* visible yet; it's just a buffer in RAM.
-		- mlx_ptr: The pointer from mlx_init().
-		- width: The width of the image in pixels.
-		- height: The height of the image in pixels.
-	Returns a void pointer (img_ptr) to the image.
-	Returns NULL on failure.
-4. mlx_get_data_addr() - Get Pointer to Image Pixel Data
-	Provides direct access to the raw pixel data of an MLX image.
-	Need this function to draw pixels directly.
-		- img_ptr: The pointer returned by mlx_new_image().
-		- bits_per_pixel: A pointer to an int where MLX will store 
-		the number of bits per pixel (e.g., 32 for RGBA).
-		- line_length: A pointer to an int where MLX will store 
-		the number of bytes for one full row of pixels.
-		This is crucial for moving to the next row (y-coordinate).
-		- endian: A pointer to an int where MLX will store 
-		the endianness (byte order, 0 or 1).
-	Returns a `char *` pointer to the first byte of the pixel data.
-5. load_sprites() - loading xpm images into the game
-6. render_map() - draw the current state of the game 
-7. register_mlx_hooks() - centralised function to register all event hooks.
-	1) Key Press Event (User presses a key)
-	Event code 2: KeyPress (defined in X11/X.h)
-	Event mask (1L << 0): KeyPressMask (tells X server to send key press events)
-	handle_keypress: function to handle what happens when a key is pressed
-	2) Window Close Event (User clicks the 'X' button on the window)
-	Event code 17: DestroyNotify (defined in X11/X.h)
-	Event mask 0L: NoEventMask
-	handle_close: function to handle cleanup and exit when the window is closed
-*/

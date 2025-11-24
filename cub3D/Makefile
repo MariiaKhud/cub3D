@@ -6,55 +6,66 @@
 #    By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/30 10:51:21 by tiyang            #+#    #+#              #
-#    Updated: 2025/11/24 10:53:00 by makhudon         ###   ########.fr        #
+#    Updated: 2025/11/24 13:31:11 by makhudon         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = cub3D
+NAME                = cub3D
+CC                  = cc
+CFLAGS              = -Wall -Wextra -Werror
 
-MLX_PATH = minilibx/
-MLX_LIB = $(MLX_PATH)libmlx.a
+LIBFT_DIR           = libft
+MINILIBX_DIR        = minilibx
+OBJDIR              = objs
+SRC_DIR             = src
 
-LIBFT_PATH = libft/
-LIBFT = $(LIBFT_PATH)libft.a
+MLX_LIB             = $(MINILIBX_DIR)/libmlx.a
+LIBFT               = $(LIBFT_DIR)/libft.a
+INCLUDES            = -I$(LIBFT_DIR) -I$(SRC_DIR) -I$(MINILIBX_DIR) -I.
 
-INCLUDES = -I. -I$(LIBFT_PATH) -I$(MLX_PATH)
+SRCS                = $(SRC_DIR)/main.c \
+                      $(SRC_DIR)/lifecycle/game_init.c \
+                      $(SRC_DIR)/lifecycle/game_close.c \
+					  $(SRC_DIR)/lifecycle/render_map.c \
+                      $(SRC_DIR)/lifecycle/utils.c \
+                      $(SRC_DIR)/parsing/validate_path.c \
+                      $(SRC_DIR)/parsing/parse_info.c \
+                      $(SRC_DIR)/parsing/parse_map.c \
+                      $(SRC_DIR)/parsing/utils.c \
+                      $(SRC_DIR)/parsing/validate_map.c
 
-CC = cc
-CFLAGS = -Wall -Wextra -Werror $(INCLUDES)
-MLXFLAGS = -lm -lXext -lX11
+OBJS                = $(SRCS:$(SRC_DIR)/%.c=$(OBJDIR)/%.o)
 
-SRCS = src/main.c \
-       src/lifecycle/game_init.c \
-	   src/lifecycle/game_close.c \
-	   src/lifecycle/utils.c \
-	   src/parsing/map_parser.c \
-	   src/parsing/map_validation.c \
-	   src/parsing/flood_fill.c \
-	   src/parsing/utils.c \
+RM                  = rm -f
+MKDIR               = mkdir -p
+MAKE_LIBFT          = make -C $(LIBFT_DIR)
 
-OBJS = $(SRCS:.c=.o)
+all: $(NAME)
 
-all: subsystems $(NAME)
+$(NAME): $(LIBFT) $(MLX_LIB) $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) \
+	-L$(MINILIBX_DIR) -lmlx -lXext -lX11 -lm -o $(NAME)
 
-%.o : %.c
-	$(CC) $(CFLAGS) -c -o $@ $<
+$(LIBFT):
+	$(MAKE_LIBFT)
 
-subsystems:
-	@make -C $(MLX_PATH) all
-	@make -C $(LIBFT_PATH) all
+$(MLX_LIB):
+	$(MAKE) -C $(MINILIBX_DIR)
 
-$(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(MLX_LIB) $(MLXFLAGS) -o $(NAME)
+$(OBJDIR)/%.o: $(SRC_DIR)/%.c
+	@$(MKDIR) $(dir $@)
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
-	make -C $(MLX_PATH) clean
-	make -C $(LIBFT_PATH) clean
-	rm -f $(OBJS)
+	$(MAKE_LIBFT) clean
+	$(RM) -r $(OBJDIR)
+	@if [ -d "$(MINILIBX_DIR)" ]; then \
+		$(MAKE) -C $(MINILIBX_DIR) clean; \
+	fi
 
 fclean: clean
-	make -C $(LIBFT_PATH) fclean
-	rm -f $(NAME)
+	$(MAKE_LIBFT) fclean
+	$(RM) $(NAME)
 
 re: fclean all
 
