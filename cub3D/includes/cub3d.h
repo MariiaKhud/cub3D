@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   so_long.h                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/12 12:57:17 by tiyang            #+#    #+#             */
-/*   Updated: 2025/11/24 10:34:03 by makhudon         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   cub3d.h                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/12 12:57:17 by tiyang        #+#    #+#                 */
+/*   Updated: 2025/11/24 11:37:26 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SO_LONG_H
-# define SO_LONG_H
+#ifndef CUB3D_H
+# define CUB3D_H
 
 # include <stdlib.h> // malloc, free, exit
 # include <fcntl.h> // open, close
+# include <math.h>
+# include <stdio.h>
 # include <mlx.h> // minilibx
 # include "libft.h"
+
+// Screen dimensions
+# define WIDTH 640
+# define HEIGHT 480
 
 typedef struct s_img
 {
@@ -31,17 +37,23 @@ typedef struct s_img
 
 typedef struct s_game
 {
+	// MAP FOR TESTING
+	int     (*test_map)[24];
+	// OLD MAP VARIABLES
 	char	**map;
 	int		map_width;
 	int		map_height;
+	// OLD PLAYER POSITION VARIABLES TO BE DELETED
 	int		player_x;
 	int		player_y;
+	// NEW PLAYER POSITION & ORIENTATION VARIABLES
 	double posX, posY;      // Player position
 	double dirX, dirY;      // Direction vector
 	double planeX, planeY;
-
+	// MLX POINTERS
 	void	*mlx_ptr;
 	void	*win_ptr;
+	// BELOW TO BE CHANGED / DELETED
 	t_img	img;
 	t_img	player_down_sprite; // For player facing down
 	t_img	player_up_sprite; // For player facing up
@@ -74,6 +86,11 @@ typedef struct s_game
 # define EXIT_SUCCESS 0
 # define EXIT_FAILURE 1
 
+// CUB3D FUNCTIONS
+void    raycast(t_game *game);
+
+
+// OLD FUNCTION PROTOTYPES
 /* MAP */
 /* MAP PARSER */
 int				is_ber_file(char *filename);

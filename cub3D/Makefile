@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/06/30 10:51:21 by tiyang            #+#    #+#              #
-#    Updated: 2025/11/24 10:53:00 by makhudon         ###   ########.fr        #
+#                                                         ::::::::             #
+#    Makefile                                           :+:    :+:             #
+#                                                      +:+                     #
+#    By: tiyang <tiyang@student.42.fr>                +#+                      #
+#                                                    +#+                       #
+#    Created: 2025/06/30 10:51:21 by tiyang        #+#    #+#                  #
+#    Updated: 2025/11/24 11:48:29 by tiyang        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ SRCS = src/main.c \
 	   src/parsing/map_validation.c \
 	   src/parsing/flood_fill.c \
 	   src/parsing/utils.c \
+	   src/engine/raycast.c
 
 OBJS = $(SRCS:.c=.o)
 
