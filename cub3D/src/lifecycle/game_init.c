@@ -6,7 +6,7 @@
 /*   By: tiyang <tiyang@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/30 15:38:24 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/11/25 16:23:27 by tiyang        ########   odam.nl         */
+/*   Updated: 2025/11/25 16:42:50 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,12 @@ void	create_image_buffer(t_game *game)
 			&game->img.bpp, &game->img.line_length, &game->img.endian);
 }
 
-static int	handle_keypress(int keycode, t_game *game)
-{
-	if (keycode == KEY_ESC)
-		close_game(game, EXIT_SUCCESS);
-	return (0);
-}
+// static int	handle_keypress(int keycode, t_game *game)
+// {
+// 	if (keycode == KEY_ESC)
+// 		close_game(game, EXIT_SUCCESS);
+// 	return (0);
+// }
 
 
 // registers event hooks. See further notes below.
@@ -107,6 +107,6 @@ void	load_game(t_game *game)
 {
 	create_image_buffer(game);
 	load_sprites(game);
-	// render_map(game);  // NEED NEW FUNCTION TO RENDER MAP
+	render_map(game);  // NEED NEW FUNCTION TO RENDER MAP
 	register_mlx_hooks(game);
 }

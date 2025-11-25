@@ -6,7 +6,7 @@
 /*   By: tiyang <tiyang@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/11/25 15:45:40 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/11/25 16:24:47 by tiyang        ########   odam.nl         */
+/*   Updated: 2025/11/25 16:37:16 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ typedef struct s_img
 typedef struct s_game
 {
 	// MAP FOR TESTING
-	int     (*test_map)[24];
+	//int     (*test_map)[24];
 	// OLD MAP VARIABLES
 	char	**map;
 	int		map_width;

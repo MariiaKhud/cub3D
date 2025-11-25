@@ -6,7 +6,7 @@
 /*   By: tiyang <tiyang@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/11/24 11:46:59 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/11/25 15:24:47 by tiyang        ########   odam.nl         */
+/*   Updated: 2025/11/25 17:16:05 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ void raycast(t_game *game)
 
             // Check if ray has hit a wall
             // Note: We use the hardcoded test_map for now
-            if (game->test_map[mapY][mapX] > 0) 
+            if (game->map[mapY][mapX] == '1') 
                 hit = 1;
         }
 
