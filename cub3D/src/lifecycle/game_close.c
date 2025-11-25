@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 10:56:34 by tiyang            #+#    #+#             */
-/*   Updated: 2025/11/24 10:50:56 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/11/25 12:14:16 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	close_game(t_game *game, int exit_status)
 		game->mlx_ptr = NULL;
 	}
 	if (game->map)
-		free_matrix(game->map);
+		free_map(game->map);
 	exit(exit_status);
 }
 

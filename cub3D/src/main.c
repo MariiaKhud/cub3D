@@ -6,7 +6,7 @@
 /*   By: tiyang <tiyang@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/12 15:03:37 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/11/25 15:51:56 by tiyang        ########   odam.nl         */
+/*   Updated: 2025/11/25 16:23:11 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ int	main(int argc, char **argv)
 
 	ft_bzero(&game, sizeof(t_game));
 	if (argc != 2)
+		return (ft_printf("Error\nUsage: ./cub3D <map.ber>\n"), EXIT_FAILURE);
+	if (!is_cub_file(argv[1]))
 		return (ft_printf("Error\nUsage: ./cub3D <map.ber>\n"), EXIT_FAILURE);
 	if (!is_cub_file(argv[1]))
 		return (ft_printf("Error\nWrong map file type\n"), EXIT_FAILURE);

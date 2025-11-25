@@ -6,7 +6,7 @@
 /*   By: tiyang <tiyang@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/11/25 15:45:40 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/11/25 15:45:56 by tiyang        ########   odam.nl         */
+/*   Updated: 2025/11/25 16:24:47 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,15 @@ void			free_map(char **matrix);
 int				validate_map(t_game *game);
 
 // validate_path.c
+void			free_map(char **matrix);
+
+// validate_map.c
+int				validate_map(t_game *game);
+
+// validate_path.c
 int				validate_path(t_game *game);
+
+
 
 
 
@@ -138,6 +146,7 @@ int				touch_collectible(t_game *game, int new_player_x,
 int				touch_exit(t_game *game, int new_player_x, int new_player_y);
 void			handle_move(int keycode, t_game *game, int *player_x,
 					int *player_y);
+
 
 int				handle_interaction(char target, t_game *game,
 					int target_x, int target_y);
