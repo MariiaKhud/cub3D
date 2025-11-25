@@ -5,24 +5,42 @@
 /*                                                     +:+                    */
 /*   By: tiyang <tiyang@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/06/12 12:57:17 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/11/24 11:37:26 by tiyang        ########   odam.nl         */
+/*   Created: 2025/11/25 15:45:40 by tiyang        #+#    #+#                 */
+/*   Updated: 2025/11/25 15:45:56 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include <stdlib.h> // malloc, free, exit
-# include <fcntl.h> // open, close
 # include <math.h>
+# include <stdlib.h>
+# include <fcntl.h>
 # include <stdio.h>
-# include <mlx.h> // minilibx
+# include <string.h>
+# include <mlx.h>
 # include "libft.h"
 
 // Screen dimensions
 # define WIDTH 640
 # define HEIGHT 480
+
+# define TILE_SIZE 64
+# define TRANSPARENT_COLOR 0x00FF00FF
+# define KEY_ESC 65307
+# define KEY_W 119
+# define KEY_A 97
+# define KEY_S 115
+# define KEY_D 100
+// Event codes for mlx_hook
+# define MLX_KEY_PRESS 2
+# define MLX_DESTROY_NOTIFY 17
+// Event masks for mlx_hook
+// # define MLX_KEY_PRESS_MASK (1L << 0)
+# define MLX_NO_EVENT_MASK 0L
+// Exit status codes
+# define EXIT_SUCCESS 0
+# define EXIT_FAILURE 1
 
 typedef struct s_img
 {
@@ -53,7 +71,7 @@ typedef struct s_game
 	// MLX POINTERS
 	void	*mlx_ptr;
 	void	*win_ptr;
-	// BELOW TO BE CHANGED / DELETED
+	// BELOW VARIABLES FROM SO_LONG TO BE CHANGED / DELETED
 	t_img	img;
 	t_img	player_down_sprite; // For player facing down
 	t_img	player_up_sprite; // For player facing up
@@ -67,52 +85,38 @@ typedef struct s_game
 	int		collectibles_collected;
 	int		total_collectibles;
 	int		moves;
-}	t_game;
+	// NEW: TEXTURE VARIABLES
+	char	*no_texture; // North texture path
+	char	*so_texture; // South texture path
+	char	*we_texture; // West texture path
+	char	*ea_texture; // East texture path
+	int		floor_color; // Floor color in RGB
+	int		ceiling_color; // Ceiling color in RGB
 
-# define TILE_SIZE 64
-# define TRANSPARENT_COLOR 0x00FF00FF
-# define KEY_ESC 65307
-# define KEY_W 119
-# define KEY_A 97
-# define KEY_S 115
-# define KEY_D 100
-// Event codes for mlx_hook
-# define MLX_KEY_PRESS 2
-# define MLX_DESTROY_NOTIFY 17
-// Event masks for mlx_hook
-// # define MLX_KEY_PRESS_MASK (1L << 0)
-# define MLX_NO_EVENT_MASK 0L
-// Exit status codes
-# define EXIT_SUCCESS 0
-# define EXIT_FAILURE 1
+}	t_game;
 
 // CUB3D FUNCTIONS
 void    raycast(t_game *game);
 
+// parse_info.c
+int				parse_textures_and_colors(char *filename, t_game *game);
 
-// OLD FUNCTION PROTOTYPES
-/* MAP */
-/* MAP PARSER */
-int				is_ber_file(char *filename);
-int				count_lines(char *filename);
-int				load_map(char *filename, t_game *game);
-/* UTILS */
+// parse_map.c
+int				is_cub_file(char *filename);
+int				parse_map_file(char *filename, t_game *game);
+
+// utils.c
 int				ft_strlen_without_newline(char *line);
-int				is_rectangular(char **map, int line_count);
 char			**copy_map(t_game *game);
-void			free_matrix(char **matrix);
-/* MAP VALIDATION */
-int				has_valid_char(char **map);
-int				check_walls(t_game *game);
-int				check_element_count(t_game *game, char element);
-int				validate_path(t_game *game);
+void			free_map(char **matrix);
+
+// validate_map.c
 int				validate_map(t_game *game);
-/* FLOOD FILL */
-void			set_starting_position(t_game *game);
-void			floodfill_collectibles(char **map_copy, int x, int y);
-void			floodfill_exit(char **map_copy, int x, int y);
-int				is_element_unreachable(char **map_copy, char element,
-					t_game *game);
+
+// validate_path.c
+int				validate_path(t_game *game);
+
+
 
 /* GAME */
 /* RENDER */
@@ -134,7 +138,7 @@ int				touch_collectible(t_game *game, int new_player_x,
 int				touch_exit(t_game *game, int new_player_x, int new_player_y);
 void			handle_move(int keycode, t_game *game, int *player_x,
 					int *player_y);
-int				handle_keypress(int keycode, t_game *game);
+
 int				handle_interaction(char target, t_game *game,
 					int target_x, int target_y);
 /* GAME CLOSE */
