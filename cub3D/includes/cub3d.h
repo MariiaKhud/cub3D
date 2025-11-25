@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:57:17 by tiyang            #+#    #+#             */
-/*   Updated: 2025/11/24 13:57:22 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/11/25 12:14:16 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int				parse_map_file(char *filename, t_game *game);
 // utils.c
 int				ft_strlen_without_newline(char *line);
 char			**copy_map(t_game *game);
-void			free_matrix(char **matrix);
+void			free_map(char **matrix);
 
 // validate_map.c
 int				validate_map(t_game *game);

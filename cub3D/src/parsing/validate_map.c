@@ -5,164 +5,178 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/30 12:14:05 by tiyang            #+#    #+#             */
-/*   Updated: 2025/11/24 13:30:13 by makhudon         ###   ########.fr       */
+/*   Created: 2025/11/25 12:08:49 by makhudon          #+#    #+#             */
+/*   Updated: 2025/11/25 12:14:16 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
 /**
- * @brief Counts the occurrences of a specific element in the game map.
- * @param game Pointer to the game structure.
- * @param element The character element to count (e.g., 'P', 'E', 'C').
+ * @brief Flood fill algorithm to check if the map is closed.
+ * Marks visited '0' cells with 'V'. If it reaches the edge,
+ * the map is not closed.
+ * @param map The game map.
+ * @param y Current Y position.
+ * @param x Current X position.
+ * @param width Width of the map.
+ * @param height Height of the map.
+ * @return int 1 if the area is closed, 0 otherwise.
+ */
+static int	floodfill_closed(char **map, int y, int x,
+							int width, int height)
+{
+	char	c;
+
+	if (y < 0 || y >= height || x < 0 || x >= width)
+		return (0);
+	c = map[y][x];
+	if (c == ' ')
+		return (0);
+	if (c == '1' || c == 'V')
+		return (1);
+	map[y][x] = 'V';
+	if (!floodfill_closed(map, y - 1, x, width, height))
+		return (0);
+	if (!floodfill_closed(map, y + 1, x, width, height))
+		return (0);
+	if (!floodfill_closed(map, y, x - 1, width, height))
+		return (0);
+	if (!floodfill_closed(map, y, x + 1, width, height))
+		return (0);
+	return (1);
+}
+
+/**
+ * @brief Finds the player's position in the map.
+ * @param game The game structure containing the map.
+ * @param py Pointer to store the player's Y position.
+ * @param px Pointer to store the player's X position.
+ * @return int 1 if exactly one player found, 0 otherwise.
+ */
+static int	find_player_pos(t_game *game, int *py, int *px)
+{
+	int	y;
+	int	x;
+	int	count;
+
+	y = 0;
+	count = 0;
+	while (y < game->map_height)
+	{
+		x = 0;
+		while (x < game->map_width && game->map[y][x])
+		{
+			if (ft_strchr("NSEW", game->map[y][x]))
+			{
+				*py = y;
+				*px = x;
+				count++;
+			}
+			x++;
+		}
+		y++;
+	}
+	if (count != 1)
+		return (0);
+	return (1);
+}
+
+/**
+ * @brief Counts occurrences of a specific element in the game map.
+ * @param game The game structure containing the map.
+ * @param element The character element to count.
  * @return int The count of the specified element in the map.
  */
 static int	check_element_count(t_game *game, char element)
 {
 	int	element_count;
-	int	i;
-	int	j;
+	int	y;
+	int	x;
 
+	element_count = 0;
+	y = 0;
 	if (game == NULL)
 		return (0);
-	i = 0;
-	element_count = 0;
-	while (game->map[i] != NULL)
+	while (game->map[y] != NULL)
 	{
-		j = 0;
-		while (game->map[i][j] != '\0')
+		x = 0;
+		while (game->map[y][x] != '\0')
 		{
-			if (game->map[i][j] == element)
+			if (game->map[y][x] == element)
 				element_count++;
-			j++;
+			x++;
 		}
-		i++;
+		y++;
 	}
 	return (element_count);
 }
 
 /**
- * @brief Checks if the map is surrounded by walls, returns 1 if true.
- * Checks if the first and last rows are filled with '1's
- * and if the first and last character in each row are '1'.
- * 	
- * @param game Pointer to the game structure containing the map.
- * @return int Returns 1 if the map is properly walled, otherwise returns 0.
- */
-static int	is_surrounded_by_wall(t_game *game)
-{
-	int	i;
-	int	last_row_index;
-	int	last_col_index;
-
-	if (game == NULL)
-		return (0);
-	if (game->map_height < 3 || game->map_width < 3)
-		return (0);
-	i = 0;
-	last_row_index = game->map_height - 1;
-	while (game->map[0][i] && game->map[last_row_index][i])
-	{
-		if (game->map[0][i] != '1' || game->map[last_row_index][i] != '1')
-			return (0);
-		i++;
-	}
-	i = 0;
-	last_col_index = game->map_width - 1;
-	while (i < game->map_height)
-	{
-		if (game->map[i][0] != '1' || game->map[i][last_col_index] != '1')
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-/**
- * @brief Checks if the map contains only valid characters.
- * Valid characters are '0', '1', 'C', 'E', 'P', and '\n'.
- * @param map The 2D character array representing the map.
- * @return int Returns 1 if all characters are valid, otherwise returns 0.
+ * @brief Checks if all characters in the map are valid.
+ * Valid characters are '0', '1', 'N', 'S', 'E', 'W', ' ', and tabs.
+ * @param map The game map to check.
+ * @return int 1 if all characters are valid, 0 otherwise.
  */
 static int	is_all_chars_valid(char **map)
 {
-	int	i;
-	int	j;
+	int	y;
+	int	x;
 
+	y = 0;
 	if (map == NULL)
 		return (0);
-	i = 0;
-	while (map[i])
+	while (map[y] != NULL)
 	{
-		j = 0;
-		while (map[i][j])
+		x = 0;
+		while (map[y][x] != '\0')
 		{
-			if (!ft_strchr("01CEP\n", map[i][j]))
+			if (!ft_strchr("01NSEW ", map[y][x]))
 				return (0);
-			j++;
+			x++;
 		}
-		i++;
+		y++;
 	}
 	return (1);
 }
 
 /**
- * @brief Checks if the map is rectangular.
- * @param map The 2D character array representing the map.
- * @param line_count The number of lines in the map.
- * @return int Returns 1 if the map is rectangular, otherwise returns 0.
- */
-static int	is_rectangular(char **map, int line_count)
-{
-	int	init_length;
-	int	i;
-	int	line_length;
-
-	if (map == NULL || map[0] == NULL || line_count <= 0)
-		return (0);
-	if (line_count == 1)
-		return (1);
-	init_length = ft_strlen_without_newline(map[0]);
-	i = 1;
-	while (i < line_count)
-	{
-		line_length = ft_strlen_without_newline(map[i]);
-		if (line_length != init_length)
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-/**
- * @brief Validates the game map for correctness.
- * This function checks if the map is rectangular,
- * contains only valid characters, is surrounded by walls,
- * has the correct number of essential elements (player, exit, collectibles),
- * and ensures that all collectibles and the exit are reachable from the
- * player's starting position.
- * @param game Pointer to the game structure containing the map.
- * @return int Returns 1 if the map is valid, otherwise returns 0.
+ * @brief Validates the game map.
+ * Checks for valid characters, exactly one player,
+ * and that the map is closed using flood fill.
+ * @param game The game structure containing the map.
+ * @return int 1 if the map is valid, 0 otherwise.
  */
 int	validate_map(t_game *game)
 {
-	int	player;
-	int	exit;
-	int	collectibles;
+	int		player_count;
+	int		player_y;
+	int		player_x;
+	char	**map_copy;
+	int		is_closed;
 
-	if (!game || !is_rectangular(game->map, game->map_height)
-		|| !is_all_chars_valid(game->map) || !is_surrounded_by_wall(game))
-		return (free_matrix(game->map), 0);
-	player = check_element_count(game, 'P');
-	exit = check_element_count(game, 'E');
-	collectibles = check_element_count(game, 'C');
-	if (player != 1 || exit != 1 || collectibles < 1)
-		return (free_matrix(game->map), 0);
-	if (!validate_path(game))
-		return (free_matrix(game->map), 0);
-	game->total_collectibles = collectibles;
-	game->collectibles_collected = 0;
-	game->moves = 0;
+	if (!game || !game->map)
+		return (0);
+	/* 1) only allowed characters */
+	if (!is_all_chars_valid(game->map))
+		return (free_map(game->map), 0);
+	/* 2) exactly one player */
+	player_count = check_element_count(game, 'N')
+		+ check_element_count(game, 'S')
+		+ check_element_count(game, 'E')
+		+ check_element_count(game, 'W');
+	if (player_count != 1)
+		return (free_map(game->map), 0);
+	if (!find_player_pos(game, &player_y, &player_x))
+		return (free_map(game->map), 0);
+	/* 3) flood fill – check if map is closed */
+	map_copy = copy_map(game);
+	if (map_copy == NULL)
+		return (free_map(game->map), 0);
+	is_closed = floodfill_closed(map_copy, player_y, player_x,
+			game->map_width, game->map_height);
+	free_map(map_copy);
+	if (is_closed == 0)
+		return (free_map(game->map), 0);
 	return (1);
 }

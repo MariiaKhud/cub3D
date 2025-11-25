@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 15:03:37 by tiyang            #+#    #+#             */
-/*   Updated: 2025/11/24 13:02:00 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/11/25 11:14:41 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int	main(int argc, char **argv)
 		return (ft_printf("Error\nUsage: ./cub3D <map.ber>\n"), EXIT_FAILURE);
 	if (!is_cub_file(argv[1]))
 		return (ft_printf("Error\nWrong map file type\n"), EXIT_FAILURE);
-	// Parse textures and floor/ceiling colors
 	if (parse_textures_and_colors(argv[1], &game))
     	return (ft_printf("Error\nFailed to parse textures/colors\n"), EXIT_FAILURE);
 		
