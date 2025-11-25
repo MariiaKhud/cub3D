@@ -6,11 +6,58 @@
 /*   By: tiyang <tiyang@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/11/24 11:46:59 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/11/24 14:12:11 by tiyang        ########   odam.nl         */
+/*   Updated: 2025/11/25 15:24:47 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
+
+// Define some colors for testing
+#define COLOR_CEILING 0x87CEEB // Sky Blue
+#define COLOR_FLOOR   0x8B4513 // Saddle Brown
+#define COLOR_WALL_1  0xFF0000 // Red (Side 0)
+#define COLOR_WALL_2  0x00FF00 // Green (Side 1)
+
+// Fast pixel put (replaces mlx_pixel_put)
+void    my_mlx_pixel_put(t_game *game, int x, int y, int color)
+{
+    char    *dst;
+
+    if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
+        return;
+    dst = game->img.addr + (y * game->img.line_length + x * (game->img.bpp / 8));
+    *(unsigned int *)dst = color;
+}
+
+// Draw a vertical line of pixels
+void    draw_vertical_line(t_game *game, int x, int drawStart, int drawEnd, int color)
+{
+    int y;
+
+    // 1. Draw Ceiling (From 0 to drawStart)
+    y = 0;
+    while (y < drawStart)
+    {
+        my_mlx_pixel_put(game, x, y, COLOR_CEILING);
+        y++;
+    }
+
+    // 2. Draw Wall (From drawStart to drawEnd)
+    y = drawStart;
+    while (y < drawEnd)
+    {
+        my_mlx_pixel_put(game, x, y, color);
+        y++;
+    }
+
+    // 3. Draw Floor (From drawEnd to HEIGHT)
+    y = drawEnd;
+    while (y < HEIGHT)
+    {
+        my_mlx_pixel_put(game, x, y, COLOR_FLOOR);
+        y++;
+    }
+}
 
 void raycast(t_game *game)
 {
@@ -124,15 +171,43 @@ void raycast(t_game *game)
         else           
             perpWallDist = (sideDistY - deltaDistY);
 
-        // DEBUG: Print distance for the middle ray only
-        if (x == WIDTH / 2)
-        {
-            printf("Mid Ray Hit at Map[%d][%d]. Distance: %f\n", 
-                   mapX, mapY, perpWallDist);
-        }
+        // // DEBUG: Print distance for the middle ray only
+        // if (x == WIDTH / 2)
+        // {
+        //     printf("Mid Ray Hit at Map[%d][%d]. Distance: %f\n", 
+        //            mapX, mapY, perpWallDist);
+        // }
+		// Calculate height of line to draw on screen
+        int lineHeight = (int)(HEIGHT / perpWallDist);
 
+        // Calculate lowest and highest pixel to fill in current stripe
+        int drawStart = -lineHeight / 2 + HEIGHT / 2;
+        if (drawStart < 0)
+            drawStart = 0;
+        
+        int drawEnd = lineHeight / 2 + HEIGHT / 2;
+        if (drawEnd >= HEIGHT)
+            drawEnd = HEIGHT - 1;
+
+        // ---------------------------------------------------------
+        // PART 4: Set Color & Draw (Day 4)
+        // ---------------------------------------------------------
+        
+        int color;
+        // Give x-side and y-side different brightness/color for depth
+        if (side == 0)
+            color = COLOR_WALL_1;
+        else
+            color = COLOR_WALL_2;
+
+        draw_vertical_line(game, x, drawStart, drawEnd, color);
         x++;
     }
     // Note: We aren't drawing anything yet, just running the math loop!
+	// ---------------------------------------------------------
+    // PART 5: Push to Window (Day 4)
+    // ---------------------------------------------------------
+    // We draw the entire buffer to the window at once
+    mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img.img_ptr, 0, 0);
 }
 

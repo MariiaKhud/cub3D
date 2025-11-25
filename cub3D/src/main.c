@@ -6,7 +6,7 @@
 /*   By: tiyang <tiyang@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/12 15:03:37 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/11/24 11:49:29 by tiyang        ########   odam.nl         */
+/*   Updated: 2025/11/25 15:19:53 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,11 @@ int	main(int argc, char **argv)
 	// 1. Initialize MLX
     game.mlx_ptr = mlx_init();
     game.win_ptr = mlx_new_window(game.mlx_ptr, WIDTH, HEIGHT, "Cub3D - Day 2");
+
+	// Create the Image Buffer (The canvas we draw on)
+    game.img.img_ptr = mlx_new_image(game.mlx_ptr, WIDTH, HEIGHT);
+    game.img.addr = mlx_get_data_addr(game.img.img_ptr, &game.img.bpp,
+        &game.img.line_length, &game.img.endian);
 
     // 2. Initialize Player Variables (Start Position)
     game.posX = 22.0;
