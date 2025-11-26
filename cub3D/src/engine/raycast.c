@@ -6,7 +6,7 @@
 /*   By: tiyang <tiyang@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/11/24 11:46:59 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/11/26 13:01:35 by tiyang        ########   odam.nl         */
+/*   Updated: 2025/11/26 13:20:28 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -338,7 +338,6 @@ void raycast(t_game *game)
 		// Use the actual width of the chosen texture
 		int texX = (int)(wallX * (double)texture->width);
 
-		
 		// ============ ADJUSTED TEXTURE CALCULATION LOGIC ===============
 		if (side == 0 && rayDirX > 0) texX = texture->width - texX - 1;
         if (side == 1 && rayDirY < 0) texX = texture->width - texX - 1;
