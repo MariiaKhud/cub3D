@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:38:24 by tiyang            #+#    #+#             */
-/*   Updated: 2025/11/24 13:57:48 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/11/25 12:57:52 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,12 @@ void	create_image_buffer(t_game *game)
 			&game->img.bpp, &game->img.line_length, &game->img.endian);
 }
 
-static int	handle_keypress(int keycode, t_game *game)
-{
-	if (keycode == KEY_ESC)
-		close_game(game, EXIT_SUCCESS);
-	return (0);
-}
+// static int	handle_keypress(int keycode, t_game *game)
+// {
+// 	if (keycode == KEY_ESC)
+// 		close_game(game, EXIT_SUCCESS);
+// 	return (0);
+// }
 
 
 // registers event hooks. See further notes below.
@@ -93,7 +93,7 @@ void	register_mlx_hooks(t_game *game)
 {
 	mlx_hook(game->win_ptr, MLX_KEY_PRESS, (1L << 0),
 		handle_keypress, game);
-	mlx_hook(game->win_ptr, MLX_DESTROY_NOTIFY, MLX_NO_EVENT_MASK,
+	mlx_hook(game->win_ptr, MLX_DESTROY_NOTIFY, 0L,
 		handle_close, game);
 }
 

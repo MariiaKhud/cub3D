@@ -6,7 +6,7 @@
 #    By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/30 10:51:21 by tiyang            #+#    #+#              #
-#    Updated: 2025/11/25 10:59:48 by makhudon         ###   ########.fr        #
+#    Updated: 2025/11/25 12:41:16 by makhudon         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,8 @@ SRCS                = $(SRC_DIR)/main.c \
                       $(SRC_DIR)/parsing/parse_info.c \
                       $(SRC_DIR)/parsing/parse_map.c \
                       $(SRC_DIR)/parsing/utils.c \
-                      $(SRC_DIR)/parsing/validate_map.c
+                      $(SRC_DIR)/parsing/validate_map.c \
+					  $(SRC_DIR)/input/input.c
 
 OBJS                = $(SRCS:$(SRC_DIR)/%.c=$(OBJDIR)/%.o)
 
