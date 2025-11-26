@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   raycast.c                                          :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/11/24 11:46:59 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/11/26 11:20:28 by tiyang        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   raycast.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/24 11:46:59 by tiyang            #+#    #+#             */
+/*   Updated: 2025/11/26 12:10:56 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -282,7 +282,10 @@ void raycast(t_game *game)
 
 		// Use the actual width of the chosen texture
 		int texX = (int)(wallX * (double)texture->width);
-
+		if (texX < 0)
+			texX = 0;
+		if (texX >= texture->width)
+			texX = texture->width - 1;
 
         // DEBUG: Uncomment to verify texX is changing between 0 and 63
         // if (x == WIDTH / 2)
@@ -303,20 +306,7 @@ void raycast(t_game *game)
 
 		// t_img *texture;
 
-		if (side == 0)
-		{
-			if (rayDirX > 0)
-				texture = &game->tex_we;
-			else
-				texture = &game->tex_ea;
-		}
-		else
-		{
-			if (rayDirY > 0)
-				texture = &game->tex_no;
-			else
-				texture = &game->tex_so;
-		}
+
 		draw_vertical_line(game, x, drawStart, drawEnd, texture, texX);
 
 
