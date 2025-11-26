@@ -6,7 +6,7 @@
 /*   By: tiyang <tiyang@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/11/24 11:46:59 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/11/25 17:16:05 by tiyang        ########   odam.nl         */
+/*   Updated: 2025/11/26 09:20:58 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 #define COLOR_FLOOR   0x8B4513 // Saddle Brown
 #define COLOR_WALL_1  0xFF0000 // Red (Side 0)
 #define COLOR_WALL_2  0x00FF00 // Green (Side 1)
+
+// Define generic texture width for calculation (usually 64)
+#define TEX_WIDTH 64
 
 // Fast pixel put (replaces mlx_pixel_put)
 void    my_mlx_pixel_put(t_game *game, int x, int y, int color)
@@ -189,10 +192,38 @@ void raycast(t_game *game)
         if (drawEnd >= HEIGHT)
             drawEnd = HEIGHT - 1;
 
-        // ---------------------------------------------------------
-        // PART 4: Set Color & Draw (Day 4)
+		// ---------------------------------------------------------
+        // PART 4b: Calculate Texture Coordinates (NEW CODE)
         // ---------------------------------------------------------
         
+        double wallX; // Precise position of where the wall was hit
+
+        // 1. Calculate value of wallX
+        if (side == 0)
+             wallX = game->posY + perpWallDist * rayDirY;
+        else
+             wallX = game->posX + perpWallDist * rayDirX;
+
+        // 2. Normalize wallX to be between 0 and 1 (fractional part)
+        wallX -= floor(wallX);
+
+        // 3. x coordinate on the texture
+        int texX = (int)(wallX * (double)TEX_WIDTH);
+
+        // 4. Flip texture if we are looking at specific sides to avoid mirroring
+        if (side == 0 && rayDirX > 0)
+            texX = TEX_WIDTH - texX - 1;
+        if (side == 1 && rayDirY < 0)
+            texX = TEX_WIDTH - texX - 1;
+
+        // DEBUG: Uncomment to verify texX is changing between 0 and 63
+        // if (x == WIDTH / 2)
+        //     printf("Mid Ray: WallX: %f | TexX: %d\n", wallX, texX);
+
+        // ---------------------------------------------------------
+        // PART 5: Set Color & Draw
+        // ---------------------------------------------------------
+		
         int color;
         // Give x-side and y-side different brightness/color for depth
         if (side == 0)
