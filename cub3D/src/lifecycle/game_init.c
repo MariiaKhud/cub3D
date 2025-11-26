@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   game_init.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/26 10:15:14 by makhudon          #+#    #+#             */
-/*   Updated: 2025/11/26 10:16:33 by makhudon         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   game_init.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/11/26 10:15:14 by makhudon      #+#    #+#                 */
+/*   Updated: 2025/11/26 11:58:09 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,15 @@ void	load_game(t_game *game)
 			WIDTH, HEIGHT, "cub3D");
 	if (game->win_ptr == NULL)
 		close_game(game, EXIT_FAILURE);
+    game->img.img_ptr = mlx_new_image(game->mlx_ptr, WIDTH, HEIGHT);
+    game->img.addr = mlx_get_data_addr(game->img.img_ptr, &game->img.bpp,
+        &game->img.line_length, &game->img.endian);
 	if (!load_textures(game))
 	{
 		ft_printf("Error\nFailed to load wall textures\n");
 		close_game(game, EXIT_FAILURE);
 	}
-	raycast(game);
-	register_mlx_hooks(game);
-	mlx_loop(game->mlx_ptr);
+	// raycast(game);
+	// register_mlx_hooks(game);
+	// mlx_loop(game->mlx_ptr);
 }

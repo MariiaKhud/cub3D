@@ -6,7 +6,7 @@
 /*   By: tiyang <tiyang@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/12 15:03:37 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/11/25 17:20:22 by tiyang        ########   odam.nl         */
+/*   Updated: 2025/11/26 11:52:42 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	main(int argc, char **argv)
 		return (ft_printf("Error\nFailed to load map\n"), EXIT_FAILURE);
 	if (!validate_map(&game))
 		return (ft_printf("Error\nInvalid map\n"), EXIT_FAILURE);
-	//load_game(&game);
+	
 	
 	
 	// ======== INIT PLAYER ========
@@ -113,29 +113,30 @@ int	main(int argc, char **argv)
 	// ======== MLX INIT ============
 	// 1. Initialize MLX
 	ft_printf("\n--- Starting Game ---\n");
-    game.mlx_ptr = mlx_init();
-	if (!game.mlx_ptr)
-        return (EXIT_FAILURE);
-    game.win_ptr = mlx_new_window(game.mlx_ptr, WIDTH, HEIGHT, "Cub3D");
+	load_game(&game);
+    // game.mlx_ptr = mlx_init();
+	// if (!game.mlx_ptr)
+    //     return (EXIT_FAILURE);
+    // game.win_ptr = mlx_new_window(game.mlx_ptr, WIDTH, HEIGHT, "Cub3D");
 
-	// Create the Image Buffer (The canvas we draw on)
-    game.img.img_ptr = mlx_new_image(game.mlx_ptr, WIDTH, HEIGHT);
-    game.img.addr = mlx_get_data_addr(game.img.img_ptr, &game.img.bpp,
-        &game.img.line_length, &game.img.endian);
+	// // Create the Image Buffer (The canvas we draw on)
+    // game.img.img_ptr = mlx_new_image(game.mlx_ptr, WIDTH, HEIGHT);
+    // game.img.addr = mlx_get_data_addr(game.img.img_ptr, &game.img.bpp,
+    //     &game.img.line_length, &game.img.endian);
 
-    // 2. Initialize Player Variables (Start Position)
-    // game.posX = 22.0;
-    // game.posY = 12.0;  // Start somewhere in the middle-right
-    // game.dirX = -1.0;  // Facing West
-    // game.dirY = 0.0;
-    // game.planeX = 0.0;
-    // game.planeY = 0.66; // The 2D Raycaster version of "Field of View"
+    // // 2. Initialize Player Variables (Start Position)
+    // // game.posX = 22.0;
+    // // game.posY = 12.0;  // Start somewhere in the middle-right
+    // // game.dirX = -1.0;  // Facing West
+    // // game.dirY = 0.0;
+    // // game.planeX = 0.0;
+    // // game.planeY = 0.66; // The 2D Raycaster version of "Field of View"
 
-    // 3. Link the map
-    //game.test_map = worldMap;
+    // // 3. Link the map
+    // //game.test_map = worldMap;
 
-    // 4. Start the loop
-    // Instead of rendering once, we hook it to the loop for future movement
+    // // 4. Start the loop
+    // // Instead of rendering once, we hook it to the loop for future movement
 	register_mlx_hooks(&game);
     mlx_loop_hook(game.mlx_ptr, game_loop, &game);
     mlx_loop(game.mlx_ptr);
