@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:57:17 by tiyang            #+#    #+#             */
-/*   Updated: 2025/11/26 09:47:15 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/11/26 11:07:46 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,36 +58,21 @@ typedef struct s_img
 
 typedef struct s_game
 {
-	// MAP FOR TESTING
-	//int     (*test_map)[24];
 	// OLD MAP VARIABLES
 	char	**map;
 	int		map_width;
 	int		map_height;
-	// OLD PLAYER POSITION VARIABLES TO BE DELETED
-	int		player_x;
-	int		player_y;
+
 	// NEW PLAYER POSITION & ORIENTATION VARIABLES
 	double posX, posY;      // Player position
 	double dirX, dirY;      // Direction vector
 	double planeX, planeY;
+	
 	// MLX POINTERS
 	void	*mlx_ptr;
 	void	*win_ptr;
 	// BELOW VARIABLES FROM SO_LONG TO BE CHANGED / DELETED
-	t_img	img;
-	t_img	player_down_sprite; // For player facing down
-	t_img	player_up_sprite; // For player facing up
-	t_img	player_left_sprite; // For player facing left
-	t_img	player_right_sprite; // For player facing right
-	t_img	current_player_sprite; // the currently active player sprite
-	t_img	floor_sprite;
-	t_img	wall_sprite;
-	t_img	collectible_sprite;
-	t_img	exit_sprite;
-	int		collectibles_collected;
-	int		total_collectibles;
-	int		moves;
+
 	// NEW: TEXTURE VARIABLES
 	char	*no_texture; // North texture path
 	char	*so_texture; // South texture path
@@ -95,6 +80,12 @@ typedef struct s_game
 	char	*ea_texture; // East texture path
 	int		floor_color; // Floor color in RGB
 	int		ceiling_color; // Ceiling color in RGB
+
+	t_img	img;     // Main image buffer
+	t_img   tex_no;  // North wall texture
+	t_img   tex_so;  // South wall texture
+	t_img   tex_we;  // West wall texture
+	t_img   tex_ea;  // East wall texture
 
 }	t_game;
 
@@ -126,7 +117,7 @@ unsigned int	get_pixel_color(t_img *img, int x, int y);
 unsigned int	*get_pixel_address(t_game *game, int pixel_x, int pixel_y);
 void			draw_sprite(t_game *game, t_img *sprite, int tile_x,
 					int tile_y);
-void			render_map(t_game *game);
+// void			render_map(t_game *game);
 /* GAME INIT */
 void			load_xpm_sprite(t_game *game, t_img *sprite_struct,
 					const char *path);

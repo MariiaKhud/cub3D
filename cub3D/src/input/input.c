@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 12:38:02 by makhudon          #+#    #+#             */
-/*   Updated: 2025/11/26 09:28:00 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/11/26 09:56:15 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static void move_backward(t_game *g)
 }
 
 /* ----------- STRAFE LEFT / RIGHT (A / D) ----------- */
-static void move_left(t_game *g)
+static void move_right(t_game *g)
 {
     double newX = g->posX - g->dirY * MOVE_SPEED;
     double newY = g->posY + g->dirX * MOVE_SPEED;
@@ -69,7 +69,7 @@ static void move_left(t_game *g)
         g->posY = newY;
 }
 
-static void move_right(t_game *g)
+static void move_left(t_game *g)
 {
     double newX = g->posX + g->dirY * MOVE_SPEED;
     double newY = g->posY - g->dirX * MOVE_SPEED;
@@ -81,7 +81,7 @@ static void move_right(t_game *g)
 }
 
 /* ----------- ROTATION (LEFT / RIGHT ARROWS) ----------- */
-static void rotate_left(t_game *g)
+static void rotate_right(t_game *g)
 {
     double oldDirX = g->dirX;
     double oldPlaneX = g->planeX;
@@ -93,7 +93,7 @@ static void rotate_left(t_game *g)
     g->planeY = oldPlaneX * sin(ROT_SPEED) + g->planeY * cos(ROT_SPEED);
 }
 
-static void rotate_right(t_game *g)
+static void rotate_left(t_game *g)
 {
     double oldDirX = g->dirX;
     double oldPlaneX = g->planeX;
@@ -124,7 +124,7 @@ int	handle_keypress(int key, t_game *g)
 	else if (key == KEY_RIGHT)
 		rotate_right(g);
 
-	render_map(g); // 🔹 Important: redraw the screen
+	//render_map(g); // 🔹 Important: redraw the screen
 	return (0);
 }
 

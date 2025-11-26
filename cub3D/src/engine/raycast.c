@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   raycast.c                                          :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/11/24 11:46:59 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/11/25 17:16:05 by tiyang        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   raycast.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/24 11:46:59 by tiyang            #+#    #+#             */
+/*   Updated: 2025/11/26 11:02:44 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 #define COLOR_FLOOR   0x8B4513 // Saddle Brown
 #define COLOR_WALL_1  0xFF0000 // Red (Side 0)
 #define COLOR_WALL_2  0x00FF00 // Green (Side 1)
+
+// Define generic texture width for calculation (usually 64)
+#define TEX_WIDTH 64
 
 // Fast pixel put (replaces mlx_pixel_put)
 void    my_mlx_pixel_put(t_game *game, int x, int y, int color)
@@ -29,34 +32,81 @@ void    my_mlx_pixel_put(t_game *game, int x, int y, int color)
     *(unsigned int *)dst = color;
 }
 
-// Draw a vertical line of pixels
-void    draw_vertical_line(t_game *game, int x, int drawStart, int drawEnd, int color)
+unsigned int	get_texture_pixel(t_img *tex, int x, int y)
 {
-    int y;
+	char	*dst;
 
-    // 1. Draw Ceiling (From 0 to drawStart)
-    y = 0;
-    while (y < drawStart)
-    {
-        my_mlx_pixel_put(game, x, y, COLOR_CEILING);
-        y++;
-    }
+	if (!tex->addr)
+		return (0xFFFFFF); // fallback color (white)
+	dst = tex->addr + (y * tex->line_length + x * (tex->bpp / 8));
+	return (*(unsigned int *)dst);
+}
 
-    // 2. Draw Wall (From drawStart to drawEnd)
-    y = drawStart;
-    while (y < drawEnd)
-    {
-        my_mlx_pixel_put(game, x, y, color);
-        y++;
-    }
+// Draw a vertical line of pixels
+// void    draw_vertical_line(t_game *game, int x, int drawStart, int drawEnd, int color)
+// {
+//     int y;
 
-    // 3. Draw Floor (From drawEnd to HEIGHT)
-    y = drawEnd;
-    while (y < HEIGHT)
-    {
-        my_mlx_pixel_put(game, x, y, COLOR_FLOOR);
-        y++;
-    }
+//     // 1. Draw Ceiling (From 0 to drawStart)
+//     y = 0;
+//     while (y < drawStart)
+//     {
+//         my_mlx_pixel_put(game, x, y, COLOR_CEILING);
+//         y++;
+//     }
+
+//     // 2. Draw Wall (From drawStart to drawEnd)
+//     y = drawStart;
+//     while (y < drawEnd)
+//     {
+//         my_mlx_pixel_put(game, x, y, color);
+//         y++;
+//     }
+
+//     // 3. Draw Floor (From drawEnd to HEIGHT)
+//     y = drawEnd;
+//     while (y < HEIGHT)
+//     {
+//         my_mlx_pixel_put(game, x, y, COLOR_FLOOR);
+//         y++;
+//     }
+// }
+
+void	draw_vertical_line(t_game *game, int x, int drawStart, int drawEnd,
+			t_img *tex, int texX)
+{
+	int y;
+	int texY;
+	int color;
+	int lineHeight = drawEnd - drawStart;
+
+	// Draw ceiling
+	y = 0;
+	while (y < drawStart)
+	{
+		my_mlx_pixel_put(game, x, y, game->ceiling_color);
+		y++;
+	}
+	// Draw wall with texture
+	y = drawStart;
+	while (y < drawEnd)
+	{
+		texY = (int)(((y - drawStart) * tex->height) / lineHeight);
+		if (texY < 0)
+			texY = 0;
+		if (texY >= tex->height)
+			texY = tex->height - 1;
+		color = get_texture_pixel(tex, texX, texY);
+		my_mlx_pixel_put(game, x, y, color);
+		y++;
+	}
+	// Draw floor
+	y = drawEnd;
+	while (y < HEIGHT)
+	{
+		my_mlx_pixel_put(game, x, y, game->floor_color);
+		y++;
+	}
 }
 
 void raycast(t_game *game)
@@ -189,18 +239,87 @@ void raycast(t_game *game)
         if (drawEnd >= HEIGHT)
             drawEnd = HEIGHT - 1;
 
-        // ---------------------------------------------------------
-        // PART 4: Set Color & Draw (Day 4)
+		// ---------------------------------------------------------
+        // PART 4b: Calculate Texture Coordinates (NEW CODE)
         // ---------------------------------------------------------
         
-        int color;
-        // Give x-side and y-side different brightness/color for depth
-        if (side == 0)
-            color = COLOR_WALL_1;
-        else
-            color = COLOR_WALL_2;
+        double wallX; // Precise position of where the wall was hit
 
-        draw_vertical_line(game, x, drawStart, drawEnd, color);
+        // 1. Calculate value of wallX
+        if (side == 0)
+             wallX = game->posY + perpWallDist * rayDirY;
+        else
+             wallX = game->posX + perpWallDist * rayDirX;
+
+        // 2. Normalize wallX to be between 0 and 1 (fractional part)
+        wallX -= floor(wallX);
+
+        // 3. x coordinate on the texture
+        // int texX = (int)(wallX * (double)TEX_WIDTH);
+
+        // 4. Flip texture if we are looking at specific sides to avoid mirroring
+        // if (side == 0 && rayDirX > 0)
+        //     texX = TEX_WIDTH - texX - 1;
+        // if (side == 1 && rayDirY < 0)
+        //     texX = TEX_WIDTH - texX - 1;
+		t_img *texture;
+
+		// Choose the texture based on wall side
+		if (side == 0) // EW walls
+		{
+			if (rayDirX > 0)
+				texture = &game->tex_we;
+			else
+				texture = &game->tex_ea;
+		}
+		else // NS walls
+		{
+			if (rayDirY > 0)
+				texture = &game->tex_no;
+			else
+				texture = &game->tex_so;
+		}
+
+		// Use the actual width of the chosen texture
+		int texX = (int)(wallX * (double)texture->width);
+
+
+        // DEBUG: Uncomment to verify texX is changing between 0 and 63
+        // if (x == WIDTH / 2)
+        //     printf("Mid Ray: WallX: %f | TexX: %d\n", wallX, texX);
+
+        // ---------------------------------------------------------
+        // PART 5: Set Color & Draw
+        // ---------------------------------------------------------
+		
+        // int color;
+        // // Give x-side and y-side different brightness/color for depth
+        // if (side == 0)
+        //     color = COLOR_WALL_1;
+        // else
+        //     color = COLOR_WALL_2;
+
+        // draw_vertical_line(game, x, drawStart, drawEnd, color);
+
+		// t_img *texture;
+
+		if (side == 0)
+		{
+			if (rayDirX > 0)
+				texture = &game->tex_we;
+			else
+				texture = &game->tex_ea;
+		}
+		else
+		{
+			if (rayDirY > 0)
+				texture = &game->tex_no;
+			else
+				texture = &game->tex_so;
+		}
+		draw_vertical_line(game, x, drawStart, drawEnd, texture, texX);
+
+
         x++;
     }
     // Note: We aren't drawing anything yet, just running the math loop!
