@@ -6,11 +6,45 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 11:14:23 by makhudon          #+#    #+#             */
-/*   Updated: 2025/11/25 11:14:27 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/11/26 09:22:24 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+
+/** 
+ * @brief Normalizes a line to the specified maximum width by padding with spaces.
+ * @param line The original line.
+ * @param max_width The desired maximum width.
+ * @return char* The normalized line (may be the same as input if no padding needed).
+ */
+static char	*normalize_line_width(char *line, int max_width)
+{
+	int		len;
+	int		i;
+	char	*new;
+
+	len = (int)ft_strlen(line);
+	if (len >= max_width)
+		return (line);
+	new = (char *)malloc(sizeof(char) * (max_width + 1));
+	if (!new)
+		return (line);
+	i = 0;
+	while (i < len)
+	{
+		new[i] = line[i];
+		i++;
+	}
+	while (i < max_width)
+	{
+		new[i] = ' ';
+		i++;
+	}
+	new[i] = '\0';
+	free(line);
+	return (new);
+}
 
 /** 
  * @brief Checks if a line contains valid map content.
@@ -132,8 +166,18 @@ int	parse_map_file(char *filename, t_game *game)
 	close(fd);
 	game->map[i] = NULL;
 	game->map_height = i;
+	// if (i > 0)
+	// 	game->map_width = max_width;
 	if (i > 0)
+	{
 		game->map_width = max_width;
+		int y = 0;
+		while (y < game->map_height)
+		{
+			game->map[y] = normalize_line_width(game->map[y], game->map_width);
+			y++;
+		}
+	}
 	else
 		game->map_width = 0;
 	return (i > 0);

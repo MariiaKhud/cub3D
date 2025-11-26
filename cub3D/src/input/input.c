@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 12:38:02 by makhudon          #+#    #+#             */
-/*   Updated: 2025/11/25 13:02:59 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/11/26 09:16:02 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,22 @@
 #define MOVE_SPEED 0.08
 #define ROT_SPEED 0.05
 
-static int  can_move(t_game *g, double newY, double newX)
+static int	can_move(t_game *g, double newY, double newX)
 {
-    if (g->map[(int)newY][(int)newX] != '1')
-        return (1);
-    return (0);
+	int	x;
+	int	y;
+	int	row_len;
+
+	y = (int)newY;
+	x = (int)newX;
+	if (y < 0 || y >= g->map_height)
+		return (0);
+	row_len = (int)ft_strlen(g->map[y]);
+	if (x < 0 || x >= row_len)
+		return (0);
+	if (g->map[y][x] == '1' || g->map[y][x] == ' ')
+		return (0);
+	return (1);
 }
 
 /* ----------- MOVE FORWARD / BACKWARD (W / S) ----------- */
