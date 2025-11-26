@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   raycast.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/24 11:46:59 by tiyang            #+#    #+#             */
-/*   Updated: 2025/11/26 12:10:56 by makhudon         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   raycast.c                                          :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/11/24 11:46:59 by tiyang        #+#    #+#                 */
+/*   Updated: 2025/11/26 13:01:35 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,34 @@ unsigned int	get_texture_pixel(t_img *tex, int x, int y)
 //         y++;
 //     }
 // }
+// -----------------------------------------------------------------------------
+// NEW: Fill the entire screen with ceiling/floor colors at once
+// -----------------------------------------------------------------------------
+void	render_background(t_game *game)
+{
+	unsigned int	*dst;
+	int				i;
+	int				total_pixels;
+
+	// We treat the image buffer as a big array of unsigned ints (colors)
+	dst = (unsigned int *)game->img.addr;
+	total_pixels = WIDTH * HEIGHT;
+	
+	// Fill first half with Ceiling Color
+	i = 0;
+	while (i < total_pixels / 2)
+	{
+		dst[i] = game->ceiling_color;
+		i++;
+	}
+
+	// Fill second half with Floor Color
+	while (i < total_pixels)
+	{
+		dst[i] = game->floor_color;
+		i++;
+	}
+}
 
 void	draw_vertical_line(t_game *game, int x, int drawStart, int drawEnd,
 			t_img *tex, int texX)
@@ -79,40 +107,67 @@ void	draw_vertical_line(t_game *game, int x, int drawStart, int drawEnd,
 	int texY;
 	int color;
 	int lineHeight = drawEnd - drawStart;
+	int	d; // variable for texture calculation
 
 	// Draw ceiling
-	y = 0;
-	while (y < drawStart)
-	{
-		my_mlx_pixel_put(game, x, y, game->ceiling_color);
-		y++;
-	}
-	// Draw wall with texture
+	// y = 0;
+	// while (y < drawStart)
+	// {
+	// 	my_mlx_pixel_put(game, x, y, game->ceiling_color);
+	// 	y++;
+	// }
+
+	// ============== OLD DRAW WALL LOOP =================
+	// // Draw wall with texture
+	// y = drawStart;
+	// while (y < drawEnd)
+	// {
+	// 	texY = (int)(((y - drawStart) * tex->height) / lineHeight);
+	// 	if (texY < 0)
+	// 		texY = 0;
+	// 	if (texY >= tex->height)
+	// 		texY = tex->height - 1;
+	// 	color = get_texture_pixel(tex, texX, texY);
+	// 	my_mlx_pixel_put(game, x, y, color);
+	// 	y++;
+	// }
+
+	// ============== NEW DRAW WALL LOOP =================
 	y = drawStart;
 	while (y < drawEnd)
 	{
-		texY = (int)(((y - drawStart) * tex->height) / lineHeight);
-		if (texY < 0)
-			texY = 0;
-		if (texY >= tex->height)
-			texY = tex->height - 1;
+		// Calculate texY. This method handles "clamped" walls correctly
+		// so textures don't squash when you get close.
+		d = y * 256 - HEIGHT * 128 + lineHeight * 128;
+		texY = ((d * tex->height) / lineHeight) / 256;
+		
+		// Safety check for texture coordinates
+		if (texY < 0) texY = 0;
+		if (texY >= tex->height) texY = tex->height - 1;
+
 		color = get_texture_pixel(tex, texX, texY);
-		my_mlx_pixel_put(game, x, y, color);
+		
+		// Only draw if color is not completely transparent (optional)
+		if ((color & 0xFF000000) == 0)
+			my_mlx_pixel_put(game, x, y, color);
 		y++;
 	}
-	// Draw floor
-	y = drawEnd;
-	while (y < HEIGHT)
-	{
-		my_mlx_pixel_put(game, x, y, game->floor_color);
-		y++;
-	}
+
+	
+	// // Draw floor
+	// y = drawEnd;
+	// while (y < HEIGHT)
+	// {
+	// 	my_mlx_pixel_put(game, x, y, game->floor_color);
+	// 	y++;
+	// }
 }
 
 void raycast(t_game *game)
 {
     int x;
 
+	render_background(game);
     x = 0;
     // LOOP: Iterate through every vertical column of the screen
     while (x < WIDTH)
@@ -282,6 +337,13 @@ void raycast(t_game *game)
 
 		// Use the actual width of the chosen texture
 		int texX = (int)(wallX * (double)texture->width);
+
+		
+		// ============ ADJUSTED TEXTURE CALCULATION LOGIC ===============
+		if (side == 0 && rayDirX > 0) texX = texture->width - texX - 1;
+        if (side == 1 && rayDirY < 0) texX = texture->width - texX - 1;
+
+		// ============ OLD TEXTURE CALCULATION LOGIC AS SAFETY CHECK ===============
 		if (texX < 0)
 			texX = 0;
 		if (texX >= texture->width)
@@ -308,7 +370,6 @@ void raycast(t_game *game)
 
 
 		draw_vertical_line(game, x, drawStart, drawEnd, texture, texX);
-
 
         x++;
     }
