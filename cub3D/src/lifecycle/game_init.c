@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   game_init.c                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/11/26 10:15:14 by makhudon      #+#    #+#                 */
-/*   Updated: 2025/11/26 11:58:09 by tiyang        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   game_init.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/26 10:15:14 by makhudon          #+#    #+#             */
+/*   Updated: 2025/11/26 12:44:58 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	load_one_texture(t_game *g, t_img *tex, char *path)
  * @param g The game structure containing texture paths and MLX pointer.
  * @return int 1 on success, 0 on failure.
  */
-int	load_textures(t_game *g)
+static int	load_textures(t_game *g)
 {
 	if (!load_one_texture(g, &g->tex_no, g->no_texture))
 		return (0);

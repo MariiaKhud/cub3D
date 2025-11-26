@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 11:17:46 by makhudon          #+#    #+#             */
-/*   Updated: 2025/11/25 11:22:15 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/11/26 13:09:29 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,24 +18,100 @@
  * @param line The string containing the RGB values.
  * @return int The combined RGB color as an integer.
  */
+// static int	parse_rgb(char *line)
+// {
+// 	int	r;
+// 	int	g;
+// 	int	b;
+
+// 	r = ft_atoi(line);
+// 	while (*line && *line != ',')
+// 		line++;
+// 	if (*line)
+// 		line++;
+// 	g = ft_atoi(line);
+// 	while (*line && *line != ',')
+// 		line++;
+// 	if (*line)
+// 		line++;
+// 	b = ft_atoi(line);
+// 	return ((r << 16) | (g << 8) | b);
+// }
+
+static char *skip_spaces(char *s)
+{
+    while (*s == ' ' || *s == '\t')
+        s++;
+    return s;
+}
+
+static int is_valid_rgb_number(const char *s)
+{
+    int n;
+
+    // Skip leading spaces/tabs
+    while (*s == ' ' || *s == '\t')
+        s++;
+
+    if (!*s)
+        return 0;
+
+    n = ft_atoi(s);
+    if (n < 0 || n > 255)
+        return 0;
+
+    // Only allow digits until comma, space, tab, or end
+    while (*s && *s != ',' && *s != ' ' && *s != '\t')
+    {
+        if (!(*s >= '0' && *s <= '9'))
+            return 0;
+        s++;
+    }
+    return 1;
+}
+
 static int	parse_rgb(char *line)
 {
-	int	r;
-	int	g;
-	int	b;
+	char **split;
+	int r;
+	int g;
+	int b;
+	int i;
+	int result;
 
-	r = ft_atoi(line);
-	while (*line && *line != ',')
-		line++;
-	if (*line)
-		line++;
-	g = ft_atoi(line);
-	while (*line && *line != ',')
-		line++;
-	if (*line)
-		line++;
-	b = ft_atoi(line);
-	return ((r << 16) | (g << 8) | b);
+	split = ft_split(line, ',');
+	if (!split)
+		return (-1);
+
+	// Count elements
+	i = 0;
+	while (split[i])
+		i++;
+	if (i != 3)
+	{
+		free_split(split);
+		return (-1);
+	}
+
+	// Validate each number
+	i = 0;
+	while (i < 3)
+	{
+		if (!is_valid_rgb_number(split[i]))
+		{
+			free_split(split);
+			return (-1);
+		}
+		i++;
+	}
+
+	r = ft_atoi(skip_spaces(split[0]));
+	g = ft_atoi(skip_spaces(split[1]));
+	b = ft_atoi(skip_spaces(split[2]));
+
+	free_split(split);
+	result = (r << 16) | (g << 8) | b;
+	return (result);
 }
 
 /**
@@ -64,6 +140,8 @@ static void	trim_trailing_whitespace(char *s)
  */
 static void	set_texture_or_color(t_game *game, char *line)
 {
+	int	color;
+	
 	if (!ft_strncmp(line, "NO ", 3))
 	{
 		game->no_texture = ft_strdup(line + 3);
@@ -89,9 +167,27 @@ static void	set_texture_or_color(t_game *game, char *line)
 			trim_trailing_whitespace(game->ea_texture);
 	}
 	else if (!ft_strncmp(line, "F ", 2))
-		game->floor_color = parse_rgb(line + 2);
+	{
+		trim_trailing_whitespace(line + 2);
+		color = parse_rgb(line + 2);
+		if (color == -1)
+		{
+			ft_printf("Error\nInvalid floor color\n");
+			exit(EXIT_FAILURE); // terminate on error
+		}
+		game->floor_color = color;
+	}
 	else if (!ft_strncmp(line, "C ", 2))
-		game->ceiling_color = parse_rgb(line + 2);
+	{
+		trim_trailing_whitespace(line + 2);
+		color = parse_rgb(line + 2);
+		if (color == -1)
+		{
+			ft_printf("Error\nInvalid ceiling color\n");
+			exit(EXIT_FAILURE);
+		}
+		game->ceiling_color = color;
+	}
 }
 
 /**
