@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 12:38:02 by makhudon          #+#    #+#             */
-/*   Updated: 2025/11/26 09:16:02 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/11/26 09:28:00 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #define MOVE_SPEED 0.08
 #define ROT_SPEED 0.05
 
+/* ----------- COLLISION DETECTION ----------- */
 static int	can_move(t_game *g, double newY, double newX)
 {
 	int	x;

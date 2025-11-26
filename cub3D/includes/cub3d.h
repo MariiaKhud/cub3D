@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:57:17 by tiyang            #+#    #+#             */
-/*   Updated: 2025/11/26 08:38:00 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/11/26 09:47:15 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,31 +101,23 @@ typedef struct s_game
 // CUB3D FUNCTIONS
 void    raycast(t_game *game);
 
+// PARSING FUNCTIONS
 // parse_info.c
 int				parse_textures_and_colors(char *filename, t_game *game);
-
 // parse_map.c
 int				is_cub_file(char *filename);
 int				parse_map_file(char *filename, t_game *game);
-
 // utils.c
 int				ft_strlen_without_newline(char *line);
 char			**copy_map(t_game *game);
 void			free_map(char **matrix);
-
 // validate_map.c
 int				validate_map(t_game *game);
-
 // validate_path.c
 void			free_map(char **matrix);
 
-// validate_map.c
-int				validate_map(t_game *game);
-
-// validate_path.c
-int				validate_path(t_game *game);
-
-//input.c
+// INPUT FUNCTIONS
+// input.c
 int				handle_keypress(int key, t_game *g);
 
 /* GAME */
