@@ -6,11 +6,26 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 11:29:46 by tiyang            #+#    #+#             */
-/*   Updated: 2025/11/25 12:15:56 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/11/26 12:42:01 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+
+void	free_split(char **split)
+{
+	int i;
+
+	i = 0;
+	if (split == NULL)
+		return ;
+	while (split[i] != NULL)
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
+}
 
 /**
  * @brief Frees a dynamically allocated 2D array (matrix) of strings.

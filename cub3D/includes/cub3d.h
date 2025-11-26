@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:57:17 by tiyang            #+#    #+#             */
-/*   Updated: 2025/11/26 11:07:46 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/11/26 12:51:57 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,8 @@
 # include <math.h>
 # include "libft.h"
 
-// Screen dimensions
 # define WIDTH 640
 # define HEIGHT 480
-
 # define TILE_SIZE 64
 # define TRANSPARENT_COLOR 0x00FF00FF
 # define KEY_ESC 65307
@@ -35,13 +33,10 @@
 # define KEY_A 97
 # define KEY_S 115
 # define KEY_D 100
-// Event codes for mlx_hook
 # define MLX_KEY_PRESS 2
 # define MLX_DESTROY_NOTIFY 17
-// Event masks for mlx_hook
-// # define MLX_KEY_PRESS_MASK (1L << 0)
-# define MLX_NO_EVENT_MASK 0L
-// Exit status codes
+# define MOVE_SPEED 0.08
+# define ROT_SPEED 0.05
 # define EXIT_SUCCESS 0
 # define EXIT_FAILURE 1
 
@@ -102,6 +97,7 @@ int				parse_map_file(char *filename, t_game *game);
 int				ft_strlen_without_newline(char *line);
 char			**copy_map(t_game *game);
 void			free_map(char **matrix);
+void			free_split(char **split);
 // validate_map.c
 int				validate_map(t_game *game);
 // validate_path.c
@@ -111,35 +107,13 @@ void			free_map(char **matrix);
 // input.c
 int				handle_keypress(int key, t_game *g);
 
-/* GAME */
-/* RENDER */
-unsigned int	get_pixel_color(t_img *img, int x, int y);
-unsigned int	*get_pixel_address(t_game *game, int pixel_x, int pixel_y);
-void			draw_sprite(t_game *game, t_img *sprite, int tile_x,
-					int tile_y);
-// void			render_map(t_game *game);
-/* GAME INIT */
-void			load_xpm_sprite(t_game *game, t_img *sprite_struct,
-					const char *path);
-void			load_sprites(t_game *game);
-void			create_image_buffer(t_game *game);
-void			register_mlx_hooks(t_game *game);
+// LIFECYCLE FUNCTIONS
+// game_init.c
 void			load_game(t_game *game);
-/* INPUT */
-int				touch_collectible(t_game *game, int new_player_x,
-					int new_player_y);
-int				touch_exit(t_game *game, int new_player_x, int new_player_y);
-void			handle_move(int keycode, t_game *game, int *player_x,
-					int *player_y);
+void			register_mlx_hooks(t_game *game);
 
-
-int				handle_interaction(char target, t_game *game,
-					int target_x, int target_y);
-/* GAME CLOSE */
+// game_close.c
 int				handle_close(t_game *game);
 void			close_game(t_game *game, int exit_status);
-void			destroy_objects(t_game *game);
-void			destroy_player_sprites(t_game *game);
-void			destroy_environment(t_game *game);
 
 #endif

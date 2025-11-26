@@ -6,14 +6,11 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 12:38:02 by makhudon          #+#    #+#             */
-/*   Updated: 2025/11/26 09:56:15 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/11/26 12:51:45 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
-
-#define MOVE_SPEED 0.08
-#define ROT_SPEED 0.05
 
 /* ----------- COLLISION DETECTION ----------- */
 static int	can_move(t_game *g, double newY, double newX)
