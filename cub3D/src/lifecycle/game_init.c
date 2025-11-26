@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   game_init.c                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/30 15:38:24 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/11/25 16:42:50 by tiyang        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   game_init.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/30 15:38:24 by tiyang            #+#    #+#             */
+/*   Updated: 2025/11/26 08:39:06 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,9 @@ void	create_image_buffer(t_game *game)
 // registers event hooks. See further notes below.
 void	register_mlx_hooks(t_game *game)
 {
-	// NEED TO CREATE NEW FUNCTIONS TO HANDLE USER INPUT EVENTS
-	// mlx_hook(game->win_ptr, MLX_KEY_PRESS, (1L << 0),
-	// 	handle_keypress, game);
-	mlx_hook(game->win_ptr, MLX_DESTROY_NOTIFY, MLX_NO_EVENT_MASK,
+	mlx_hook(game->win_ptr, MLX_KEY_PRESS, (1L << 0),
+		handle_keypress, game);
+	mlx_hook(game->win_ptr, MLX_DESTROY_NOTIFY, 0L,
 		handle_close, game);
 }
 

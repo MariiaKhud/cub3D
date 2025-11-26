@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
-#                                                         ::::::::             #
-#    Makefile                                           :+:    :+:             #
-#                                                      +:+                     #
-#    By: tiyang <tiyang@student.42.fr>                +#+                      #
-#                                                    +#+                       #
-#    Created: 2025/06/30 10:51:21 by tiyang        #+#    #+#                  #
-#    Updated: 2025/11/25 17:24:46 by tiyang        ########   odam.nl          #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/06/30 10:51:21 by tiyang            #+#    #+#              #
+#    Updated: 2025/11/26 08:38:15 by makhudon         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ SRCS                = $(SRC_DIR)/main.c \
                       $(SRC_DIR)/parsing/parse_map.c \
                       $(SRC_DIR)/parsing/utils.c \
                       $(SRC_DIR)/parsing/validate_map.c \
-					  $(SRC_DIR)/engine/raycast.c
+					  $(SRC_DIR)/input/input.c
 
 OBJS                = $(SRCS:$(SRC_DIR)/%.c=$(OBJDIR)/%.o)
 
