@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   input.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/25 12:38:02 by makhudon          #+#    #+#             */
-/*   Updated: 2025/11/26 09:16:02 by makhudon         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   input.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/11/25 12:38:02 by makhudon      #+#    #+#                 */
+/*   Updated: 2025/11/26 09:47:15 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ int	handle_keypress(int key, t_game *g)
 	else if (key == KEY_RIGHT)
 		rotate_right(g);
 
-	render_map(g); // 🔹 Important: redraw the screen
+	//render_map(g); // 🔹 Important: redraw the screen
 	return (0);
 }
 
