@@ -6,7 +6,7 @@
 /*   By: tiyang <tiyang@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/02 10:56:34 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/11/27 09:05:31 by tiyang        ########   odam.nl         */
+/*   Updated: 2025/11/27 11:30:26 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,30 @@ static void	destroy_textures(t_game *game)
 	}
 }
 
+static void	destroy_texture_path_strings(t_game *game)
+{
+	if (game->no_texture)
+	{
+		free(game->no_texture);
+		game->no_texture = NULL;
+	}
+	if (game->so_texture)
+	{
+		free(game->so_texture);
+		game->so_texture = NULL;
+	}
+	if (game->we_texture)
+	{
+		free(game->we_texture);
+		game->we_texture = NULL;
+	}
+	if (game->ea_texture)
+	{
+		free(game->ea_texture);
+		game->ea_texture = NULL;
+	}
+}
+
 /**
  * @brief Closes the game, frees resources, and exits.
  * 
@@ -76,8 +100,10 @@ void	close_game(t_game *game, int exit_status)
 	if (game->mlx_ptr)
 	{
 		mlx_destroy_display(game->mlx_ptr);
+		free(game->mlx_ptr);
 		game->mlx_ptr = NULL;
 	}
+	destroy_texture_path_strings(game);
 	if (game->map)
 		free_map(game->map);
 	exit(exit_status);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   input.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/25 12:38:02 by makhudon          #+#    #+#             */
-/*   Updated: 2025/11/27 09:28:03 by makhudon         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   input.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/11/25 12:38:02 by makhudon      #+#    #+#                 */
+/*   Updated: 2025/11/27 11:32:28 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ static void	rotate_left(t_game *game)
 	double	old_dir_x;
 	double	old_plane_x;
 
-	old_dir_x = game->dirX;
-	old_plane_x = game->planeX;
-	game->dirX = game->dirX * cos(-ROT_SPEED) - game->dirY * sin(-ROT_SPEED);
-	game->dirY = old_dir_x * sin(-ROT_SPEED) + game->dirY * cos(-ROT_SPEED);
-	game->planeX = game->planeX * cos(-ROT_SPEED)
-		- game->planeY * sin(-ROT_SPEED);
-	game->planeY = old_plane_x * sin(-ROT_SPEED)
-		+ game->planeY * cos(-ROT_SPEED);
+	old_dir_x = game->dir_x;
+	old_plane_x = game->plane_x;
+	game->dir_x = game->dir_x * cos(-ROT_SPEED) - game->dir_y * sin(-ROT_SPEED);
+	game->dir_y = old_dir_x * sin(-ROT_SPEED) + game->dir_y * cos(-ROT_SPEED);
+	game->plane_x = game->plane_x * cos(-ROT_SPEED)
+		- game->plane_y * sin(-ROT_SPEED);
+	game->plane_y = old_plane_x * sin(-ROT_SPEED)
+		+ game->plane_y * cos(-ROT_SPEED);
 }
 
 /**
@@ -40,13 +40,14 @@ static void	rotate_right(t_game *game)
 	double	old_dir_x;
 	double	old_plane_x;
 
-	old_dir_x = game->dirX;
-	old_plane_x = game->planeX;
-	game->dirX = game->dirX * cos(ROT_SPEED) - game->dirY * sin(ROT_SPEED);
-	game->dirY = old_dir_x * sin(ROT_SPEED) + game->dirY * cos(ROT_SPEED);
-	game->planeX = game->planeX * cos(ROT_SPEED)
-		- game->planeY * sin(ROT_SPEED);
-	game->planeY = old_plane_x * sin(ROT_SPEED) + game->planeY * cos(ROT_SPEED);
+	old_dir_x = game->dir_x;
+	old_plane_x = game->plane_x;
+	game->dir_x = game->dir_x * cos(ROT_SPEED) - game->dir_y * sin(ROT_SPEED);
+	game->dir_y = old_dir_x * sin(ROT_SPEED) + game->dir_y * cos(ROT_SPEED);
+	game->plane_x = game->plane_x * cos(ROT_SPEED)
+		- game->plane_y * sin(ROT_SPEED);
+	game->plane_y = old_plane_x * sin(ROT_SPEED)
+		+ game->plane_y * cos(ROT_SPEED);
 }
 
 /**

@@ -19,10 +19,10 @@
  */
 void	set_direction_north(t_game *game)
 {
-	game->dirX = 0;
-	game->dirY = -1;
-	game->planeX = 0.66;
-	game->planeY = 0;
+	game->dir_x = 0;
+	game->dir_y = -1;
+	game->plane_x = 0.66;
+	game->plane_y = 0;
 }
 
 /**
@@ -32,10 +32,10 @@ void	set_direction_north(t_game *game)
  */
 void	set_direction_south(t_game *game)
 {
-	game->dirX = 0;
-	game->dirY = 1;
-	game->planeX = -0.66;
-	game->planeY = 0;
+	game->dir_x = 0;
+	game->dir_y = 1;
+	game->plane_x = -0.66;
+	game->plane_y = 0;
 }
 
 /**
@@ -45,10 +45,10 @@ void	set_direction_south(t_game *game)
  */
 void	set_direction_east(t_game *game)
 {
-	game->dirX = 1;
-	game->dirY = 0;
-	game->planeX = 0;
-	game->planeY = 0.66;
+	game->dir_x = 1;
+	game->dir_y = 0;
+	game->plane_x = 0;
+	game->plane_y = 0.66;
 }
 
 /**
@@ -58,10 +58,10 @@ void	set_direction_east(t_game *game)
  */
 void	set_direction_west(t_game *game)
 {
-	game->dirX = -1;
-	game->dirY = 0;
-	game->planeX = 0;
-	game->planeY = -0.66;
+	game->dir_x = -1;
+	game->dir_y = 0;
+	game->plane_x = 0;
+	game->plane_y = -0.66;
 }
 
 /**

@@ -6,7 +6,7 @@
 /*   By: tiyang <tiyang@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/12 12:57:17 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/11/27 11:04:46 by tiyang        ########   odam.nl         */
+/*   Updated: 2025/11/27 11:46:12 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@
 
 # define WIDTH 640
 # define HEIGHT 480
-# define TILE_SIZE 64
-# define TRANSPARENT_COLOR 0x00FF00FF
 # define KEY_ESC 65307
 # define KEY_LEFT  65361
 # define KEY_RIGHT 65363
@@ -81,91 +79,101 @@ typedef struct s_ray
 
 typedef struct s_game
 {
-	char			**map;
-	int				map_width;
-	int				map_height;
-	double			posX;
-	double			posY;
-	double			dirX;
-	double			dirY;
-	double			planeX;
-	double			planeY;
-	void			*mlx_ptr;
-	void			*win_ptr;
-	char			*no_texture;
-	char			*so_texture;
-	char			*we_texture;
-	char			*ea_texture;
-	int				floor_color;
-	int				ceiling_color;
-	t_img			img;
-	t_img			tex_no;
-	t_img			tex_so;
-	t_img			tex_we;
-	t_img			tex_ea;
+	char	**map;
+	int		map_width;
+	int		map_height;
+	int		map_start;
+	int		max_width;
+	int		index;
+	double	pos_x;
+	double	pos_y;
+	double	dir_x;
+	double	dir_y;
+	double	plane_x;
+	double	plane_y;
+	void	*mlx_ptr;
+	void	*win_ptr;
+	char	*no_texture;
+	char	*so_texture;
+	char	*we_texture;
+	char	*ea_texture;
+	int		floor_color;
+	int		ceiling_color;
+	t_img	img;
+	t_img	tex_no;
+	t_img	tex_so;
+	t_img	tex_we;
+	t_img	tex_ea;
 }	t_game;
 
-// ENGINE FUNCTIONS
-void			raycast(t_game *game);
-void			render_background(t_game *game);
-void			set_step_and_side_dist(t_game *game, t_ray *ray);
-void			perform_dda(t_game *game, t_ray *ray);
-double			calculate_perp_wall_dist(t_ray *ray);
-void			calculate_texture_x(t_game *game, t_ray *ray,
-					double perp_wall_dist, t_draw_data *data);
-void			draw_vertical_line(t_game *game, t_draw_data *data);
-
-// PARSING FUNCTIONS
-// parse_info.c
-int				parse_textures_and_colors(char *filename, t_game *game);
-
-// parse_info_utils.c
-int				parse_rgb(char *line);
-
-// parse_map.c
-int				is_cub_file(char *filename);
-int				parse_map_file(char *filename, t_game *game);
-
-// parse_map_utils.c
-int				read_map_file(int fd, t_game *game);
+// ============ ENGINE FUNCTIONS =========== //
+// raycast.c
+void	raycast(t_game *game);
 
 // utils.c
-int				ft_strlen_without_newline(char *line);
-char			**copy_map(t_game *game);
-void			free_map(char **matrix);
-void			free_split(char **split);
-// validate_map.c
-int				validate_map(t_game *game);
-// validate_path.c
-void			free_map(char **matrix);
+void	render_background(t_game *game);
+void	draw_vertical_line(t_game *game, t_draw_data *data);
 
-// INPUT FUNCTIONS
+// dda.c
+void	set_step_and_side_dist(t_game *game, t_ray *ray);
+void	perform_dda(t_game *game, t_ray *ray);
+double	calculate_perp_wall_dist(t_ray *ray);
+void	calculate_texture_x(t_game *game, t_ray *ray,
+			double perp_wall_dist, t_draw_data *data);
+
+// ============ PARSING FUNCTIONS =========== //
+// parse_info.c
+int		parse_textures_and_colors(char *filename, t_game *game);
+
+// parse_info_utils.c
+int		parse_rgb(char *line);
+
+// parse_map.c
+int		is_cub_file(char *filename);
+int		parse_map_file(char *filename, t_game *game);
+
+// parse_map_utils.c
+int		read_map_file(int fd, t_game *game);
+
+// utils.c
+int		ft_strlen_without_newline(char *line);
+char	**copy_map(t_game *game);
+void	free_map(char **matrix);
+void	free_split(char **split);
+
+// validate_map.c
+int		validate_map(t_game *game);
+
+// validate_path.c
+void	free_map(char **matrix);
+
+// ============ INPUT FUNCTIONS =========== //
 // input.c
-int				handle_keypress(int key, t_game *game);
+int		handle_keypress(int key, t_game *game);
 
 // input_helper.c
-void			move_left(t_game *game);
-void			move_right(t_game *game);
-void			move_forward(t_game *game);
-void			move_backward(t_game *game);
+void	move_left(t_game *game);
+void	move_right(t_game *game);
+void	move_forward(t_game *game);
+void	move_backward(t_game *game);
 
-// LIFECYCLE FUNCTIONS
+// ============ LIFECYCLE FUNCTIONS ========== //
 // game_init.c
-void			load_game(t_game *game);
-void			register_mlx_hooks(t_game *game);
+void	load_game(t_game *game);
+void	register_mlx_hooks(t_game *game);
 
 // game_close.c
-int				handle_close(t_game *game);
-void			close_game(t_game *game, int exit_status);
+int		handle_close(t_game *game);
+void	close_game(t_game *game, int exit_status);
 
 // player_init.c
-void			set_direction_north(t_game *game);
-void			set_direction_south(t_game *game);
-void			set_direction_east(t_game *game);
-void			set_direction_west(t_game *game);
-void			set_player_direction(t_game *game, char direction);
+void	set_direction_north(t_game *game);
+void	set_direction_south(t_game *game);
+void	set_direction_east(t_game *game);
+void	set_direction_west(t_game *game);
+void	set_player_direction(t_game *game, char direction);
 
 // player_position.c
-void			init_player_orientation(t_game *game);
+void	init_player_orientation(t_game *game);
 
 #endif

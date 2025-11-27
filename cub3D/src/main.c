@@ -6,7 +6,7 @@
 /*   By: tiyang <tiyang@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/12 15:03:37 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/11/27 11:06:47 by tiyang        ########   odam.nl         */
+/*   Updated: 2025/11/27 11:14:46 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	main(int argc, char **argv)
 		return (ft_printf("Error\nInvalid map\n"), 1);
 	init_player_orientation(&game);
 	load_game(&game);
-	ft_printf("\n--- Starting Game ---\n");
+	ft_printf("--- Starting Game ---\n");
 	register_mlx_hooks(&game);
 	mlx_loop_hook(game.mlx_ptr, game_loop, &game);
 	mlx_loop(game.mlx_ptr);

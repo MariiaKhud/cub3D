@@ -17,23 +17,23 @@ void	set_step_and_side_dist(t_game *game, t_ray *ray)
 	if (ray->ray_dir_x < 0)
 	{
 		ray->step_x = -1;
-		ray->side_dist_x = (game->posX - ray->map_x) * ray->delta_dist_x;
+		ray->side_dist_x = (game->pos_x - ray->map_x) * ray->delta_dist_x;
 	}
 	else
 	{
 		ray->step_x = 1;
-		ray->side_dist_x = (ray->map_x + 1.0 - game->posX)
+		ray->side_dist_x = (ray->map_x + 1.0 - game->pos_x)
 			* ray->delta_dist_x;
 	}
 	if (ray->ray_dir_y < 0)
 	{
 		ray->step_y = -1;
-		ray->side_dist_y = (game->posY - ray->map_y) * ray->delta_dist_y;
+		ray->side_dist_y = (game->pos_y - ray->map_y) * ray->delta_dist_y;
 	}
 	else
 	{
 		ray->step_y = 1;
-		ray->side_dist_y = (ray->map_y + 1.0 - game->posY)
+		ray->side_dist_y = (ray->map_y + 1.0 - game->pos_y)
 			* ray->delta_dist_y;
 	}
 }
@@ -98,9 +98,9 @@ void	calculate_texture_x(t_game *game, t_ray *ray,
 	int		tex_x;
 
 	if (ray->side == 0)
-		wall_x = game->posY + perp_wall_dist * ray->ray_dir_y;
+		wall_x = game->pos_y + perp_wall_dist * ray->ray_dir_y;
 	else
-		wall_x = game->posX + perp_wall_dist * ray->ray_dir_x;
+		wall_x = game->pos_x + perp_wall_dist * ray->ray_dir_x;
 	wall_x -= floor(wall_x);
 	data->tex = select_texture(game, ray);
 	tex_x = (int)(wall_x * (double)data->tex->width);

@@ -25,8 +25,8 @@ static int	check_player_position(t_game *game, int x, int y)
 {
 	if (ft_strchr("NSEW", game->map[y][x]))
 	{
-		game->posX = x + 0.5;
-		game->posY = y + 0.5;
+		game->pos_x = x + 0.5;
+		game->pos_y = y + 0.5;
 		set_player_direction(game, game->map[y][x]);
 		game->map[y][x] = '0';
 		return (1);

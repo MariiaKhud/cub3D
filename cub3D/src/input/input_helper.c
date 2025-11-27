@@ -46,12 +46,12 @@ void	move_right(t_game *game)
 	double	new_x;
 	double	new_y;
 
-	new_x = game->posX - game->dirY * MOVE_SPEED;
-	new_y = game->posY + game->dirX * MOVE_SPEED;
-	if (can_move(game, game->posY, new_x))
-		game->posX = new_x;
-	if (can_move(game, new_y, game->posX))
-		game->posY = new_y;
+	new_x = game->pos_x - game->dir_y * MOVE_SPEED;
+	new_y = game->pos_y + game->dir_x * MOVE_SPEED;
+	if (can_move(game, game->pos_y, new_x))
+		game->pos_x = new_x;
+	if (can_move(game, new_y, game->pos_x))
+		game->pos_y = new_y;
 }
 
 /**
@@ -63,12 +63,12 @@ void	move_left(t_game *game)
 	double	new_x;
 	double	new_y;
 
-	new_x = game->posX + game->dirY * MOVE_SPEED;
-	new_y = game->posY - game->dirX * MOVE_SPEED;
-	if (can_move(game, game->posY, new_x))
-		game->posX = new_x;
-	if (can_move(game, new_y, game->posX))
-		game->posY = new_y;
+	new_x = game->pos_x + game->dir_y * MOVE_SPEED;
+	new_y = game->pos_y - game->dir_x * MOVE_SPEED;
+	if (can_move(game, game->pos_y, new_x))
+		game->pos_x = new_x;
+	if (can_move(game, new_y, game->pos_x))
+		game->pos_y = new_y;
 }
 
 /**
@@ -80,12 +80,12 @@ void	move_backward(t_game *game)
 	double	new_x;
 	double	new_y;
 
-	new_x = game->posX - game->dirX * MOVE_SPEED;
-	new_y = game->posY - game->dirY * MOVE_SPEED;
-	if (can_move(game, game->posY, new_x))
-		game->posX = new_x;
-	if (can_move(game, new_y, game->posX))
-		game->posY = new_y;
+	new_x = game->pos_x - game->dir_x * MOVE_SPEED;
+	new_y = game->pos_y - game->dir_y * MOVE_SPEED;
+	if (can_move(game, game->pos_y, new_x))
+		game->pos_x = new_x;
+	if (can_move(game, new_y, game->pos_x))
+		game->pos_y = new_y;
 }
 
 /**
@@ -97,10 +97,10 @@ void	move_forward(t_game *game)
 	double	new_x;
 	double	new_y;
 
-	new_x = game->posX + game->dirX * MOVE_SPEED;
-	new_y = game->posY + game->dirY * MOVE_SPEED;
-	if (can_move(game, game->posY, new_x))
-		game->posX = new_x;
-	if (can_move(game, new_y, game->posX))
-		game->posY = new_y;
+	new_x = game->pos_x + game->dir_x * MOVE_SPEED;
+	new_y = game->pos_y + game->dir_y * MOVE_SPEED;
+	if (can_move(game, game->pos_y, new_x))
+		game->pos_x = new_x;
+	if (can_move(game, new_y, game->pos_x))
+		game->pos_y = new_y;
 }

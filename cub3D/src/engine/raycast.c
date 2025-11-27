@@ -22,10 +22,10 @@
 static void	init_ray(t_game *game, int x, t_ray *ray)
 {
 	ray->camera_x = 2 * x / (double)WIDTH - 1;
-	ray->ray_dir_x = game->dirX + game->planeX * ray->camera_x;
-	ray->ray_dir_y = game->dirY + game->planeY * ray->camera_x;
-	ray->map_x = (int)game->posX;
-	ray->map_y = (int)game->posY;
+	ray->ray_dir_x = game->dir_x + game->plane_x * ray->camera_x;
+	ray->ray_dir_y = game->dir_y + game->plane_y * ray->camera_x;
+	ray->map_x = (int)game->pos_x;
+	ray->map_y = (int)game->pos_y;
 	if (ray->ray_dir_x == 0)
 		ray->delta_dist_x = 1e30;
 	else
