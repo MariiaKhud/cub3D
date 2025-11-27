@@ -1,5 +1,6 @@
 # **************************************************************************** #
 #                                                                              #
+<<<<<<< HEAD
 #                                                         ::::::::             #
 #    Makefile                                           :+:    :+:             #
 #                                                      +:+                     #
@@ -7,6 +8,15 @@
 #                                                    +#+                       #
 #    Created: 2025/06/30 10:51:21 by tiyang        #+#    #+#                  #
 #    Updated: 2025/11/27 09:36:29 by tiyang        ########   odam.nl          #
+=======
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/06/30 10:51:21 by tiyang            #+#    #+#              #
+#    Updated: 2025/11/27 10:48:17 by makhudon         ###   ########.fr        #
+>>>>>>> origin/makhudon
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,10 +39,13 @@ SRCS                = $(SRC_DIR)/main.c \
                       $(SRC_DIR)/lifecycle/player_init.c \
                       $(SRC_DIR)/lifecycle/player_position.c \
                       $(SRC_DIR)/parsing/parse_info.c \
+					  $(SRC_DIR)/parsing/parse_info_utils.c \
                       $(SRC_DIR)/parsing/parse_map.c \
+					  $(SRC_DIR)/parsing/parse_map_utils.c \
                       $(SRC_DIR)/parsing/utils.c \
                       $(SRC_DIR)/parsing/validate_map.c \
 					  $(SRC_DIR)/input/input.c \
+					  $(SRC_DIR)/input/input_helper.c \
 					  $(SRC_DIR)/engine/raycast.c \
 					  $(SRC_DIR)/engine/dda.c \
 					  $(SRC_DIR)/engine/utils.c

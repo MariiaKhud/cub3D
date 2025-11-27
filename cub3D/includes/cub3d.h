@@ -6,7 +6,7 @@
 /*   By: tiyang <tiyang@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/12 12:57:17 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/11/27 09:32:11 by tiyang        ########   odam.nl         */
+/*   Updated: 2025/11/27 11:04:46 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,9 +118,17 @@ void			draw_vertical_line(t_game *game, t_draw_data *data);
 // PARSING FUNCTIONS
 // parse_info.c
 int				parse_textures_and_colors(char *filename, t_game *game);
+
+// parse_info_utils.c
+int				parse_rgb(char *line);
+
 // parse_map.c
 int				is_cub_file(char *filename);
 int				parse_map_file(char *filename, t_game *game);
+
+// parse_map_utils.c
+int				read_map_file(int fd, t_game *game);
+
 // utils.c
 int				ft_strlen_without_newline(char *line);
 char			**copy_map(t_game *game);
@@ -133,7 +141,13 @@ void			free_map(char **matrix);
 
 // INPUT FUNCTIONS
 // input.c
-int				handle_keypress(int key, t_game *g);
+int				handle_keypress(int key, t_game *game);
+
+// input_helper.c
+void			move_left(t_game *game);
+void			move_right(t_game *game);
+void			move_forward(t_game *game);
+void			move_backward(t_game *game);
 
 // LIFECYCLE FUNCTIONS
 // game_init.c

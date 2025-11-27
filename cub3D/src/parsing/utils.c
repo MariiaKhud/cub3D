@@ -6,15 +6,19 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 11:29:46 by tiyang            #+#    #+#             */
-/*   Updated: 2025/11/26 12:42:01 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/11/27 09:55:41 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
+/**
+ * @brief Frees a dynamically allocated array of strings.
+ * @param split The array of strings to free.
+ */
 void	free_split(char **split)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (split == NULL)

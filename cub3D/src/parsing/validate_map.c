@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 12:08:49 by makhudon          #+#    #+#             */
-/*   Updated: 2025/11/25 12:14:16 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/11/27 09:53:56 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,35 +14,32 @@
 
 /**
  * @brief Flood fill algorithm to check if the map is closed.
- * Marks visited '0' cells with 'V'. If it reaches the edge,
- * the map is not closed.
- * @param map The game map.
- * @param y Current Y position.
- * @param x Current X position.
- * @param width Width of the map.
- * @param height Height of the map.
- * @return int 1 if the area is closed, 0 otherwise.
+ * @param game The game structure containing map dimensions.
+ * @param map The map to check.
+ * @param y The current Y position.
+ * @param x The current X position.
+ * @return int 1 if the area is closed, 0 if it reaches the boundary
+ * or a space.
  */
-static int	floodfill_closed(char **map, int y, int x,
-							int width, int height)
+static int	floodfill_closed(t_game *game, char **map, int y, int x)
 {
 	char	c;
 
-	if (y < 0 || y >= height || x < 0 || x >= width)
-		return (0);
 	c = map[y][x];
+	if (y < 0 || y >= game->map_height || x < 0 || x >= game->map_width)
+		return (0);
 	if (c == ' ')
 		return (0);
 	if (c == '1' || c == 'V')
 		return (1);
 	map[y][x] = 'V';
-	if (!floodfill_closed(map, y - 1, x, width, height))
+	if (!floodfill_closed(game, map, y - 1, x))
 		return (0);
-	if (!floodfill_closed(map, y + 1, x, width, height))
+	if (!floodfill_closed(game, map, y + 1, x))
 		return (0);
-	if (!floodfill_closed(map, y, x - 1, width, height))
+	if (!floodfill_closed(game, map, y, x - 1))
 		return (0);
-	if (!floodfill_closed(map, y, x + 1, width, height))
+	if (!floodfill_closed(game, map, y, x + 1))
 		return (0);
 	return (1);
 }
@@ -50,11 +47,11 @@ static int	floodfill_closed(char **map, int y, int x,
 /**
  * @brief Finds the player's position in the map.
  * @param game The game structure containing the map.
- * @param py Pointer to store the player's Y position.
- * @param px Pointer to store the player's X position.
+ * @param pos_y Pointer to store the player's Y position.
+ * @param pos_x Pointer to store the player's X position.
  * @return int 1 if exactly one player found, 0 otherwise.
  */
-static int	find_player_pos(t_game *game, int *py, int *px)
+static int	find_player_pos(t_game *game, int *pos_y, int *pos_x)
 {
 	int	y;
 	int	x;
@@ -69,8 +66,8 @@ static int	find_player_pos(t_game *game, int *py, int *px)
 		{
 			if (ft_strchr("NSEW", game->map[y][x]))
 			{
-				*py = y;
-				*px = x;
+				*pos_y = y;
+				*pos_x = x;
 				count++;
 			}
 			x++;
@@ -155,26 +152,21 @@ int	validate_map(t_game *game)
 	char	**map_copy;
 	int		is_closed;
 
-	if (!game || !game->map)
+	if (game == NULL || game->map == NULL)
 		return (0);
-	/* 1) only allowed characters */
 	if (!is_all_chars_valid(game->map))
 		return (free_map(game->map), 0);
-	/* 2) exactly one player */
 	player_count = check_element_count(game, 'N')
-		+ check_element_count(game, 'S')
-		+ check_element_count(game, 'E')
+		+ check_element_count(game, 'S') + check_element_count(game, 'E')
 		+ check_element_count(game, 'W');
 	if (player_count != 1)
 		return (free_map(game->map), 0);
 	if (!find_player_pos(game, &player_y, &player_x))
 		return (free_map(game->map), 0);
-	/* 3) flood fill – check if map is closed */
 	map_copy = copy_map(game);
 	if (map_copy == NULL)
 		return (free_map(game->map), 0);
-	is_closed = floodfill_closed(map_copy, player_y, player_x,
-			game->map_width, game->map_height);
+	is_closed = floodfill_closed(game, map_copy, player_y, player_x);
 	free_map(map_copy);
 	if (is_closed == 0)
 		return (free_map(game->map), 0);
