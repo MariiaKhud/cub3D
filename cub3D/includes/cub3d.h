@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/12 12:57:17 by tiyang            #+#    #+#             */
-/*   Updated: 2025/11/26 12:51:57 by makhudon         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   cub3d.h                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/12 12:57:17 by tiyang        #+#    #+#                 */
+/*   Updated: 2025/11/27 09:32:11 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,41 +51,69 @@ typedef struct s_img
 	int		height; // sprite dimensions
 }	t_img;
 
+typedef struct s_draw_data
+{
+	int		x;
+	int		y;
+	int		draw_start;
+	int		draw_end;
+	int		line_height;
+	int		tex_x;
+	t_img	*tex;
+}	t_draw_data;
+
+typedef struct s_ray
+{
+	double	camera_x;
+	double	ray_dir_x;
+	double	ray_dir_y;
+	int		map_x;
+	int		map_y;
+	double	delta_dist_x;
+	double	delta_dist_y;
+	double	side_dist_x;
+	double	side_dist_y;
+	int		step_x;
+	int		step_y;
+	int		hit;
+	int		side;
+}	t_ray;
+
 typedef struct s_game
 {
-	// OLD MAP VARIABLES
-	char	**map;
-	int		map_width;
-	int		map_height;
-
-	// NEW PLAYER POSITION & ORIENTATION VARIABLES
-	double posX, posY;      // Player position
-	double dirX, dirY;      // Direction vector
-	double planeX, planeY;
-	
-	// MLX POINTERS
-	void	*mlx_ptr;
-	void	*win_ptr;
-	// BELOW VARIABLES FROM SO_LONG TO BE CHANGED / DELETED
-
-	// NEW: TEXTURE VARIABLES
-	char	*no_texture; // North texture path
-	char	*so_texture; // South texture path
-	char	*we_texture; // West texture path
-	char	*ea_texture; // East texture path
-	int		floor_color; // Floor color in RGB
-	int		ceiling_color; // Ceiling color in RGB
-
-	t_img	img;     // Main image buffer
-	t_img   tex_no;  // North wall texture
-	t_img   tex_so;  // South wall texture
-	t_img   tex_we;  // West wall texture
-	t_img   tex_ea;  // East wall texture
-
+	char			**map;
+	int				map_width;
+	int				map_height;
+	double			posX;
+	double			posY;
+	double			dirX;
+	double			dirY;
+	double			planeX;
+	double			planeY;
+	void			*mlx_ptr;
+	void			*win_ptr;
+	char			*no_texture;
+	char			*so_texture;
+	char			*we_texture;
+	char			*ea_texture;
+	int				floor_color;
+	int				ceiling_color;
+	t_img			img;
+	t_img			tex_no;
+	t_img			tex_so;
+	t_img			tex_we;
+	t_img			tex_ea;
 }	t_game;
 
-// CUB3D FUNCTIONS
-void    raycast(t_game *game);
+// ENGINE FUNCTIONS
+void			raycast(t_game *game);
+void			render_background(t_game *game);
+void			set_step_and_side_dist(t_game *game, t_ray *ray);
+void			perform_dda(t_game *game, t_ray *ray);
+double			calculate_perp_wall_dist(t_ray *ray);
+void			calculate_texture_x(t_game *game, t_ray *ray,
+					double perp_wall_dist, t_draw_data *data);
+void			draw_vertical_line(t_game *game, t_draw_data *data);
 
 // PARSING FUNCTIONS
 // parse_info.c
@@ -115,5 +143,15 @@ void			register_mlx_hooks(t_game *game);
 // game_close.c
 int				handle_close(t_game *game);
 void			close_game(t_game *game, int exit_status);
+
+// player_init.c
+void			set_direction_north(t_game *game);
+void			set_direction_south(t_game *game);
+void			set_direction_east(t_game *game);
+void			set_direction_west(t_game *game);
+void			set_player_direction(t_game *game, char direction);
+
+// player_position.c
+void			init_player_orientation(t_game *game);
 
 #endif

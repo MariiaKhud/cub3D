@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   game_init.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/26 10:15:14 by makhudon          #+#    #+#             */
-/*   Updated: 2025/11/26 12:44:58 by makhudon         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   game_init.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/11/26 10:15:14 by makhudon      #+#    #+#                 */
+/*   Updated: 2025/11/27 09:03:27 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,4 @@ void	load_game(t_game *game)
 		ft_printf("Error\nFailed to load wall textures\n");
 		close_game(game, EXIT_FAILURE);
 	}
-	// raycast(game);
-	// register_mlx_hooks(game);
-	// mlx_loop(game->mlx_ptr);
 }
