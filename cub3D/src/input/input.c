@@ -6,122 +6,70 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 12:38:02 by makhudon          #+#    #+#             */
-/*   Updated: 2025/11/26 12:51:45 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/11/27 09:28:03 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-/* ----------- COLLISION DETECTION ----------- */
-static int	can_move(t_game *g, double newY, double newX)
+/**
+ * @brief Rotates the player's direction and camera plane to the left.
+ * @param game The game structure containing player direction and plane.
+ */
+static void	rotate_left(t_game *game)
 {
-	int	x;
-	int	y;
-	int	row_len;
+	double	old_dir_x;
+	double	old_plane_x;
 
-	y = (int)newY;
-	x = (int)newX;
-	if (y < 0 || y >= g->map_height)
-		return (0);
-	row_len = (int)ft_strlen(g->map[y]);
-	if (x < 0 || x >= row_len)
-		return (0);
-	if (g->map[y][x] == '1' || g->map[y][x] == ' ')
-		return (0);
-	return (1);
+	old_dir_x = game->dirX;
+	old_plane_x = game->planeX;
+	game->dirX = game->dirX * cos(-ROT_SPEED) - game->dirY * sin(-ROT_SPEED);
+	game->dirY = old_dir_x * sin(-ROT_SPEED) + game->dirY * cos(-ROT_SPEED);
+	game->planeX = game->planeX * cos(-ROT_SPEED)
+		- game->planeY * sin(-ROT_SPEED);
+	game->planeY = old_plane_x * sin(-ROT_SPEED)
+		+ game->planeY * cos(-ROT_SPEED);
 }
 
-/* ----------- MOVE FORWARD / BACKWARD (W / S) ----------- */
-static void move_forward(t_game *g)
+/**
+ * @brief Rotates the player's direction and camera plane to the right.
+ * @param game The game structure containing player direction and plane.
+ */
+static void	rotate_right(t_game *game)
 {
-    double newX = g->posX + g->dirX * MOVE_SPEED;
-    double newY = g->posY + g->dirY * MOVE_SPEED;
+	double	old_dir_x;
+	double	old_plane_x;
 
-    if (can_move(g, g->posY, newX))
-        g->posX = newX;
-    if (can_move(g, newY, g->posX))
-        g->posY = newY;
+	old_dir_x = game->dirX;
+	old_plane_x = game->planeX;
+	game->dirX = game->dirX * cos(ROT_SPEED) - game->dirY * sin(ROT_SPEED);
+	game->dirY = old_dir_x * sin(ROT_SPEED) + game->dirY * cos(ROT_SPEED);
+	game->planeX = game->planeX * cos(ROT_SPEED)
+		- game->planeY * sin(ROT_SPEED);
+	game->planeY = old_plane_x * sin(ROT_SPEED) + game->planeY * cos(ROT_SPEED);
 }
 
-static void move_backward(t_game *g)
-{
-    double newX = g->posX - g->dirX * MOVE_SPEED;
-    double newY = g->posY - g->dirY * MOVE_SPEED;
-
-    if (can_move(g, g->posY, newX))
-        g->posX = newX;
-    if (can_move(g, newY, g->posX))
-        g->posY = newY;
-}
-
-/* ----------- STRAFE LEFT / RIGHT (A / D) ----------- */
-static void move_right(t_game *g)
-{
-    double newX = g->posX - g->dirY * MOVE_SPEED;
-    double newY = g->posY + g->dirX * MOVE_SPEED;
-
-    if (can_move(g, g->posY, newX))
-        g->posX = newX;
-    if (can_move(g, newY, g->posX))
-        g->posY = newY;
-}
-
-static void move_left(t_game *g)
-{
-    double newX = g->posX + g->dirY * MOVE_SPEED;
-    double newY = g->posY - g->dirX * MOVE_SPEED;
-
-    if (can_move(g, g->posY, newX))
-        g->posX = newX;
-    if (can_move(g, newY, g->posX))
-        g->posY = newY;
-}
-
-/* ----------- ROTATION (LEFT / RIGHT ARROWS) ----------- */
-static void rotate_right(t_game *g)
-{
-    double oldDirX = g->dirX;
-    double oldPlaneX = g->planeX;
-
-    g->dirX = g->dirX * cos(ROT_SPEED) - g->dirY * sin(ROT_SPEED);
-    g->dirY = oldDirX * sin(ROT_SPEED) + g->dirY * cos(ROT_SPEED);
-
-    g->planeX = g->planeX * cos(ROT_SPEED) - g->planeY * sin(ROT_SPEED);
-    g->planeY = oldPlaneX * sin(ROT_SPEED) + g->planeY * cos(ROT_SPEED);
-}
-
-static void rotate_left(t_game *g)
-{
-    double oldDirX = g->dirX;
-    double oldPlaneX = g->planeX;
-
-    g->dirX = g->dirX * cos(-ROT_SPEED) - g->dirY * sin(-ROT_SPEED);
-    g->dirY = oldDirX * sin(-ROT_SPEED) + g->dirY * cos(-ROT_SPEED);
-
-    g->planeX = g->planeX * cos(-ROT_SPEED) - g->planeY * sin(-ROT_SPEED);
-    g->planeY = oldPlaneX * sin(-ROT_SPEED) + g->planeY * cos(-ROT_SPEED);
-}
-
-/* ----------- KEY PRESS HANDLER ----------- */
-
-int	handle_keypress(int key, t_game *g)
+/**
+ * @brief Handles key press events and triggers corresponding actions.
+ * @param key The key code of the pressed key.
+ * @param game The game structure containing player state.
+ * @return int Always returns 0.
+ */
+int	handle_keypress(int key, t_game *game)
 {
 	if (key == KEY_ESC)
-		close_game(g, EXIT_SUCCESS);
+		close_game(game, EXIT_SUCCESS);
 	else if (key == KEY_W)
-		move_forward(g);
+		move_forward(game);
 	else if (key == KEY_S)
-		move_backward(g);
+		move_backward(game);
 	else if (key == KEY_A)
-		move_left(g);
+		move_left(game);
 	else if (key == KEY_D)
-		move_right(g);
+		move_right(game);
 	else if (key == KEY_LEFT)
-		rotate_left(g);
+		rotate_left(game);
 	else if (key == KEY_RIGHT)
-		rotate_right(g);
-
-	//render_map(g); // 🔹 Important: redraw the screen
+		rotate_right(game);
 	return (0);
 }
-
