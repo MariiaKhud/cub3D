@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   cub3d.h                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/12 12:57:17 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/11/27 11:46:12 by tiyang        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/12 12:57:17 by tiyang            #+#    #+#             */
+/*   Updated: 2025/11/28 09:15:15 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,7 @@ int		ft_strlen_without_newline(char *line);
 char	**copy_map(t_game *game);
 void	free_map(char **matrix);
 void	free_split(char **split);
+void	free_game(t_game *game);
 
 // validate_map.c
 int		validate_map(t_game *game);

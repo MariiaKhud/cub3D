@@ -6,11 +6,35 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 11:29:46 by tiyang            #+#    #+#             */
-/*   Updated: 2025/11/27 09:55:41 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/11/28 09:14:27 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+
+/**
+ * @brief Frees all dynamically allocated memory in the game structure.
+ * @param game The game structure to free.
+ */
+void	free_game(t_game *game)
+{
+	int	i;
+	
+	if (game->no_texture) free(game->no_texture);
+	if (game->so_texture) free(game->so_texture);
+	if (game->we_texture) free(game->we_texture);
+	if (game->ea_texture) free(game->ea_texture);
+	if (game->map != NULL)
+	{
+		i = 0;
+		while (game->map[i] != NULL)
+		{
+			free(game->map[i]);
+			i++;
+		}
+		free(game->map);
+	}
+}
 
 /**
  * @brief Frees a dynamically allocated array of strings.

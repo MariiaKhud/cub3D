@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 11:17:46 by makhudon          #+#    #+#             */
-/*   Updated: 2025/11/27 10:51:54 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/11/28 09:58:50 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	trim_trailing_whitespace(char *s)
  * @param game The game structure to populate.
  * @param line The line containing color information.
  */
-static void	set_color(t_game *game, char *line)
+static int	set_color(t_game *game, char *line)
 {
 	int	color;
 
@@ -48,9 +48,11 @@ static void	set_color(t_game *game, char *line)
 		if (color == -1)
 		{
 			ft_printf("Error\nInvalid floor color\n");
-			exit(EXIT_FAILURE);
+			free_game(game);
+			return (0);
 		}
 		game->floor_color = color;
+		return (1);
 	}
 	else if (!ft_strncmp(line, "C ", 2))
 	{
@@ -59,10 +61,13 @@ static void	set_color(t_game *game, char *line)
 		if (color == -1)
 		{
 			ft_printf("Error\nInvalid ceiling color\n");
-			exit(EXIT_FAILURE);
+			free_game(game);
+			return (0);
 		}
 		game->ceiling_color = color;
+		return (1);
 	}
+	return (1);
 }
 
 /**
@@ -105,10 +110,30 @@ static void	set_texture(t_game *game, char *line)
  * @param game The game structure to populate.
  * @param line The line containing texture or color information.
  */
-static void	set_texture_or_color(t_game *game, char *line)
+static int	set_texture_or_color(t_game *game, char *line)
 {
-	set_texture(game, line);
-	set_color(game, line);
+	// set_texture(game, line);
+	// set_color(game, line);
+		// Texture identifiers
+	if (!ft_strncmp(line, "NO ", 3)
+		|| !ft_strncmp(line, "SO ", 3)
+		|| !ft_strncmp(line, "WE ", 3)
+		|| !ft_strncmp(line, "EA ", 3))
+	{
+		set_texture(game, line);
+		return (1);
+	}
+
+	// Color identifiers
+	if (!ft_strncmp(line, "F ", 2) || !ft_strncmp(line, "C ", 2))
+	{
+		if (!set_color(game, line))
+			return (0);
+		return (1);
+	}
+
+	// Not a texture or color → let map parser handle it
+	return (1);
 }
 
 /**
@@ -131,7 +156,15 @@ int	parse_textures_and_colors(char *filename, t_game *game)
 		if (line == NULL)
 			break ;
 		if (*line)
-			set_texture_or_color(game, line);
+			// set_texture_or_color(game, line);
+		{
+			if (!set_texture_or_color(game, line))
+			{
+				free(line);
+				close(fd);
+				return (1);
+			}
+		}
 		free(line);
 	}
 	close(fd);

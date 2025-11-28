@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   get_next_line_utils.c                              :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/05/05 15:56:35 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/05/13 12:35:17 by tiyang        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/05 15:56:35 by tiyang            #+#    #+#             */
+/*   Updated: 2025/11/28 10:02:22 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,10 @@ char	*gnl_ft_substr(char const *s, unsigned int start, size_t len)
 	if (!s)
 		return (NULL);
 	slen = gnl_ft_strlen(s);
-	if (start >= slen)
-		len = 0;
+	// if (start >= slen)
+	// 	len = 0;
+	if (start >= slen || len == 0)
+		return (NULL);
 	else if (len > slen - start)
 		len = slen - start;
 	sub = malloc(sizeof(char) * (len + 1));

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/12 15:03:37 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/11/27 11:14:46 by tiyang        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/12 15:03:37 by tiyang            #+#    #+#             */
+/*   Updated: 2025/11/28 09:50:22 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,17 @@ int	game_loop(void *param)
 	return (0);
 }
 
+// Call this at the very end of main(), after you finish parsing and using the map
+static void	cleanup_gnl(void)
+{
+	char	*line;
+
+	// Call get_next_line until it returns NULL to free the static storage
+	while ((line = get_next_line(-1)))
+		free(line);
+}
+
+
 /* 
  * @brief Checks if the given filename has a .cub extension.
  * 
@@ -43,7 +54,11 @@ int	main(int argc, char **argv)
 	if (!is_cub_file(argv[1]))
 		return (ft_printf("Error\nWrong map file type\n"), 1);
 	if (parse_textures_and_colors(argv[1], &game))
+		// return (ft_printf("Error\nFailed to parse\n"), 1);
+	{
+		free_game(&game);
 		return (ft_printf("Error\nFailed to parse\n"), 1);
+	}
 	if (!parse_map_file(argv[1], &game))
 		return (ft_printf("Error\nFailed to load map\n"), 1);
 	if (!validate_map(&game))
@@ -54,5 +69,6 @@ int	main(int argc, char **argv)
 	register_mlx_hooks(&game);
 	mlx_loop_hook(game.mlx_ptr, game_loop, &game);
 	mlx_loop(game.mlx_ptr);
+	cleanup_gnl();
 	return (0);
 }
