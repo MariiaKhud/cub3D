@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parse_info.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/24 11:17:46 by makhudon          #+#    #+#             */
-/*   Updated: 2025/11/28 10:24:00 by makhudon         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   parse_info.c                                       :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/11/24 11:17:46 by makhudon      #+#    #+#                 */
+/*   Updated: 2025/11/28 10:54:13 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,8 @@ int	parse_textures_and_colors(char *filename, t_game *game)
 			if (!set_texture_or_color(game, line))
 			{
 				free(line);
+				while ((line = get_next_line(fd)) != NULL)
+					free(line);
 				close(fd);
 				free_game(game);
 				return (1);

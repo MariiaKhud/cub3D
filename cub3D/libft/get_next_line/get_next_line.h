@@ -6,7 +6,7 @@
 /*   By: tiyang <tiyang@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/05 15:56:50 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/05/13 12:29:01 by tiyang        ########   odam.nl         */
+/*   Updated: 2025/11/28 10:52:20 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 // # include <stdio.h>    // printf, perror
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 5
+#  define BUFFER_SIZE 15
 # endif
 
 size_t	gnl_ft_strlen(const char *s);
