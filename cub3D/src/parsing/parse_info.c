@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 11:17:46 by makhudon          #+#    #+#             */
-/*   Updated: 2025/11/28 09:58:50 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/11/28 10:09:19 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,24 +80,32 @@ static void	set_texture(t_game *game, char *line)
 {
 	if (!ft_strncmp(line, "NO ", 3))
 	{
+		if (game->no_texture)
+			free(game->no_texture);
 		game->no_texture = ft_strdup(line + 3);
 		if (game->no_texture)
 			trim_trailing_whitespace(game->no_texture);
 	}
 	else if (!ft_strncmp(line, "SO ", 3))
 	{
+		if (game->no_texture)
+			free(game->no_texture);
 		game->so_texture = ft_strdup(line + 3);
 		if (game->so_texture)
 			trim_trailing_whitespace(game->so_texture);
 	}
 	else if (!ft_strncmp(line, "WE ", 3))
 	{
+		if (game->no_texture)
+			free(game->no_texture);
 		game->we_texture = ft_strdup(line + 3);
 		if (game->we_texture)
 			trim_trailing_whitespace(game->we_texture);
 	}
 	else if (!ft_strncmp(line, "EA ", 3))
 	{
+		if (game->no_texture)
+			free(game->no_texture);
 		game->ea_texture = ft_strdup(line + 3);
 		if (game->ea_texture)
 			trim_trailing_whitespace(game->ea_texture);
@@ -162,6 +170,7 @@ int	parse_textures_and_colors(char *filename, t_game *game)
 			{
 				free(line);
 				close(fd);
+				free_game(game);
 				return (1);
 			}
 		}
