@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   game_init.c                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/11/26 10:15:14 by makhudon      #+#    #+#                 */
-/*   Updated: 2025/11/27 10:56:10 by tiyang        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   game_init.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/26 10:15:14 by makhudon          #+#    #+#             */
+/*   Updated: 2025/11/28 11:01:38 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@
  * @param path The file path to the XPM texture.
  * @return int 1 on success, 0 on failure.
  */
-static int	load_one_texture(t_game *g, t_img *tex, char *path)
+static int	load_one_texture(t_game *game, t_img *tex, char *path)
 {
 	tex->img_ptr = mlx_xpm_file_to_image(
-			g->mlx_ptr, path, &tex->width, &tex->height);
+			game->mlx_ptr, path, &tex->width, &tex->height);
 	if (tex->img_ptr == NULL)
 		return (0);
 	tex->addr = mlx_get_data_addr(
@@ -36,15 +36,15 @@ static int	load_one_texture(t_game *g, t_img *tex, char *path)
  * @param g The game structure containing texture paths and MLX pointer.
  * @return int 1 on success, 0 on failure.
  */
-static int	load_textures(t_game *g)
+static int	load_textures(t_game *game)
 {
-	if (!load_one_texture(g, &g->tex_no, g->no_texture))
+	if (!load_one_texture(game, &game->tex_no, game->no_texture))
 		return (0);
-	if (!load_one_texture(g, &g->tex_so, g->so_texture))
+	if (!load_one_texture(game, &game->tex_so, game->so_texture))
 		return (0);
-	if (!load_one_texture(g, &g->tex_we, g->we_texture))
+	if (!load_one_texture(game, &game->tex_we, game->we_texture))
 		return (0);
-	if (!load_one_texture(g, &g->tex_ea, g->ea_texture))
+	if (!load_one_texture(game, &game->tex_ea, game->ea_texture))
 		return (0);
 	return (1);
 }

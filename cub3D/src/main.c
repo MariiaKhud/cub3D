@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 15:03:37 by tiyang            #+#    #+#             */
-/*   Updated: 2025/11/28 10:33:10 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/11/28 11:03:30 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	main(int argc, char **argv)
 	{
 		free_game(&game);
 		// return (ft_printf("Error\nFailed to parse\n"), 1);
-		ft_putstr_fd("Error\nFailed to parse\n", 2);
+		// ft_putstr_fd("Error\nFailed to parse\n", 2);
 		return (EXIT_FAILURE);
 	}
 	if (!parse_map_file(argv[1], &game))
