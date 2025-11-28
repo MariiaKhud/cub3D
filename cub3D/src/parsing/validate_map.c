@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 12:08:49 by makhudon          #+#    #+#             */
-/*   Updated: 2025/11/28 10:38:23 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/11/28 11:12:31 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,6 @@ int	validate_map(t_game *game)
 	is_closed = floodfill_closed(game, map_copy, player_y, player_x);
 	free_map(map_copy);
 	if (is_closed == 0)
-		// return (free_map(game->map), 0);
 		return (0);
 	return (1);
 }

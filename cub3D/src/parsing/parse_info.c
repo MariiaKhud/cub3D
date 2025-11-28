@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   parse_info.c                                       :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/11/24 11:17:46 by makhudon      #+#    #+#                 */
-/*   Updated: 2025/11/28 10:54:13 by tiyang        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   parse_info.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/24 11:17:46 by makhudon          #+#    #+#             */
+/*   Updated: 2025/11/28 11:14:20 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,27 +120,18 @@ static void	set_texture(t_game *game, char *line)
  */
 static int	set_texture_or_color(t_game *game, char *line)
 {
-	// set_texture(game, line);
-	// set_color(game, line);
-		// Texture identifiers
-	if (!ft_strncmp(line, "NO ", 3)
-		|| !ft_strncmp(line, "SO ", 3)
-		|| !ft_strncmp(line, "WE ", 3)
-		|| !ft_strncmp(line, "EA ", 3))
+	if (!ft_strncmp(line, "NO ", 3) || !ft_strncmp(line, "SO ", 3)
+		|| !ft_strncmp(line, "WE ", 3) || !ft_strncmp(line, "EA ", 3))
 	{
 		set_texture(game, line);
 		return (1);
 	}
-
-	// Color identifiers
 	if (!ft_strncmp(line, "F ", 2) || !ft_strncmp(line, "C ", 2))
 	{
 		if (!set_color(game, line))
 			return (0);
 		return (1);
 	}
-
-	// Not a texture or color → let map parser handle it
 	return (1);
 }
 
@@ -164,7 +155,6 @@ int	parse_textures_and_colors(char *filename, t_game *game)
 		if (line == NULL)
 			break ;
 		if (*line)
-			// set_texture_or_color(game, line);
 		{
 			if (!set_texture_or_color(game, line))
 			{

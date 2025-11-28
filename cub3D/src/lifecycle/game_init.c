@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 10:15:14 by makhudon          #+#    #+#             */
-/*   Updated: 2025/11/28 11:01:38 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/11/28 11:12:50 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /**
  * @brief Loads a single texture from an XPM file into
  *        the given t_img structure.
- * @param g The game structure containing the MLX pointer.
+ * @param game The game structure containing the MLX pointer.
  * @param tex The t_img structure to load the texture into.
  * @param path The file path to the XPM texture.
  * @return int 1 on success, 0 on failure.
@@ -33,7 +33,7 @@ static int	load_one_texture(t_game *game, t_img *tex, char *path)
 
 /**
  * @brief Loads all four wall textures (NO, SO, WE, EA) for the game.
- * @param g The game structure containing texture paths and MLX pointer.
+ * @param game The game structure containing texture paths and MLX pointer.
  * @return int 1 on success, 0 on failure.
  */
 static int	load_textures(t_game *game)
