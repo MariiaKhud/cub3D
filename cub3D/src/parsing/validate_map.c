@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   validate_map.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/25 12:08:49 by makhudon          #+#    #+#             */
-/*   Updated: 2025/11/28 11:12:31 by makhudon         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   validate_map.c                                     :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/11/25 12:08:49 by makhudon      #+#    #+#                 */
+/*   Updated: 2025/11/28 14:12:22 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,17 +155,17 @@ int	validate_map(t_game *game)
 	if (game == NULL || game->map == NULL)
 		return (0);
 	if (!is_all_chars_valid(game->map))
-		return (free_map(game->map), 0);
+		return (0);
 	player_count = check_element_count(game, 'N')
 		+ check_element_count(game, 'S') + check_element_count(game, 'E')
 		+ check_element_count(game, 'W');
 	if (player_count != 1)
-		return (free_map(game->map), 0);
+		return (0);
 	if (!find_player_pos(game, &player_y, &player_x))
-		return (free_map(game->map), 0);
+		return (0);
 	map_copy = copy_map(game);
 	if (map_copy == NULL)
-		return (free_map(game->map), 0);
+		return (0);
 	is_closed = floodfill_closed(game, map_copy, player_y, player_x);
 	free_map(map_copy);
 	if (is_closed == 0)
