@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parse_info.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/24 11:17:46 by makhudon          #+#    #+#             */
-/*   Updated: 2025/11/28 11:14:20 by makhudon         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   parse_info.c                                       :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/11/24 11:17:46 by makhudon      #+#    #+#                 */
+/*   Updated: 2025/11/28 11:17:17 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,18 @@ static int	set_texture_or_color(t_game *game, char *line)
 }
 
 /**
+ * @brief Checks if all necessary textures have been set.
+ * @return 1 if all textures are present, 0 otherwise.
+ */
+static int	are_textures_loaded(t_game *game)
+{
+	if (!game->no_texture || !game->so_texture
+		|| !game->we_texture || !game->ea_texture)
+		return (0);
+	return (1);
+}
+
+/**
  * @brief Parses texture paths and floor/ceiling colors from the map file.
  * @param filename The name of the map file.
  * @param game The game structure to populate.
@@ -169,5 +181,12 @@ int	parse_textures_and_colors(char *filename, t_game *game)
 		free(line);
 	}
 	close(fd);
+	// [NEW FIX] Validate completeness
+	if (!are_textures_loaded(game))
+	{
+		ft_printf("Error\nMissing texture identifiers\n");
+		free_game(game);
+		return (1);
+	}
 	return (0);
 }
