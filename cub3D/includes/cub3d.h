@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:57:17 by tiyang            #+#    #+#             */
-/*   Updated: 2025/11/28 09:15:15 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/11/28 13:03:39 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,9 +124,15 @@ void	calculate_texture_x(t_game *game, t_ray *ray,
 // ============ PARSING FUNCTIONS =========== //
 // parse_info.c
 int		parse_textures_and_colors(char *filename, t_game *game);
+void	trim_trailing_whitespace(char *s);
+
+// parse_info_rgb.c
+int		parse_color_line(char *line);
 
 // parse_info_utils.c
-int		parse_rgb(char *line);
+void	set_texture(t_game *game, char *line);
+int		set_color(t_game *game, char *line, int *has_floor,
+			int *has_ceiling);
 
 // parse_map.c
 int		is_cub_file(char *filename);

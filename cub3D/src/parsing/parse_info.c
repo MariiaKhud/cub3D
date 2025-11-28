@@ -1,22 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   parse_info.c                                       :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/11/24 11:17:46 by makhudon      #+#    #+#                 */
-/*   Updated: 2025/11/28 11:17:17 by tiyang        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   parse_info.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/24 11:17:46 by makhudon          #+#    #+#             */
+/*   Updated: 2025/11/28 13:38:24 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
 /**
- * @brief Trim trailing '\n' and spaces from a string (in-place).
- * @param s The string to trim.
+ * @brief Checks if all necessary textures and colors have been set.
  */
-static void	trim_trailing_whitespace(char *s)
+static int	all_identifiers_set(t_game *game,
+							int has_floor, int has_ceiling)
+{
+	if (!game->no_texture || !game->so_texture
+		|| !game->we_texture || !game->ea_texture)
+		return (0);
+	if (!has_floor || !has_ceiling)
+		return (0);
+	return (1);
+}
+
+/**
+ * @brief Trim trailing '\n' and spaces from a string (in-place).
+ */
+void	trim_trailing_whitespace(char *s)
 {
 	int	len;
 
@@ -32,93 +45,20 @@ static void	trim_trailing_whitespace(char *s)
 }
 
 /**
- * @brief Sets floor or ceiling color in the game structure
- *        based on the provided line.
- * @param game The game structure to populate.
- * @param line The line containing color information.
+ * @brief Processes a single line from the map file and sets
+ *        the corresponding texture or color in the game structure.
+ * 
+ * @param game Pointer to the game structure to populate.
+ * @param line The current line read from the map file.
+ * @param has_floor Pointer to a flag indicating if 
+ *                  the floor color has been set.
+ * @param has_ceiling Pointer to a flag indicating
+ *                    if the ceiling color has been set.
+ * @return 1 on successful processing or ignored line,
+ *         0 if an invalid identifier is found.
  */
-static int	set_color(t_game *game, char *line)
-{
-	int	color;
-
-	if (!ft_strncmp(line, "F ", 2))
-	{
-		trim_trailing_whitespace(line + 2);
-		color = parse_rgb(line + 2);
-		if (color == -1)
-		{
-			ft_printf("Error\nInvalid floor color\n");
-			free_game(game);
-			return (0);
-		}
-		game->floor_color = color;
-		return (1);
-	}
-	else if (!ft_strncmp(line, "C ", 2))
-	{
-		trim_trailing_whitespace(line + 2);
-		color = parse_rgb(line + 2);
-		if (color == -1)
-		{
-			ft_printf("Error\nInvalid ceiling color\n");
-			free_game(game);
-			return (0);
-		}
-		game->ceiling_color = color;
-		return (1);
-	}
-	return (1);
-}
-
-/**
- * @brief Sets texture paths in the game structure
- *        based on the provided line.
- * @param game The game structure to populate.
- * @param line The line containing texture information.
- */
-static void	set_texture(t_game *game, char *line)
-{
-	if (!ft_strncmp(line, "NO ", 3))
-	{
-		if (game->no_texture)
-			free(game->no_texture);
-		game->no_texture = ft_strdup(line + 3);
-		if (game->no_texture)
-			trim_trailing_whitespace(game->no_texture);
-	}
-	else if (!ft_strncmp(line, "SO ", 3))
-	{
-		if (game->so_texture)
-			free(game->so_texture);
-		game->so_texture = ft_strdup(line + 3);
-		if (game->so_texture)
-			trim_trailing_whitespace(game->so_texture);
-	}
-	else if (!ft_strncmp(line, "WE ", 3))
-	{
-		if (game->we_texture)
-			free(game->we_texture);
-		game->we_texture = ft_strdup(line + 3);
-		if (game->we_texture)
-			trim_trailing_whitespace(game->we_texture);
-	}
-	else if (!ft_strncmp(line, "EA ", 3))
-	{
-		if (game->ea_texture)
-			free(game->ea_texture);
-		game->ea_texture = ft_strdup(line + 3);
-		if (game->ea_texture)
-			trim_trailing_whitespace(game->ea_texture);
-	}
-}
-
-/**
- * @brief Sets texture paths or colors in the game structure
- * based on the provided line.
- * @param game The game structure to populate.
- * @param line The line containing texture or color information.
- */
-static int	set_texture_or_color(t_game *game, char *line)
+static int	set_texture_or_color(t_game *game, char *line,
+								int *has_floor, int *has_ceiling)
 {
 	if (!ft_strncmp(line, "NO ", 3) || !ft_strncmp(line, "SO ", 3)
 		|| !ft_strncmp(line, "WE ", 3) || !ft_strncmp(line, "EA ", 3))
@@ -127,40 +67,29 @@ static int	set_texture_or_color(t_game *game, char *line)
 		return (1);
 	}
 	if (!ft_strncmp(line, "F ", 2) || !ft_strncmp(line, "C ", 2))
-	{
-		if (!set_color(game, line))
-			return (0);
+		return (set_color(game, line, has_floor, has_ceiling));
+	if (line[0] == '\0' || line[0] == '\n')
 		return (1);
-	}
-	return (1);
+	if (line[0] == '1' || line[0] == '0' || line[0] == ' ')
+		return (1);
+	ft_printf("Error\nInvalid identifier: %s\n", line);
+	return (0);
 }
 
 /**
- * @brief Checks if all necessary textures have been set.
- * @return 1 if all textures are present, 0 otherwise.
+ * @brief Reads the file line by line and sets textures or colors.
+ * 
+ * @param fd File descriptor of the opened map file.
+ * @param game Game structure to populate.
+ * @param has_floor Pointer to a flag for floor color.
+ * @param has_ceiling Pointer to a flag for ceiling color.
+ * @return 0 on success, 1 on error.
  */
-static int	are_textures_loaded(t_game *game)
+static int	parse_file_lines(int fd, t_game *game, int *has_floor,
+													int *has_ceiling)
 {
-	if (!game->no_texture || !game->so_texture
-		|| !game->we_texture || !game->ea_texture)
-		return (0);
-	return (1);
-}
-
-/**
- * @brief Parses texture paths and floor/ceiling colors from the map file.
- * @param filename The name of the map file.
- * @param game The game structure to populate.
- * @return int 0 on success, 1 on failure.
- */
-int	parse_textures_and_colors(char *filename, t_game *game)
-{
-	int		fd;
 	char	*line;
 
-	fd = open(filename, O_RDONLY);
-	if (fd < 0)
-		return (printf("Error: cannot open file %s\n", filename), 1);
 	while (1)
 	{
 		line = get_next_line(fd);
@@ -168,24 +97,50 @@ int	parse_textures_and_colors(char *filename, t_game *game)
 			break ;
 		if (*line)
 		{
-			if (!set_texture_or_color(game, line))
+			if (!set_texture_or_color(game, line, has_floor, has_ceiling))
 			{
 				free(line);
-				while ((line = get_next_line(fd)) != NULL)
+				line = get_next_line(fd);
+				while (line != NULL)
+				{
 					free(line);
-				close(fd);
-				free_game(game);
+					line = get_next_line(fd);
+				}
 				return (1);
 			}
 		}
 		free(line);
 	}
-	close(fd);
-	// [NEW FIX] Validate completeness
-	if (!are_textures_loaded(game))
+	return (0);
+}
+
+/**
+ * @brief Parses all textures and colors from the map file.
+ * 
+ * @param filename Path to the map file.
+ * @param game Game structure to populate.
+ * @return 0 on success, 1 on error.
+ */
+int	parse_textures_and_colors(char *filename, t_game *game)
+{
+	int	fd;
+	int	has_floor;
+	int	has_ceiling;
+
+	has_floor = 0;
+	has_ceiling = 0;
+	fd = open(filename, O_RDONLY);
+	if (fd < 0)
+		return (printf("Error: cannot open file %s\n", filename), 1);
+	if (parse_file_lines(fd, game, &has_floor, &has_ceiling))
 	{
-		ft_printf("Error\nMissing texture identifiers\n");
-		free_game(game);
+		close(fd);
+		return (1);
+	}
+	close(fd);
+	if (!all_identifiers_set(game, has_floor, has_ceiling))
+	{
+		ft_printf("Error\nMissing identifiers (texture or color)\n");
 		return (1);
 	}
 	return (0);
