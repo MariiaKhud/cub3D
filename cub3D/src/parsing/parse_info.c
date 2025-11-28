@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 11:17:46 by makhudon          #+#    #+#             */
-/*   Updated: 2025/11/28 10:09:19 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/11/28 10:24:00 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,24 +88,24 @@ static void	set_texture(t_game *game, char *line)
 	}
 	else if (!ft_strncmp(line, "SO ", 3))
 	{
-		if (game->no_texture)
-			free(game->no_texture);
+		if (game->so_texture)
+			free(game->so_texture);
 		game->so_texture = ft_strdup(line + 3);
 		if (game->so_texture)
 			trim_trailing_whitespace(game->so_texture);
 	}
 	else if (!ft_strncmp(line, "WE ", 3))
 	{
-		if (game->no_texture)
-			free(game->no_texture);
+		if (game->we_texture)
+			free(game->we_texture);
 		game->we_texture = ft_strdup(line + 3);
 		if (game->we_texture)
 			trim_trailing_whitespace(game->we_texture);
 	}
 	else if (!ft_strncmp(line, "EA ", 3))
 	{
-		if (game->no_texture)
-			free(game->no_texture);
+		if (game->ea_texture)
+			free(game->ea_texture);
 		game->ea_texture = ft_strdup(line + 3);
 		if (game->ea_texture)
 			trim_trailing_whitespace(game->ea_texture);
