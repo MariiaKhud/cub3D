@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/06/30 10:51:21 by tiyang            #+#    #+#              #
-#    Updated: 2025/11/28 13:53:12 by makhudon         ###   ########.fr        #
+#                                                         ::::::::             #
+#    Makefile                                           :+:    :+:             #
+#                                                      +:+                     #
+#    By: tiyang <tiyang@student.42.fr>                +#+                      #
+#                                                    +#+                       #
+#    Created: 2025/06/30 10:51:21 by tiyang        #+#    #+#                  #
+#    Updated: 2025/12/01 13:28:57 by tiyang        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,12 @@ SRCS                = $(SRC_DIR)/main.c \
 					  $(SRC_DIR)/input/input_helper.c \
 					  $(SRC_DIR)/engine/raycast.c \
 					  $(SRC_DIR)/engine/dda.c \
-					  $(SRC_DIR)/engine/utils.c
+					  $(SRC_DIR)/engine/utils.c \
+					  $(SRC_DIR)/bonus/minimap.c \
+					  $(SRC_DIR)/bonus/minimap_line.c \
+					  $(SRC_DIR)/bonus/minimap_utils.c \
+					  $(SRC_DIR)/bonus/mouse.c \
+					  $(SRC_DIR)/bonus/collision.c
 
 OBJS                = $(SRCS:$(SRC_DIR)/%.c=$(OBJDIR)/%.o)
 

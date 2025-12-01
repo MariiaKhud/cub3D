@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   game_init.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/26 10:15:14 by makhudon          #+#    #+#             */
-/*   Updated: 2025/11/28 11:12:50 by makhudon         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   game_init.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/11/26 10:15:14 by makhudon      #+#    #+#                 */
+/*   Updated: 2025/12/01 13:30:29 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,10 @@ static int	load_textures(t_game *game)
 	return (1);
 }
 
-/**
- * @brief Registers MLX event hooks for key presses and window close.
- * @param game The game structure containing MLX pointers.
+/** 
+ * @brief Registers MLX event hooks for keypress, window close,
+ *        and mouse movement events.
+ * @param game The game structure containing MLX and window pointers.
  */
 void	register_mlx_hooks(t_game *game)
 {
@@ -59,6 +60,9 @@ void	register_mlx_hooks(t_game *game)
 		handle_keypress, game);
 	mlx_hook(game->win_ptr, MLX_DESTROY_NOTIFY, 0L,
 		handle_close, game);
+	mlx_hook(game->win_ptr, MLX_MOTION_NOTIFY, (1L << 6),
+		handle_mouse, game);
+	mlx_mouse_move(game->mlx_ptr, game->win_ptr, WIDTH / 2, HEIGHT / 2);
 }
 
 /** 
@@ -83,4 +87,6 @@ void	load_game(t_game *game)
 		ft_printf("Error\nFailed to load wall textures\n");
 		close_game(game, EXIT_FAILURE);
 	}
+	game->mouse_locked = 1;
+	mlx_mouse_hide(game->mlx_ptr, game->win_ptr);
 }

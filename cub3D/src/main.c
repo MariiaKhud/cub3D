@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/12 15:03:37 by tiyang            #+#    #+#             */
-/*   Updated: 2025/11/28 11:11:48 by makhudon         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/12 15:03:37 by tiyang        #+#    #+#                 */
+/*   Updated: 2025/12/01 13:36:45 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,10 @@ static void	start_game(t_game *game)
 	init_player_orientation(game);
 	load_game(game);
 	ft_printf("--- Starting Game ---\n");
+	ft_printf("Use WASD to move, Arrow Keys ('<-' & '->') to look around.\n");
+	ft_printf("Move mouse to look around when mouse is locked.\n");
+	ft_printf("Press M to toggle mouse lock.\n");
+	ft_printf("Press ESC to quit the game.\n");
 	register_mlx_hooks(game);
 	mlx_loop_hook(game->mlx_ptr, game_loop, game);
 	mlx_loop(game->mlx_ptr);

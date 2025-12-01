@@ -6,7 +6,7 @@
 /*   By: tiyang <tiyang@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/11/24 11:46:59 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/11/27 09:55:49 by tiyang        ########   odam.nl         */
+/*   Updated: 2025/12/01 10:44:39 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void	raycast(t_game *game)
 		cast_single_ray(game, x);
 		x++;
 	}
+	render_minimap(game);
 	mlx_put_image_to_window(game->mlx_ptr, game->win_ptr,
 		game->img.img_ptr, 0, 0);
 }

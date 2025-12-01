@@ -6,7 +6,7 @@
 /*   By: tiyang <tiyang@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/11/25 12:38:02 by makhudon      #+#    #+#                 */
-/*   Updated: 2025/11/27 11:32:28 by tiyang        ########   odam.nl         */
+/*   Updated: 2025/12/01 12:42:58 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,25 @@ static void	rotate_right(t_game *game)
 		+ game->plane_y * cos(ROT_SPEED);
 }
 
+/** 
+ * @brief Toggles the mouse state between locked and unlocked.
+ * @param game The game structure containing mouse state and MLX pointers.
+ */
+static void	toggle_mouse_state(t_game *game)
+{
+	if (game->mouse_locked)
+	{
+		game->mouse_locked = 0;
+		mlx_mouse_show(game->mlx_ptr, game->win_ptr);
+	}
+	else
+	{
+		game->mouse_locked = 1;
+		mlx_mouse_hide(game->mlx_ptr, game->win_ptr);
+		mlx_mouse_move(game->mlx_ptr, game->win_ptr, WIDTH / 2, HEIGHT / 2);
+	}
+}
+
 /**
  * @brief Handles key press events and triggers corresponding actions.
  * @param key The key code of the pressed key.
@@ -72,5 +91,7 @@ int	handle_keypress(int key, t_game *game)
 		rotate_left(game);
 	else if (key == KEY_RIGHT)
 		rotate_right(game);
+	else if (key == KEY_M)
+		toggle_mouse_state(game);
 	return (0);
 }

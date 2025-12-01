@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/12 12:57:17 by tiyang            #+#    #+#             */
-/*   Updated: 2025/11/28 13:03:39 by makhudon         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   cub3d.h                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/12 12:57:17 by tiyang        #+#    #+#                 */
+/*   Updated: 2025/12/01 12:58:53 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,26 @@
 # define KEY_A 97
 # define KEY_S 115
 # define KEY_D 100
+# define KEY_M 109 // 'M' key for mouse toggle
 # define MLX_KEY_PRESS 2
 # define MLX_DESTROY_NOTIFY 17
+# define MLX_MOTION_NOTIFY 6
 # define MOVE_SPEED 0.08
 # define ROT_SPEED 0.05
 # define EXIT_SUCCESS 0
 # define EXIT_FAILURE 1
+# define MOUSE_SENSITIVITY 0.001
+# define COLLISION_DIST 0.2
+# define MM_TILE_SIZE 10
+# define MM_OFFSET 20
+# define MM_VIEW_RANGE 10
+# define MM_PLAYER_OFFSET 3
+# define MM_PLAYER_SIZE 4
+# define MM_DIR_LENGTH 15
+# define MM_COLOR_BLACK 0x000000
+# define MM_COLOR_WALL 0x808080
+# define MM_COLOR_FLOOR 0xD3D3D3
+# define MM_COLOR_PLAYER 0xFF0000
 
 typedef struct s_img
 {
@@ -77,6 +91,19 @@ typedef struct s_ray
 	int		side;
 }	t_ray;
 
+typedef struct s_line
+{
+	int	x0;
+	int	y0;
+	int	x1;
+	int	y1;
+	int	dx;
+	int	dy;
+	int	sx;
+	int	sy;
+	int	err;
+}	t_line;
+
 typedef struct s_game
 {
 	char	**map;
@@ -104,6 +131,7 @@ typedef struct s_game
 	t_img	tex_so;
 	t_img	tex_we;
 	t_img	tex_ea;
+	int		mouse_locked; // 1 = locked (gameplay), 0 = unlocked (menu/cursor)
 }	t_game;
 
 // ============ ENGINE FUNCTIONS =========== //
@@ -182,5 +210,20 @@ void	set_player_direction(t_game *game, char direction);
 
 // player_position.c
 void	init_player_orientation(t_game *game);
+
+// ============ BONUS ======================== //
+// Minimap (Bonus)
+void	render_minimap(t_game *game);
+void	mm_pixel_put(t_game *game, int x, int y, int color);
+int		get_tile_color(t_game *game, int map_x, int map_y);
+void	draw_mm_square(t_game *game, int x, int y, int color);
+void	draw_mm_line(t_game *game, t_line *line, int color);
+void	init_and_draw_line(t_game *game, int coords[4], int color);
+
+// Mouse Input (Bonus)
+int		handle_mouse(int x, int y, t_game *game);
+
+// Collision Detection (Bonus)
+int		is_valid_pos(t_game *game, double x, double y);
 
 #endif
