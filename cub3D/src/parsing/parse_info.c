@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 11:17:46 by makhudon          #+#    #+#             */
-/*   Updated: 2025/11/28 13:38:24 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/01 13:51:41 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,32 +45,63 @@ void	trim_trailing_whitespace(char *s)
 }
 
 /**
- * @brief Processes a single line from the map file and sets
- *        the corresponding texture or color in the game structure.
- * 
- * @param game Pointer to the game structure to populate.
- * @param line The current line read from the map file.
- * @param has_floor Pointer to a flag indicating if 
- *                  the floor color has been set.
- * @param has_ceiling Pointer to a flag indicating
- *                    if the ceiling color has been set.
- * @return 1 on successful processing or ignored line,
- *         0 if an invalid identifier is found.
+ * @brief Parses a line to set textures, colors, or validate map content.
+ * Skips empty lines or comments. Sets textures for "NO", "SO", "WE", "EA",
+ * sets floor/ceiling colors for 'F'/'C', and ignores map layout lines. 
+ * Prints an error for invalid identifiers or duplicate textures.
  */
 static int	set_texture_or_color(t_game *game, char *line,
 								int *has_floor, int *has_ceiling)
 {
-	if (!ft_strncmp(line, "NO ", 3) || !ft_strncmp(line, "SO ", 3)
-		|| !ft_strncmp(line, "WE ", 3) || !ft_strncmp(line, "EA ", 3))
+	char	*trimmed;
+
+	trimmed = skip_spaces(line);
+	if (*trimmed == '\0' || *trimmed == '\n' || *trimmed == '#')
+		return (1);
+	if (is_id(trimmed, "NO"))
 	{
-		set_texture(game, line);
+		if (game->no_texture)
+		{
+			ft_printf("Error\nDuplicate texture identifier\n");
+			return (0);
+		}
+		set_texture(game, trimmed);
 		return (1);
 	}
-	if (!ft_strncmp(line, "F ", 2) || !ft_strncmp(line, "C ", 2))
-		return (set_color(game, line, has_floor, has_ceiling));
-	if (line[0] == '\0' || line[0] == '\n')
+	if (is_id(trimmed, "SO"))
+	{
+		if (game->so_texture)
+		{
+			ft_printf("Error\nDuplicate texture identifier\n");
+			return (0);
+		}
+		set_texture(game, trimmed);
 		return (1);
-	if (line[0] == '1' || line[0] == '0' || line[0] == ' ')
+	}
+	if (is_id(trimmed, "WE"))
+	{
+		if (game->we_texture)
+		{
+			ft_printf("Error\nDuplicate texture identifier\n");
+			return (0);
+		}
+		set_texture(game, trimmed);
+		return (1);
+	}
+	if (is_id(trimmed, "EA"))
+	{
+		if (game->ea_texture)
+		{
+			ft_printf("Error\nDuplicate texture identifier\n");
+			return (0);
+		}
+		set_texture(game, trimmed);
+		return (1);
+	}
+	if ((trimmed[0] == 'F' || trimmed[0] == 'C')
+		&& (trimmed[1] == ' ' || trimmed[1] == '\t'))
+		return (set_color(game, trimmed, has_floor, has_ceiling));
+	if (*trimmed == '1' || *trimmed == '0' || *trimmed == ' ')
 		return (1);
 	ft_printf("Error\nInvalid identifier: %s\n", line);
 	return (0);
@@ -143,5 +174,7 @@ int	parse_textures_and_colors(char *filename, t_game *game)
 		ft_printf("Error\nMissing identifiers (texture or color)\n");
 		return (1);
 	}
+	if (validate_textures(game))
+		return (1);
 	return (0);
 }

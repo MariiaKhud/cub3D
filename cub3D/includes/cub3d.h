@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:57:17 by tiyang            #+#    #+#             */
-/*   Updated: 2025/11/28 13:03:39 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/01 13:13:36 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,12 +127,14 @@ int		parse_textures_and_colors(char *filename, t_game *game);
 void	trim_trailing_whitespace(char *s);
 
 // parse_info_rgb.c
-int		parse_color_line(char *line);
+int		parse_rgb(char *line);
+char	*skip_spaces(char *s);
 
 // parse_info_utils.c
-void	set_texture(t_game *game, char *line);
-int		set_color(t_game *game, char *line, int *has_floor,
-			int *has_ceiling);
+int		is_id(const char *s, const char *id2);
+void	set_texture(t_game *game, char *trimmed);
+int		set_color(t_game *game, char *trimmed,
+			int *has_floor, int *has_ceiling);
 
 // parse_map.c
 int		is_cub_file(char *filename);
@@ -144,15 +146,17 @@ int		read_map_file(int fd, t_game *game);
 // utils.c
 int		ft_strlen_without_newline(char *line);
 char	**copy_map(t_game *game);
-void	free_map(char **matrix);
-void	free_split(char **split);
+int		validate_textures(t_game *game);
+int		check_invalid_identifier_order(t_game *game, char *trimmed,
+			char *line);
+
+// free_utils.c
 void	free_game(t_game *game);
+void	free_map(char **map);
+void	free_split(char **split);
 
 // validate_map.c
 int		validate_map(t_game *game);
-
-// validate_path.c
-void	free_map(char **matrix);
 
 // ============ INPUT FUNCTIONS =========== //
 // input.c

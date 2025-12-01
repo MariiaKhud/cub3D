@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 15:03:37 by tiyang            #+#    #+#             */
-/*   Updated: 2025/11/28 11:11:48 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/01 13:52:04 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,7 @@ static int	initialize_game(int argc, char **argv, t_game *game)
 	if (parse_textures_and_colors(argv[1], game))
 		return (0);
 	if (!parse_map_file(argv[1], game))
-	{
-		ft_putstr_fd("Error\nFailed to load map\n", 2);
 		return (0);
-	}
 	if (!validate_map(game))
 	{
 		ft_putstr_fd("Error\nInvalid map\n", 2);
