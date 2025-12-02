@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   raycast.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/24 11:46:59 by tiyang            #+#    #+#             */
-/*   Updated: 2025/12/02 12:30:40 by makhudon         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   raycast.c                                          :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/11/24 11:46:59 by tiyang        #+#    #+#                 */
+/*   Updated: 2025/12/02 12:58:28 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ void	raycast(t_game *game)
 		x++;
 	}
 	render_minimap(game);
+	draw_player_sprite(game);
 	mlx_put_image_to_window(game->mlx_ptr, game->win_ptr,
 		game->img.img_ptr, 0, 0);
 }
