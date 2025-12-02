@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 11:17:46 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/02 12:33:04 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/02 12:57:23 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ static int	parse_file_lines(int fd, t_game *game, int *has_floor,
 		line = get_next_line(fd);
 		if (line == NULL)
 			break ;
-		if (*line)
+		if (*line != '\n' && *line != '\0')
 		{
 			if (!set_texture_or_color(game, line, has_floor, has_ceiling))
 			{
