@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 11:17:46 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/02 09:27:43 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/02 09:57:28 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,15 @@ void	trim_trailing_whitespace(char *s)
 	}
 }
 
+/** 
+ * @brief Sets texture or color based on the line identifier.
+ * 
+ * @param game Pointer to the game structure.
+ * @param line The line to process.
+ * @param has_floor Pointer to floor flag.
+ * @param has_ceiling Pointer to ceiling flag.
+ * @return 1 on success, 0 on error.
+ */
 static int	set_texture_or_color(t_game *game, char *line,
 								int *has_floor, int *has_ceiling)
 {

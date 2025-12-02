@@ -1,18 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   utils.c                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/11/27 09:13:32 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/11/27 10:20:57 by tiyang        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   render_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/02 10:19:24 by makhudon          #+#    #+#             */
+/*   Updated: 2025/12/02 10:27:20 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-/* 
+/**
+ * @brief Clamps a texture coordinate to be within valid bounds.
+ * 
+ * @param value The texture coordinate value.
+ * @param limit The maximum limit (width or height) of the texture.
+ * @return int The clamped texture coordinate.
+ */
+int	clamp_tex(int value, int limit)
+{
+	if (value < 0)
+		return (0);
+	if (value >= limit)
+		return (limit - 1);
+	return (value);
+}
+
+/** 
  * @brief Puts a pixel of a specific color at (x, y) in the game's image.
  * 
  * @param game The game structure containing the image.
@@ -39,41 +55,14 @@ static void	my_mlx_pixel_put(t_game *game, int x, int y, int color)
  * @param y The y-coordinate of the pixel in the texture.
  * @return unsigned int The color of the pixel in 0xAARRGGBB format.
  */
-static unsigned int	get_texture_pixel(t_img *tex, int x, int y)
+unsigned int	get_texture_pixel(t_img *tex, int x, int y)
 {
 	char	*dst;
 
-	if (!tex->addr)
+	if (tex->addr == NULL)
 		return (0xFFFFFF);
 	dst = tex->addr + (y * tex->line_length + x * (tex->bpp / 8));
 	return (*(unsigned int *)dst);
-}
-
-/**
- * @brief Renders the background by filling the top half with ceiling color
- *        and the bottom half with floor color.
- * 
- * @param game The game structure containing the image and colors.
- */
-void	render_background(t_game *game)
-{
-	unsigned int	*dst;
-	int				i;
-	int				total_pixels;
-
-	dst = (unsigned int *)game->img.addr;
-	total_pixels = WIDTH * HEIGHT;
-	i = 0;
-	while (i < total_pixels / 2)
-	{
-		dst[i] = game->ceiling_color;
-		i++;
-	}
-	while (i < total_pixels)
-	{
-		dst[i] = game->floor_color;
-		i++;
-	}
 }
 
 /** 

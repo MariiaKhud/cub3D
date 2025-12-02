@@ -6,12 +6,18 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 13:04:34 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/02 09:24:09 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/02 09:57:03 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
+/** 
+ * @brief Checks if a line starts with the given identifier.
+ * @param line The line to check.
+ * @param id The identifier to look for (e.g., "NO", "SO").
+ * @return int 1 if the line starts with the identifier, 0 otherwise.
+ */
 int	process_texture_id(t_game *game, char *trimmed)
 {
 	if (is_id(trimmed, "NO"))

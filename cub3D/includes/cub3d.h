@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:57:17 by tiyang            #+#    #+#             */
-/*   Updated: 2025/12/02 09:27:01 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/02 10:27:37 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ typedef struct s_game
 	t_img	tex_so;
 	t_img	tex_we;
 	t_img	tex_ea;
+	t_img	tex_sky;      // bonus sky texture
 	int		mouse_locked; // 1 = locked (gameplay), 0 = unlocked (menu/cursor)
 }	t_game;
 
@@ -138,98 +139,102 @@ typedef struct s_game
 // raycast.c
 void	raycast(t_game *game);
 
-// utils.c
-void	render_background(t_game *game);
-void	draw_vertical_line(t_game *game, t_draw_data *data);
+// render_background.c
+void			render_background(t_game *game);
+
+// render_utils.c
+void			render_background(t_game *game);
+void			draw_vertical_line(t_game *game, t_draw_data *data);
+unsigned int	get_texture_pixel(t_img *tex, int x, int y);
+int				clamp_tex(int value, int limit);
 
 // dda.c
-void	set_step_and_side_dist(t_game *game, t_ray *ray);
-void	perform_dda(t_game *game, t_ray *ray);
-double	calculate_perp_wall_dist(t_ray *ray);
-void	calculate_texture_x(t_game *game, t_ray *ray,
-			double perp_wall_dist, t_draw_data *data);
+void			set_step_and_side_dist(t_game *game, t_ray *ray);
+void			perform_dda(t_game *game, t_ray *ray);
+double			calculate_perp_wall_dist(t_ray *ray);
+void			calculate_texture_x(t_game *game, t_ray *ray,
+					double perp_wall_dist, t_draw_data *data);
 
 // ============ PARSING FUNCTIONS =========== //
 // parse_info.c
-int		parse_textures_and_colors(char *filename, t_game *game);
-void	trim_trailing_whitespace(char *s);
+int				parse_textures_and_colors(char *filename, t_game *game);
+void			trim_trailing_whitespace(char *s);
 
 // parse_info_rgb.c
-int		parse_rgb(char *line);
-char	*skip_spaces(char *s);
-int		process_texture_id(t_game *game, char *trimmed);
+int				parse_rgb(char *line);
+char			*skip_spaces(char *s);
+int				process_texture_id(t_game *game, char *trimmed);
 
 // parse_info_utils.c
-int		is_id(const char *s, const char *id2);
-void	set_texture(t_game *game, char *trimmed);
-int		set_color(t_game *game, char *trimmed,
-			int *has_floor, int *has_ceiling);
+int				is_id(const char *s, const char *id2);
+void			set_texture(t_game *game, char *trimmed);
+int				set_color(t_game *game, char *trimmed,
+					int *has_floor, int *has_ceiling);
 
 // parse_map.c
-int		is_cub_file(char *filename);
-int		parse_map_file(char *filename, t_game *game);
+int				is_cub_file(char *filename);
+int				parse_map_file(char *filename, t_game *game);
 
 // parse_map_utils.c
-int		read_map_file(int fd, t_game *game);
+int				read_map_file(int fd, t_game *game);
 
 // utils.c
-int		ft_strlen_without_newline(char *line);
-char	**copy_map(t_game *game);
-int		validate_textures(t_game *game);
-int		check_invalid_identifier_order(t_game *game, char *trimmed,
-			char *line);
+int				ft_strlen_without_newline(char *line);
+char			**copy_map(t_game *game);
+int				validate_textures(t_game *game);
+int				check_invalid_identifier_order(t_game *game, char *trimmed,
+					char *line);
 
 // free_utils.c
-void	free_game(t_game *game);
-void	free_map(char **map);
-void	free_split(char **split);
-int		handle_texture(t_game *game, char *trimmed, char **target);
+void			free_game(t_game *game);
+void			free_map(char **map);
+void			free_split(char **split);
+int				handle_texture(t_game *game, char *trimmed, char **target);
 
 // validate_map.c
-int		validate_map(t_game *game);
+int				validate_map(t_game *game);
 
 // ============ INPUT FUNCTIONS =========== //
 // input.c
-int		handle_keypress(int key, t_game *game);
+int				handle_keypress(int key, t_game *game);
 
 // input_helper.c
-void	move_left(t_game *game);
-void	move_right(t_game *game);
-void	move_forward(t_game *game);
+void			move_left(t_game *game);
+void			move_right(t_game *game);
+void			move_forward(t_game *game);
 void	move_backward(t_game *game);
 
 // ============ LIFECYCLE FUNCTIONS ========== //
 // game_init.c
-void	load_game(t_game *game);
-void	register_mlx_hooks(t_game *game);
+void			load_game(t_game *game);
+void			register_mlx_hooks(t_game *game);
 
 // game_close.c
-int		handle_close(t_game *game);
-void	close_game(t_game *game, int exit_status);
+int				handle_close(t_game *game);
+void			close_game(t_game *game, int exit_status);
 
 // player_init.c
-void	set_direction_north(t_game *game);
-void	set_direction_south(t_game *game);
-void	set_direction_east(t_game *game);
-void	set_direction_west(t_game *game);
-void	set_player_direction(t_game *game, char direction);
+void			set_direction_north(t_game *game);
+void			set_direction_south(t_game *game);
+void			set_direction_east(t_game *game);
+void			set_direction_west(t_game *game);
+void			set_player_direction(t_game *game, char direction);
 
 // player_position.c
-void	init_player_orientation(t_game *game);
+void			init_player_orientation(t_game *game);
 
 // ============ BONUS ======================== //
 // Minimap (Bonus)
-void	render_minimap(t_game *game);
-void	mm_pixel_put(t_game *game, int x, int y, int color);
-int		get_tile_color(t_game *game, int map_x, int map_y);
-void	draw_mm_square(t_game *game, int x, int y, int color);
-void	draw_mm_line(t_game *game, t_line *line, int color);
-void	init_and_draw_line(t_game *game, int coords[4], int color);
-
+void			render_minimap(t_game *game);
+void			mm_pixel_put(t_game *game, int x, int y, int color);
+int				get_tile_color(t_game *game, int map_x, int map_y);
+void			draw_mm_square(t_game *game, int x, int y, int color);
+void			draw_mm_line(t_game *game, t_line *line, int color);
+void			init_and_draw_line(t_game *game, int coords[4], int color);
 // Mouse Input (Bonus)
-int		handle_mouse(int x, int y, t_game *game);
+int				handle_mouse(int x, int y, t_game *game);
 
 // Collision Detection (Bonus)
-int		is_valid_pos(t_game *game, double x, double y);
+int				is_valid_pos(t_game *game, double x, double y);
 
 #endif

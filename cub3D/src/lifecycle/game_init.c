@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   game_init.c                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/11/26 10:15:14 by makhudon      #+#    #+#                 */
-/*   Updated: 2025/12/02 09:00:18 by tiyang        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   game_init.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/26 10:15:14 by makhudon          #+#    #+#             */
+/*   Updated: 2025/12/02 09:54:15 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ static int	load_one_texture(t_game *game, t_img *tex, char *path)
 }
 
 /**
- * @brief Loads all four wall textures (NO, SO, WE, EA) for the game.
- * @param game The game structure containing texture paths and MLX pointer.
+ * @brief Loads all wall textures and the sky texture.
+ * @param game The game structure containing texture paths.
  * @return int 1 on success, 0 on failure.
  */
 static int	load_textures(t_game *game)
@@ -45,6 +45,8 @@ static int	load_textures(t_game *game)
 	if (!load_one_texture(game, &game->tex_we, game->we_texture))
 		return (0);
 	if (!load_one_texture(game, &game->tex_ea, game->ea_texture))
+		return (0);
+	if (!load_one_texture(game, &game->tex_sky, "./textures/sky.xpm"))
 		return (0);
 	return (1);
 }
