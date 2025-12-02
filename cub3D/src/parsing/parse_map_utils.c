@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 10:01:16 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/02 12:33:27 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/02 13:32:41 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	trim_map_comment(char *line)
 	int	i;
 
 	i = 0;
-	while (line[i])
+	while (line[i] != '\0')
 	{
 		if (line[i] == '#')
 		{

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   player_position.c                                  :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/11/27 09:42:21 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/11/27 09:51:58 by tiyang        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   player_position.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/27 09:42:21 by tiyang            #+#    #+#             */
+/*   Updated: 2025/12/02 13:41:51 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	init_player_orientation(t_game *game)
 	while (y < game->map_height)
 	{
 		x = 0;
-		while (game->map[y][x])
+		while (game->map[y][x] != '\0')
 		{
 			if (check_player_position(game, x, y))
 				return ;

@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 12:08:49 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/02 12:34:17 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/02 13:39:04 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int	find_player_pos(t_game *game, int *pos_y, int *pos_x)
 	while (y < game->map_height)
 	{
 		x = 0;
-		while (x < game->map_width && game->map[y][x])
+		while (x < game->map_width && game->map[y][x] != '\0')
 		{
 			if (ft_strchr("NSEW", game->map[y][x]))
 			{
