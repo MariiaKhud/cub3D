@@ -6,15 +6,28 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 10:15:14 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/02 10:52:03 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/02 12:37:23 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
 /**
+ * @brief Handles the window close event.
+ * 
+ * @param game The game structure.
+ * @return int Always returns 0.
+ */
+int	handle_close(t_game *game)
+{
+	close_game(game, EXIT_SUCCESS);
+	return (0);
+}
+
+/**
  * @brief Loads a single texture from an XPM file into
  *        the given t_img structure.
+ * 
  * @param game The game structure containing the MLX pointer.
  * @param tex The t_img structure to load the texture into.
  * @param path The file path to the XPM texture.
@@ -33,6 +46,7 @@ static int	load_one_texture(t_game *game, t_img *tex, char *path)
 
 /**
  * @brief Loads all wall textures and the sky texture.
+ * 
  * @param game The game structure containing texture paths.
  * @return int 1 on success, 0 on failure.
  */
@@ -54,6 +68,7 @@ static int	load_textures(t_game *game)
 /** 
  * @brief Registers MLX event hooks for keypress, window close,
  *        and mouse movement events.
+ * 
  * @param game The game structure containing MLX and window pointers.
  */
 void	register_mlx_hooks(t_game *game)
@@ -70,6 +85,7 @@ void	register_mlx_hooks(t_game *game)
 /** 
  * @brief Initializes the game: MLX, window, textures,
  *        raycasting, and event hooks.
+ * 
  * @param game The game structure to initialize.
  */
 void	load_game(t_game *game)

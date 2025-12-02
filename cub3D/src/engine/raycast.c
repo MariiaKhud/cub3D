@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   raycast.c                                          :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/11/24 11:46:59 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/12/01 10:44:39 by tiyang        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   raycast.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/24 11:46:59 by tiyang            #+#    #+#             */
+/*   Updated: 2025/12/02 12:30:40 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-/* 
+/** 
  * @brief Initializes the ray for a specific screen column.
  * 
  * @param game The game structure containing player info.
@@ -37,7 +37,7 @@ static void	init_ray(t_game *game, int x, t_ray *ray)
 	ray->hit = 0;
 }
 
-/* 
+/** 
  * @brief Calculates the drawing parameters for a wall slice.
  * 
  * @param perp_wall_dist The perpendicular distance to the wall.
@@ -57,7 +57,7 @@ static void	calculate_draw_params(double perp_wall_dist, t_draw_data *data)
 		data->draw_end = HEIGHT - 1;
 }
 
-/* 
+/** 
  * @brief Calculates the x-coordinate on the texture for wall rendering.
  * 
  * @param game The game structure containing textures.
@@ -81,7 +81,7 @@ static void	cast_single_ray(t_game *game, int x)
 	draw_vertical_line(game, &data);
 }
 
-/* 
+/** 
  * @brief Performs raycasting for the entire screen and renders the scene.
  * 
  * @param game The game structure containing all necessary info.

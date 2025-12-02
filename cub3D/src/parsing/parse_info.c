@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 11:17:46 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/02 09:57:28 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/02 12:33:04 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 
 /**
  * @brief Checks if all necessary textures and colors have been set.
+ * 
+ * @param game Pointer to the game structure.
+ * @param has_floor Flag indicating if floor color is set.
+ * @param has_ceiling Flag indicating if ceiling color is set.
+ * @return int 1 if all identifiers are set, 0 otherwise.
  */
 static int	all_identifiers_set(t_game *game,
 							int has_floor, int has_ceiling)
@@ -28,6 +33,8 @@ static int	all_identifiers_set(t_game *game,
 
 /**
  * @brief Trim trailing '\n' and spaces from a string (in-place).
+ * 
+ * @param s The string to trim.
  */
 void	trim_trailing_whitespace(char *s)
 {

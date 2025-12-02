@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   minimap.c                                          :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/12/01 10:39:59 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/12/01 13:26:04 by tiyang        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   minimap.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/01 10:39:59 by tiyang            #+#    #+#             */
+/*   Updated: 2025/12/02 12:29:34 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-/* 
+/** 
  * @brief Draws the minimap centered around the player's position.
  * 
  * @param game The game structure containing the map and player info.
@@ -41,7 +41,7 @@ static void	draw_map_tiles(t_game *game)
 	}
 }
 
-/* 
+/** 
  * @brief Draws the player's position as a dot on the minimap.
  * 
  * @param game The game structure containing the minimap image.
@@ -67,7 +67,7 @@ static void	draw_player_dot(t_game *game, int center_x, int center_y)
 	}
 }
 
-/* 
+/** 
  * @brief Draws the player's direction vector on the minimap.
  * 
  * @param game The game structure containing the minimap image.
@@ -87,7 +87,7 @@ static void	draw_direction_vector(t_game *game, int center_x, int center_y)
 	init_and_draw_line(game, coords, MM_COLOR_PLAYER);
 }
 
-/* 
+/** 
  * @brief Renders the minimap on the game screen.
  * 
  * @param game The game structure containing the map and player info.

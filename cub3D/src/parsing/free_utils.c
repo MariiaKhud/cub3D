@@ -6,12 +6,21 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 13:43:02 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/02 09:26:29 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/02 12:32:13 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
+/**
+ * @brief Handles setting a texture path,
+ *        checking for duplicates.
+ * 
+ * @param game Pointer to the game structure.
+ * @param trimmed The line trimmed of leading spaces.
+ * @param target Pointer to the texture path to set.
+ * @return 1 on success, 0 on error.
+ */
 int	handle_texture(t_game *game, char *trimmed, char **target)
 {
 	if (*target)
@@ -63,6 +72,11 @@ void	free_map(char **map)
 	map = NULL;
 }
 
+/**
+ * @brief Frees the texture path strings in the game structure.
+ * 
+ * @param game The game structure.
+ */
 static void	free_textures(t_game *game)
 {
 	if (game->no_texture)
@@ -75,6 +89,11 @@ static void	free_textures(t_game *game)
 		free(game->ea_texture);
 }
 
+/** 
+ * @brief Frees all dynamically allocated resources in the game structure.
+ * 
+ * @param game The game structure to free.
+ */
 void	free_game(t_game *game)
 {
 	free_textures(game);

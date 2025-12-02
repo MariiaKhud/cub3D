@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 11:14:23 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/01 13:02:40 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/02 12:33:45 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 /** 
  * @brief Normalizes a line to the specified maximum width
  *        by padding with spaces.
+ * 
  * @param line The original line.
  * @param max_width The desired maximum width.
  * @return char* The normalized line (may be the same
@@ -50,6 +51,7 @@ static char	*normalize_line_width(char *line, int max_width)
 
 /** 
  * @brief Finishes populating the game map after reading all lines.
+ * 
  * @param game The game structure containing the map.
  */
 static void	finish_map(t_game *game)
@@ -69,6 +71,7 @@ static void	finish_map(t_game *game)
 
 /** 
  * @brief Opens the map file and initializes the game map.
+ * 
  * @param filename The name of the map file.
  * @param game The game structure to initialize.
  * @return int The file descriptor on success, -1 on error.
@@ -88,6 +91,7 @@ static int	open_map_file(char *filename, t_game *game)
 
 /** 
  * @brief Parses the map file and populates the game map.
+ * 
  * @param filename The name of the map file.
  * @param game The game structure to populate.
  * @return int 1 on success, 0 on failure.
@@ -110,6 +114,7 @@ int	parse_map_file(char *filename, t_game *game)
 
 /**
  * @brief Checks if the given filename has a .cub extension.
+ * 
  * @param filename The name of the file to check.
  * @return int 1 if the file has a .cub or .ber extension,
  * 0 otherwise.

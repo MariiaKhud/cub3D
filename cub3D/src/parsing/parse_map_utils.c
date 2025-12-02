@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 10:01:16 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/02 09:17:49 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/02 12:33:27 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static void	trim_map_comment(char *line)
 
 /** 
  * @brief Stores a map line into the game structure.
+ * 
  * @param game The game structure to populate.
  * @param line The line to store.
  * @return int 1 on success.
@@ -57,8 +58,10 @@ static int	store_map_line(t_game *game, char *line)
 
 /** 
  * @brief Checks if a line contains valid map content.
+ * 
  * A valid map content line contains at least one '0' or '1'
  * and only the characters '0', '1', 'N', 'S', 'E', 'W', ' ', and tabs.
+ * 
  * @param line The line to check.
  * @return int 1 if the line is a valid map content line, 0 otherwise
  */

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   validate_map.c                                     :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/11/25 12:08:49 by makhudon      #+#    #+#                 */
-/*   Updated: 2025/11/28 14:12:22 by tiyang        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   validate_map.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/25 12:08:49 by makhudon          #+#    #+#             */
+/*   Updated: 2025/12/02 12:34:17 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 /**
  * @brief Flood fill algorithm to check if the map is closed.
+ * 
  * @param game The game structure containing map dimensions.
  * @param map The map to check.
  * @param y The current Y position.
@@ -46,6 +47,7 @@ static int	floodfill_closed(t_game *game, char **map, int y, int x)
 
 /**
  * @brief Finds the player's position in the map.
+ * 
  * @param game The game structure containing the map.
  * @param pos_y Pointer to store the player's Y position.
  * @param pos_x Pointer to store the player's X position.
@@ -81,6 +83,7 @@ static int	find_player_pos(t_game *game, int *pos_y, int *pos_x)
 
 /**
  * @brief Counts occurrences of a specific element in the game map.
+ * 
  * @param game The game structure containing the map.
  * @param element The character element to count.
  * @return int The count of the specified element in the map.
@@ -111,7 +114,9 @@ static int	check_element_count(t_game *game, char element)
 
 /**
  * @brief Checks if all characters in the map are valid.
+ * 
  * Valid characters are '0', '1', 'N', 'S', 'E', 'W', ' ', and tabs.
+ * 
  * @param map The game map to check.
  * @return int 1 if all characters are valid, 0 otherwise.
  */
@@ -139,8 +144,10 @@ static int	is_all_chars_valid(char **map)
 
 /**
  * @brief Validates the game map.
+ * 
  * Checks for valid characters, exactly one player,
  * and that the map is closed using flood fill.
+ * 
  * @param game The game structure containing the map.
  * @return int 1 if the map is valid, 0 otherwise.
  */

@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   minimap_utils.c                                    :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/12/01 10:39:59 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/12/01 13:25:06 by tiyang        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   minimap_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/01 10:39:59 by tiyang            #+#    #+#             */
+/*   Updated: 2025/12/02 12:29:13 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-/* 
+/** 
  * @brief Puts a pixel of a specific color at (x, y) in the game's image.
  * 
  * @param game The game structure containing the image.
@@ -31,7 +31,7 @@ void	mm_pixel_put(t_game *game, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-/* 
+/**
  * @brief Determines the color of a minimap tile based on map content.
  * 
  * @param game The game structure containing the map.
@@ -55,7 +55,7 @@ int	get_tile_color(t_game *game, int map_x, int map_y)
 	return (MM_COLOR_FLOOR);
 }
 
-/* 
+/** 
  * @brief Draws a square tile on the minimap at (x, y) with the given color.
  * 
  * @param game The game structure containing the minimap image.
