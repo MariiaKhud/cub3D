@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 10:15:14 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/02 09:54:15 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/02 10:52:03 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void	load_game(t_game *game)
 		ft_printf("Error\nFailed to load wall textures\n");
 		close_game(game, EXIT_FAILURE);
 	}
+	load_player_sprites(game);
 	game->mouse_locked = 1;
 	mlx_mouse_hide(game->mlx_ptr, game->win_ptr);
 }

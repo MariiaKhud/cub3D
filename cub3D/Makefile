@@ -6,7 +6,7 @@
 #    By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/30 10:51:21 by tiyang            #+#    #+#              #
-#    Updated: 2025/12/02 10:19:54 by makhudon         ###   ########.fr        #
+#    Updated: 2025/12/02 10:56:49 by makhudon         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,8 @@ SRCS                = $(SRC_DIR)/main.c \
 					  $(SRC_DIR)/bonus/minimap_line.c \
 					  $(SRC_DIR)/bonus/minimap_utils.c \
 					  $(SRC_DIR)/bonus/mouse.c \
-					  $(SRC_DIR)/bonus/collision.c
+					  $(SRC_DIR)/bonus/collision.c \
+					  $(SRC_DIR)/bonus/animation.c
 
 OBJS                = $(SRCS:$(SRC_DIR)/%.c=$(OBJDIR)/%.o)
 

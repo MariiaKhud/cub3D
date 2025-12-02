@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   game_close.c                                       :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/07/02 10:56:34 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/11/27 11:30:26 by tiyang        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   game_close.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/02 10:56:34 by tiyang            #+#    #+#             */
+/*   Updated: 2025/12/02 10:54:27 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,29 @@ int	handle_close(t_game *game)
  * 
  * @param game The game structure containing textures.
  */
+// static void	destroy_textures(t_game *game)
+// {
+// 	if (game->tex_no.img_ptr)
+// 	{
+// 		mlx_destroy_image(game->mlx_ptr, game->tex_no.img_ptr);
+// 		game->tex_no.img_ptr = NULL;
+// 	}
+// 	if (game->tex_so.img_ptr)
+// 	{
+// 		mlx_destroy_image(game->mlx_ptr, game->tex_so.img_ptr);
+// 		game->tex_so.img_ptr = NULL;
+// 	}
+// 	if (game->tex_we.img_ptr)
+// 	{
+// 		mlx_destroy_image(game->mlx_ptr, game->tex_we.img_ptr);
+// 		game->tex_we.img_ptr = NULL;
+// 	}
+// 	if (game->tex_ea.img_ptr)
+// 	{
+// 		mlx_destroy_image(game->mlx_ptr, game->tex_ea.img_ptr);
+// 		game->tex_ea.img_ptr = NULL;
+// 	}
+// }
 static void	destroy_textures(t_game *game)
 {
 	if (game->tex_no.img_ptr)
@@ -50,6 +73,21 @@ static void	destroy_textures(t_game *game)
 	{
 		mlx_destroy_image(game->mlx_ptr, game->tex_ea.img_ptr);
 		game->tex_ea.img_ptr = NULL;
+	}
+	if (game->tex_sky.img_ptr)
+	{
+		mlx_destroy_image(game->mlx_ptr, game->tex_sky.img_ptr);
+		game->tex_sky.img_ptr = NULL;
+	}
+	if (game->player_anim[0].img_ptr)
+	{
+		mlx_destroy_image(game->mlx_ptr, game->player_anim[0].img_ptr);
+		game->player_anim[0].img_ptr = NULL;
+	}
+	if (game->player_anim[1].img_ptr)
+	{
+		mlx_destroy_image(game->mlx_ptr, game->player_anim[1].img_ptr);
+		game->player_anim[1].img_ptr = NULL;
 	}
 }
 

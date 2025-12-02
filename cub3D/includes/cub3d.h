@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:57:17 by tiyang            #+#    #+#             */
-/*   Updated: 2025/12/02 10:27:37 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/02 11:59:36 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@
 # define MM_VIEW_RANGE 10
 # define MM_PLAYER_OFFSET 3
 # define MM_PLAYER_SIZE 4
+# define PLAYER_FRAMES 5 // pixels between animation frames
 # define MM_DIR_LENGTH 15
 # define MM_COLOR_BLACK 0x000000
 # define MM_COLOR_WALL 0x808080
@@ -132,6 +133,10 @@ typedef struct s_game
 	t_img	tex_we;
 	t_img	tex_ea;
 	t_img	tex_sky;      // bonus sky texture
+	// t_img	player_anim[2];
+	t_img	player_anim[PLAYER_FRAMES]; // bonus player animation frames
+	int		anim_frame;
+	int		anim_index;
 	int		mouse_locked; // 1 = locked (gameplay), 0 = unlocked (menu/cursor)
 }	t_game;
 
@@ -236,5 +241,10 @@ int				handle_mouse(int x, int y, t_game *game);
 
 // Collision Detection (Bonus)
 int				is_valid_pos(t_game *game, double x, double y);
+
+// Animation (Bonus)
+void			load_player_sprites(t_game *game);
+void			update_animation(t_game *game);
+void			draw_player_sprite(t_game *game);
 
 #endif

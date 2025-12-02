@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 15:03:37 by tiyang            #+#    #+#             */
-/*   Updated: 2025/12/02 09:50:53 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/02 10:53:05 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ static int	game_loop(void *param)
 	t_game	*game;
 
 	game = (t_game *)param;
+	update_animation(game);
 	raycast(game);
+	draw_player_sprite(game);
 	return (0);
 }
 
