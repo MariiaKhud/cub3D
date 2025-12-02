@@ -6,11 +6,34 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 10:01:16 by makhudon          #+#    #+#             */
-/*   Updated: 2025/11/27 10:35:20 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/01 13:18:29 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+
+/**
+ * @brief Removes a comment from a map line by truncating
+ *        at the '#' character.
+ * 
+ * @param line The line to process; everything after '#'
+ *             will be removed.
+ */
+static void	trim_map_comment(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == '#')
+		{
+			line[i] = '\0';
+			return ;
+		}
+		i++;
+	}
+}
 
 /** 
  * @brief Stores a map line into the game structure.
@@ -22,6 +45,7 @@ static int	store_map_line(t_game *game, char *line)
 {
 	int	len;
 
+	trim_map_comment(line);
 	len = (int)ft_strlen(line);
 	if (len > 0 && line[len - 1] == '\n')
 		line[--len] = '\0';
@@ -62,18 +86,30 @@ static int	is_map_content_line(char *line)
 	return (has_digit);
 }
 
-/** 
- * @brief Processes a line from the map file.
- * Determines if the line is part of the map and stores it if so.
- * @param game The game structure to populate.
- * @param line The line to process.
- * @return int 1 on success, 0 if line is empty before map starts,
- * -1 on memory allocation failure.
+/**
+ * @brief Processes a single line from the map file.
+ * 
+ * - Skips leading spaces.
+ * - Handles empty lines before or during the map.
+ * - Checks for invalid identifier order after the map starts.
+ * - Marks the start of the map and stores map lines.
+ * - Replaces empty lines inside the map with a single space.
+ * 
+ * @param game Pointer to the game structure.
+ * @param line Line to process (will be freed or stored).
+ * @return -1 on invalid identifier order or memory allocation failure,
+ *          0 if the line is ignored,
+ *          1 if the line is successfully stored or processed.
  */
 static int	process_map_line(t_game *game, char *line)
 {
+	char	*trimmed;
+
+	trimmed = skip_spaces(line);
 	if (game->map_start == 0 && (*line == '\n' || *line == '\0'))
 		return (free(line), 0);
+	if (check_invalid_identifier_order(game, trimmed, line))
+		return (-1);
 	if (game->map_start == 1 && (*line == '\n' || *line == '\0'))
 	{
 		free(line);
@@ -89,27 +125,34 @@ static int	process_map_line(t_game *game, char *line)
 	return (1);
 }
 
-/** 
- * @brief Reads the map content from the file descriptor
- * and populates the game map.
- * @param fd The file descriptor of the map file.
- * @param game The game structure to populate.
- * @return int 1 on success, 0 on failure.
+/**
+ * @brief Reads the map file line by line and processes each line.
+ * 
+ * Calls `process_map_line` for each line. Stops and frees remaining lines
+ * on error. Marks the end of the map with NULL and closes the file descriptor.
+ * 
+ * @param fd File descriptor of the opened map file.
+ * @param game Pointer to the game structure to populate the map.
+ * @return 1 on success, 0 if an error occurred while processing the map.
  */
 int	read_map_file(int fd, t_game *game)
 {
 	char	*line;
+	int		res;
 
-	line = get_next_line(fd);
-	while (line != NULL)
+	while ((line = get_next_line(fd)) != NULL)
 	{
-		if (process_map_line(game, line) == -1)
+		res = process_map_line(game, line);
+		if (res == -1)
 		{
+			game->map[game->index] = NULL;
+			while ((line = get_next_line(fd)) != NULL)
+				free(line);
 			close(fd);
 			return (0);
 		}
-		line = get_next_line(fd);
 	}
+	game->map[game->index] = NULL;
 	close(fd);
 	return (1);
 }

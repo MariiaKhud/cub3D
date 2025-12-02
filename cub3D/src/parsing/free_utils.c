@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 13:43:02 by makhudon          #+#    #+#             */
-/*   Updated: 2025/11/28 13:57:26 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/01 13:02:56 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,21 @@ void	free_map(char **map)
 	free(map);
 	map = NULL;
 }
+
+// void	free_map(char **map)
+// {
+// 	int i;
+
+// 	i = 0;
+// 	if (!map)
+// 		return ;
+// 	while (map[i])
+// 	{
+// 		free(map[i]);
+// 		i++;
+// 	}
+// 	free(map);
+// }
 
 static void	free_textures(t_game *game)
 {

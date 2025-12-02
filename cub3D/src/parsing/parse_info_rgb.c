@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 13:04:34 by makhudon          #+#    #+#             */
-/*   Updated: 2025/11/28 13:33:13 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/01 10:51:31 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
  * @param s The string to process.
  * @return char* Pointer to the first non-space character.
  */
-static char	*skip_spaces(char *s)
+char	*skip_spaces(char *s)
 {
 	while (*s == ' ' || *s == '\t')
 		s++;
@@ -44,28 +44,34 @@ static int	convert_rgb(char *r_str, char *g_str, char *b_str)
 }
 
 /**
- * @brief Validates if a string represents a valid RGB number (0-255).
- * @param s The string to validate.
- * @return int 1 if valid, 0 otherwise.
+ * @brief Checks if a string represents a valid RGB component (0–255).
+ * Skips leading and trailing whitespace, ensures the number is within 0–255,
+ * and allows an optional comment after the number.
+ * 
+ * @param s String to validate.
+ * @return 1 if valid, 0 otherwise.
  */
 static int	is_valid_rgb_number(const char *s)
 {
-	int	number;
+	long	number;
 
 	while (*s == ' ' || *s == '\t')
 		s++;
-	if (*s == '\0')
+	if (!(*s >= '0' && *s <= '9'))
 		return (0);
-	number = ft_atoi(s);
-	if (number < 0 || number > 255)
-		return (0);
-	while (*s && *s != ',' && *s != ' ' && *s != '\t')
+	number = 0;
+	while (*s >= '0' && *s <= '9')
 	{
-		if (!(*s >= '0' && *s <= '9'))
+		number = number * 10 + (*s - '0');
+		if (number > 255)
 			return (0);
 		s++;
 	}
-	return (1);
+	while (*s == ' ' || *s == '\t')
+		s++;
+	if (*s == '\0' || *s == '#')
+		return (1);
+	return (0);
 }
 
 /**
@@ -74,7 +80,7 @@ static int	is_valid_rgb_number(const char *s)
  * @return int The combined RGB color as an integer,
  *         or -1 on error.
  */
-static int	parse_rgb(char *line)
+int	parse_rgb(char *line)
 {
 	char	**split;
 	int		i;
@@ -101,15 +107,4 @@ static int	parse_rgb(char *line)
 	result = convert_rgb(split[0], split[1], split[2]);
 	free_split(split);
 	return (result);
-}
-
-/**
- * @brief Parses a color line into an integer, trimming whitespace.
- * @param line Pointer to the line containing the color (e.g., "34,139,34").
- * @return The integer color, or -1 on error.
- */
-int	parse_color_line(char *line)
-{
-	trim_trailing_whitespace(line);
-	return (parse_rgb(line));
 }
