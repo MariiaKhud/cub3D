@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   cub3d.h                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/12 12:57:17 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/12/02 12:51:50 by tiyang        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/12 12:57:17 by tiyang            #+#    #+#             */
+/*   Updated: 2025/12/02 13:48:24 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,13 @@
 
 typedef struct s_img
 {
-	void	*img_ptr; // drawing canvas
-	char	*addr; // pointer to the start of pixel data
-	int		bpp; // bits_per_pixel (32 for RGBA)
-	int		line_length; // number of bytes for one row of pixels
-	int		endian; // how bytes are ordered (0 or 1)
-	int		width; // sprite dimensions
-	int		height; // sprite dimensions
+	void	*img_ptr;      // drawing canvas
+	char	*addr;         // pointer to the start of pixel data
+	int		bpp;           // bits_per_pixel (32 for RGBA)
+	int		line_length;   // number of bytes for one row of pixels
+	int		endian;        // how bytes are ordered (0 or 1)
+	int		width;         // sprite dimensions
+	int		height;        // sprite dimensions
 }	t_img;
 
 typedef struct s_draw_data

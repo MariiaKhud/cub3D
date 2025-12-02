@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 13:43:02 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/02 12:32:13 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/02 13:40:28 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
  */
 int	handle_texture(t_game *game, char *trimmed, char **target)
 {
-	if (*target)
+	if (*target != NULL)
 	{
 		ft_printf("Error\nDuplicate texture identifier\n");
 		return (0);
@@ -62,7 +62,7 @@ void	free_map(char **map)
 	int	i;
 
 	i = 0;
-	while (map && map[i])
+	while (map && map[i] != NULL)
 	{
 		free(map[i]);
 		map[i] = NULL;

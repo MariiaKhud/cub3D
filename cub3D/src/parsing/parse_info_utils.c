@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 13:33:40 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/01 10:53:35 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/02 13:22:07 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,6 @@ void	set_texture(t_game *game, char *trimmed)
 		len++;
 	free(*target);
 	*target = ft_substr(path_start, 0, len);
-	if (*target)
+	if (*target == NULL)
 		trim_trailing_whitespace(*target);
 }
