@@ -1,35 +1,67 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   animation.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/02 10:40:37 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/02 12:23:43 by makhudon         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   animation.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/12/02 10:40:37 by makhudon      #+#    #+#                 */
+/*   Updated: 2025/12/02 13:01:45 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
 /**
+ * @brief Local helper to put a pixel on the main game image.
+ * Duplicated here because the engine version is static.
+ */
+static void	anim_pixel_put(t_game *game, int x, int y, int color)
+{
+	char	*dst;
+
+	if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
+		return ;
+	dst = game->img.addr + (y * game->img.line_length
+			+ x * (game->img.bpp / 8));
+	*(unsigned int *)dst = color;
+}
+
+/**
  * @brief Draws the current player sprite at the center-bottom of the window.
- * 
- * @param game The game structure containing the player animation frames.
+ * * LOGIC:
+ * 1. Calculate the starting screen coordinates (center bottom).
+ * 2. Iterate through every pixel of the sprite texture.
+ * 3. Retrieve the color of the sprite pixel using get_texture_pixel.
+ * 4. IF the color is NOT Magenta, draw it to the game image.
  */
 void	draw_player_sprite(t_game *game)
 {
 	t_img	*sprite;
 	int		x;
 	int		y;
+	int		screen_x;
+	int		screen_y;
 
 	sprite = &game->player_anim[game->anim_index];
 	if (sprite->img_ptr == NULL)
 		return ;
-	x = (WIDTH - sprite->width) / 2;
-	y = HEIGHT - sprite->height - 10;
-	mlx_put_image_to_window(game->mlx_ptr, game->win_ptr,
-		sprite->img_ptr, x, y);
+	screen_x = (WIDTH - sprite->width) / 2;
+	screen_y = HEIGHT - sprite->height - 10;
+	y = 0;
+	while (y < sprite->height)
+	{
+		x = 0;
+		while (x < sprite->width)
+		{
+			if ((get_texture_pixel(sprite, x, y) & 0x00FFFFFF)
+				!= TRANSPARENT_COLOR)
+				anim_pixel_put(game, screen_x + x, screen_y + y,
+					get_texture_pixel(sprite, x, y));
+			x++;
+		}
+		y++;
+	}
 }
 
 /**
