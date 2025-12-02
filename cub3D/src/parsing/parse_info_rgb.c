@@ -6,11 +6,24 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 13:04:34 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/01 10:51:31 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/02 09:24:09 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+
+int	process_texture_id(t_game *game, char *trimmed)
+{
+	if (is_id(trimmed, "NO"))
+		return (handle_texture(game, trimmed, &game->no_texture));
+	if (is_id(trimmed, "SO"))
+		return (handle_texture(game, trimmed, &game->so_texture));
+	if (is_id(trimmed, "WE"))
+		return (handle_texture(game, trimmed, &game->we_texture));
+	if (is_id(trimmed, "EA"))
+		return (handle_texture(game, trimmed, &game->ea_texture));
+	return (-1);
+}
 
 /** 
  * @brief Skips leading spaces and tabs in a string.

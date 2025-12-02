@@ -1,22 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-<<<<<<< HEAD
-/*                                                        ::::::::            */
-/*   cub3d.h                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/12 12:57:17 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/12/01 12:58:53 by tiyang        ########   odam.nl         */
-=======
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:57:17 by tiyang            #+#    #+#             */
-/*   Updated: 2025/12/01 13:13:36 by makhudon         ###   ########.fr       */
->>>>>>> origin/makhudon
+/*   Updated: 2025/12/02 09:27:01 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +157,7 @@ void	trim_trailing_whitespace(char *s);
 // parse_info_rgb.c
 int		parse_rgb(char *line);
 char	*skip_spaces(char *s);
+int		process_texture_id(t_game *game, char *trimmed);
 
 // parse_info_utils.c
 int		is_id(const char *s, const char *id2);
@@ -192,6 +183,7 @@ int		check_invalid_identifier_order(t_game *game, char *trimmed,
 void	free_game(t_game *game);
 void	free_map(char **map);
 void	free_split(char **split);
+int		handle_texture(t_game *game, char *trimmed, char **target);
 
 // validate_map.c
 int		validate_map(t_game *game);

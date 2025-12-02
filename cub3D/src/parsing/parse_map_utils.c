@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 10:01:16 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/01 13:18:29 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/02 09:17:49 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,17 +140,23 @@ int	read_map_file(int fd, t_game *game)
 	char	*line;
 	int		res;
 
-	while ((line = get_next_line(fd)) != NULL)
+	line = get_next_line(fd);
+	while (line != NULL)
 	{
 		res = process_map_line(game, line);
 		if (res == -1)
 		{
 			game->map[game->index] = NULL;
-			while ((line = get_next_line(fd)) != NULL)
+			line = get_next_line(fd);
+			while (line != NULL)
+			{
 				free(line);
+				line = get_next_line(fd);
+			}
 			close(fd);
 			return (0);
 		}
+		line = get_next_line(fd);
 	}
 	game->map[game->index] = NULL;
 	close(fd);

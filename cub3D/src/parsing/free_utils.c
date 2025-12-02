@@ -6,11 +6,22 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 13:43:02 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/01 13:02:56 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/02 09:26:29 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+
+int	handle_texture(t_game *game, char *trimmed, char **target)
+{
+	if (*target)
+	{
+		ft_printf("Error\nDuplicate texture identifier\n");
+		return (0);
+	}
+	set_texture(game, trimmed);
+	return (1);
+}
 
 /**
  * @brief Frees a dynamically allocated array of strings.
@@ -35,7 +46,7 @@ void	free_split(char **split)
 /**
  * @brief Frees a dynamically allocated 2D array (matrix) of strings.
  * 
- * @param matrix The 2D array to free.
+ * @param map The 2D array to free.
  */
 void	free_map(char **map)
 {
@@ -51,21 +62,6 @@ void	free_map(char **map)
 	free(map);
 	map = NULL;
 }
-
-// void	free_map(char **map)
-// {
-// 	int i;
-
-// 	i = 0;
-// 	if (!map)
-// 		return ;
-// 	while (map[i])
-// 	{
-// 		free(map[i]);
-// 		i++;
-// 	}
-// 	free(map);
-// }
 
 static void	free_textures(t_game *game)
 {

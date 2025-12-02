@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 11:17:46 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/01 13:51:41 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/02 09:27:43 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,60 +44,20 @@ void	trim_trailing_whitespace(char *s)
 	}
 }
 
-/**
- * @brief Parses a line to set textures, colors, or validate map content.
- * Skips empty lines or comments. Sets textures for "NO", "SO", "WE", "EA",
- * sets floor/ceiling colors for 'F'/'C', and ignores map layout lines. 
- * Prints an error for invalid identifiers or duplicate textures.
- */
 static int	set_texture_or_color(t_game *game, char *line,
 								int *has_floor, int *has_ceiling)
 {
 	char	*trimmed;
+	int		res;
 
 	trimmed = skip_spaces(line);
 	if (*trimmed == '\0' || *trimmed == '\n' || *trimmed == '#')
 		return (1);
-	if (is_id(trimmed, "NO"))
-	{
-		if (game->no_texture)
-		{
-			ft_printf("Error\nDuplicate texture identifier\n");
-			return (0);
-		}
-		set_texture(game, trimmed);
+	res = process_texture_id(game, trimmed);
+	if (res == 1)
 		return (1);
-	}
-	if (is_id(trimmed, "SO"))
-	{
-		if (game->so_texture)
-		{
-			ft_printf("Error\nDuplicate texture identifier\n");
-			return (0);
-		}
-		set_texture(game, trimmed);
-		return (1);
-	}
-	if (is_id(trimmed, "WE"))
-	{
-		if (game->we_texture)
-		{
-			ft_printf("Error\nDuplicate texture identifier\n");
-			return (0);
-		}
-		set_texture(game, trimmed);
-		return (1);
-	}
-	if (is_id(trimmed, "EA"))
-	{
-		if (game->ea_texture)
-		{
-			ft_printf("Error\nDuplicate texture identifier\n");
-			return (0);
-		}
-		set_texture(game, trimmed);
-		return (1);
-	}
+	if (res == 0)
+		return (0);
 	if ((trimmed[0] == 'F' || trimmed[0] == 'C')
 		&& (trimmed[1] == ' ' || trimmed[1] == '\t'))
 		return (set_color(game, trimmed, has_floor, has_ceiling));
