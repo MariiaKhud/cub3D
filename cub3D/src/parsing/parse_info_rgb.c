@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 13:04:34 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/02 09:57:03 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/02 12:32:25 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 /** 
  * @brief Checks if a line starts with the given identifier.
+ * 
  * @param line The line to check.
  * @param id The identifier to look for (e.g., "NO", "SO").
  * @return int 1 if the line starts with the identifier, 0 otherwise.
@@ -33,6 +34,7 @@ int	process_texture_id(t_game *game, char *trimmed)
 
 /** 
  * @brief Skips leading spaces and tabs in a string.
+ * 
  * @param s The string to process.
  * @return char* Pointer to the first non-space character.
  */
@@ -45,6 +47,7 @@ char	*skip_spaces(char *s)
 
 /**
  * @brief Converts RGB string components to a single integer color.
+ * 
  * @param r_str The red component as a string.
  * @param g_str The green component as a string.
  * @param b_str The blue component as a string.
@@ -95,6 +98,7 @@ static int	is_valid_rgb_number(const char *s)
 
 /**
  * @brief Parses an RGB color from a string in the format "R,G,B".
+ * 
  * @param line The string containing the RGB values.
  * @return int The combined RGB color as an integer,
  *         or -1 on error.

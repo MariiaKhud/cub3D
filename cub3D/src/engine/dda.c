@@ -1,17 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   dda.c                                              :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/11/27 09:20:00 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/11/27 09:31:11 by tiyang        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   dda.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/27 09:20:00 by tiyang            #+#    #+#             */
+/*   Updated: 2025/12/02 12:30:20 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
+/**
+ * @brief Sets the step direction and initial side distances for DDA.
+ * 
+ * @param game The game structure containing player position.
+ * @param ray The ray structure to set step and side distances.
+ */
 void	set_step_and_side_dist(t_game *game, t_ray *ray)
 {
 	if (ray->ray_dir_x < 0)
@@ -38,6 +44,12 @@ void	set_step_and_side_dist(t_game *game, t_ray *ray)
 	}
 }
 
+/**
+ * @brief Performs the DDA algorithm to find wall hits.
+ * 
+ * @param game The game structure containing the map.
+ * @param ray The ray structure to perform DDA on.
+ */
 void	perform_dda(t_game *game, t_ray *ray)
 {
 	while (ray->hit == 0)
@@ -59,6 +71,12 @@ void	perform_dda(t_game *game, t_ray *ray)
 	}
 }
 
+/**
+ * @brief Calculates the perpendicular wall distance for the ray.
+ * 
+ * @param ray The ray structure containing side distances and direction.
+ * @return double The perpendicular distance to the wall.
+ */
 double	calculate_perp_wall_dist(t_ray *ray)
 {
 	double	perp_wall_dist;
@@ -70,6 +88,13 @@ double	calculate_perp_wall_dist(t_ray *ray)
 	return (perp_wall_dist);
 }
 
+/**
+ * @brief Selects the appropriate texture based on the ray's side and direction.
+ * 
+ * @param game The game structure containing textures.
+ * @param ray The ray structure containing side and direction information.
+ * @return t_img* Pointer to the selected texture.
+ */
 static t_img	*select_texture(t_game *game, t_ray *ray)
 {
 	t_img	*texture;
@@ -91,6 +116,14 @@ static t_img	*select_texture(t_game *game, t_ray *ray)
 	return (texture);
 }
 
+/**
+ * @brief Calculates the x-coordinate on the texture for wall rendering.
+ * 
+ * @param game The game structure containing textures.
+ * @param ray The ray structure with hit information.
+ * @param perp_wall_dist The perpendicular distance to the wall.
+ * @param data The drawing data structure to populate.
+ */
 void	calculate_texture_x(t_game *game, t_ray *ray,
 	double perp_wall_dist, t_draw_data *data)
 {

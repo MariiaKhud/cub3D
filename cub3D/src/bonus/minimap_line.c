@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   minimap_line.c                                     :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/12/01 10:39:59 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/12/01 13:24:11 by tiyang        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   minimap_line.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/01 10:39:59 by tiyang            #+#    #+#             */
+/*   Updated: 2025/12/02 12:28:47 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-/* 
+/**
  * @brief Initializes the deltas and steps for Bresenham's line algorithm.
  * 
  * @param line The line structure to initialize.
@@ -32,7 +32,7 @@ static void	init_line_deltas(t_line *line)
 	line->err = line->dx - line->dy;
 }
 
-/* 
+/**
  * @brief Draws a single step of the line using Bresenham's algorithm.
  * 
  * @param game The game structure containing the minimap image.
@@ -57,7 +57,7 @@ static void	draw_line_step(t_game *game, t_line *line, int color)
 	}
 }
 
-/* 
+/**
  * @brief Draws a line on the minimap using Bresenham's algorithm.
  * 
  * @param game The game structure containing the minimap image.
@@ -74,7 +74,7 @@ void	draw_mm_line(t_game *game, t_line *line, int color)
 	}
 }
 
-/* 
+/**
  * @brief Initializes a line structure and draws the line on the minimap.
  * 
  * @param game The game structure containing the minimap image.
