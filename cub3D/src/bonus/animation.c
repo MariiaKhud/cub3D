@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 10:40:37 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/03 12:33:50 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/03 14:04:42 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,16 +113,26 @@ void	load_player_sprites(t_game *game)
 	// 	"./textures/22.xpm");
 	// load_one_player_sprite(game, &game->player_anim[2],
 	// 	"./textures/33.xpm");
-	load_one_player_sprite(game, &game->player_anim[0],
-		"./textures/player_0.xpm");
+	// load_one_player_sprite(game, &game->player_anim[0],
+	// 	"./textures/player_0.xpm");
+	// load_one_player_sprite(game, &game->player_anim[1],
+	// 	"./textures/player_1.xpm");
+	// load_one_player_sprite(game, &game->player_anim[2],
+	// 	"./textures/player_2.xpm");
+	// load_one_player_sprite(game, &game->player_anim[3],
+	// 	"./textures/player_3.xpm");
+	// load_one_player_sprite(game, &game->player_anim[4],
+	// 	"./textures/player_4.xpm");
+		load_one_player_sprite(game, &game->player_anim[0],
+		"./textures/111.xpm");
 	load_one_player_sprite(game, &game->player_anim[1],
-		"./textures/player_1.xpm");
+		"./textures/222.xpm");
 	load_one_player_sprite(game, &game->player_anim[2],
-		"./textures/player_2.xpm");
+		"./textures/333.xpm");
 	load_one_player_sprite(game, &game->player_anim[3],
-		"./textures/player_3.xpm");
+		"./textures/444.xpm");
 	load_one_player_sprite(game, &game->player_anim[4],
-		"./textures/player_4.xpm");
+		"./textures/555.xpm");
 	game->anim_frame = 0;
 	game->anim_index = 0;
 }
