@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/12 12:57:17 by tiyang            #+#    #+#             */
-/*   Updated: 2025/12/02 13:48:24 by makhudon         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   cub3d.h                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/12 12:57:17 by tiyang        #+#    #+#                 */
+/*   Updated: 2025/12/03 12:01:57 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 # include <math.h>
 # include "libft.h"
 
-# define WIDTH 640
-# define HEIGHT 480
+# define WIDTH 960
+# define HEIGHT 640
 # define KEY_ESC 65307
 # define KEY_LEFT  65361
 # define KEY_RIGHT 65363
@@ -32,6 +32,7 @@
 # define KEY_S 115
 # define KEY_D 100
 # define KEY_M 109 // 'M' key for mouse toggle
+# define KEY_E 101 // 'E' key for interact
 # define MLX_KEY_PRESS 2
 # define MLX_DESTROY_NOTIFY 17
 # define MLX_MOTION_NOTIFY 6
@@ -52,6 +53,8 @@
 # define MM_COLOR_WALL 0x808080
 # define MM_COLOR_FLOOR 0xD3D3D3
 # define MM_COLOR_PLAYER 0xFF0000
+# define MM_COLOR_DOOR_CLOSED 0x800000
+# define MM_COLOR_DOOR_OPEN 0x00FF00
 # define TRANSPARENT_COLOR 0xFF00FF
 
 typedef struct s_img
@@ -133,9 +136,10 @@ typedef struct s_game
 	t_img	tex_so;
 	t_img	tex_we;
 	t_img	tex_ea;
-	t_img	tex_sky;      // bonus sky texture
+	t_img	tex_sky; // bonus sky texture
 	// t_img	player_anim[2];
 	t_img	player_anim[PLAYER_FRAMES]; // bonus player animation frames
+	t_img   tex_door; // Storage for the door texture
 	int		anim_frame;
 	int		anim_index;
 	int		mouse_locked; // 1 = locked (gameplay), 0 = unlocked (menu/cursor)
@@ -143,7 +147,7 @@ typedef struct s_game
 
 // ============ ENGINE FUNCTIONS =========== //
 // raycast.c
-void	raycast(t_game *game);
+void			raycast(t_game *game);
 
 // render_background.c
 void			render_background(t_game *game);
@@ -208,7 +212,7 @@ int				handle_keypress(int key, t_game *game);
 void			move_left(t_game *game);
 void			move_right(t_game *game);
 void			move_forward(t_game *game);
-void	move_backward(t_game *game);
+void			move_backward(t_game *game);
 
 // ============ LIFECYCLE FUNCTIONS ========== //
 // game_init.c
@@ -237,6 +241,7 @@ int				get_tile_color(t_game *game, int map_x, int map_y);
 void			draw_mm_square(t_game *game, int x, int y, int color);
 void			draw_mm_line(t_game *game, t_line *line, int color);
 void			init_and_draw_line(t_game *game, int coords[4], int color);
+
 // Mouse Input (Bonus)
 int				handle_mouse(int x, int y, t_game *game);
 
@@ -247,5 +252,8 @@ int				is_valid_pos(t_game *game, double x, double y);
 void			load_player_sprites(t_game *game);
 void			update_animation(t_game *game);
 void			draw_player_sprite(t_game *game);
+
+// Interaction
+void			interact(t_game *game);
 
 #endif

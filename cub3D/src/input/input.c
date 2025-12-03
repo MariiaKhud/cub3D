@@ -6,7 +6,7 @@
 /*   By: tiyang <tiyang@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/11/25 12:38:02 by makhudon      #+#    #+#                 */
-/*   Updated: 2025/12/01 12:42:58 by tiyang        ########   odam.nl         */
+/*   Updated: 2025/12/03 09:33:31 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,5 +93,7 @@ int	handle_keypress(int key, t_game *game)
 		rotate_right(game);
 	else if (key == KEY_M)
 		toggle_mouse_state(game);
+	else if (key == KEY_E)
+		interact(game);
 	return (0);
 }

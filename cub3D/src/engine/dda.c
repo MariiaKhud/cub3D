@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   dda.c                                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/27 09:20:00 by tiyang            #+#    #+#             */
-/*   Updated: 2025/12/02 12:30:20 by makhudon         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   dda.c                                              :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/11/27 09:20:00 by tiyang        #+#    #+#                 */
+/*   Updated: 2025/12/03 09:38:15 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ void	perform_dda(t_game *game, t_ray *ray)
 		}
 		if (game->map[ray->map_y][ray->map_x] == '1')
 			ray->hit = 1;
+		else if (game->map[ray->map_y][ray->map_x] == 'D')
+			ray->hit = 1;
 	}
 }
 
@@ -99,6 +101,8 @@ static t_img	*select_texture(t_game *game, t_ray *ray)
 {
 	t_img	*texture;
 
+	if (game->map[ray->map_y][ray->map_x] == 'D')
+		return (&game->tex_door);
 	if (ray->side == 0)
 	{
 		if (ray->ray_dir_x > 0)

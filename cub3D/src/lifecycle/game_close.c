@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   game_close.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/02 10:56:34 by tiyang            #+#    #+#             */
-/*   Updated: 2025/12/02 13:46:03 by makhudon         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   game_close.c                                       :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/07/02 10:56:34 by tiyang        #+#    #+#                 */
+/*   Updated: 2025/12/03 09:50:43 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,11 @@ static void	destroy_textures(t_game *game)
 {
 	destroy_wall_and_sky_textures(game);
 	destroy_player_textures(game);
+	if (game->tex_door.img_ptr != NULL)
+	{
+		mlx_destroy_image(game->mlx_ptr, game->tex_door.img_ptr);
+		game->tex_door.img_ptr = NULL;
+	}
 }
 
 /**

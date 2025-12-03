@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   validate_map.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/25 12:08:49 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/02 13:39:04 by makhudon         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   validate_map.c                                     :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/11/25 12:08:49 by makhudon      #+#    #+#                 */
+/*   Updated: 2025/12/03 09:27:20 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ static int	is_all_chars_valid(char **map)
 		x = 0;
 		while (map[y][x] != '\0')
 		{
-			if (!ft_strchr("01NSEW ", map[y][x]))
+			if (!ft_strchr("01NSEW DO", map[y][x]))
 				return (0);
 			x++;
 		}
