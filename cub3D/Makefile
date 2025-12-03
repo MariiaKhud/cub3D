@@ -6,7 +6,7 @@
 #    By: tiyang <tiyang@student.42.fr>                +#+                      #
 #                                                    +#+                       #
 #    Created: 2025/06/30 10:51:21 by tiyang        #+#    #+#                  #
-#    Updated: 2025/12/03 09:31:36 by tiyang        ########   odam.nl          #
+#    Updated: 2025/12/03 13:38:18 by tiyang        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,12 +36,14 @@ SRCS                = $(SRC_DIR)/main.c \
 					  $(SRC_DIR)/parsing/parse_map_utils.c \
 					  $(SRC_DIR)/parsing/utils.c \
 					  $(SRC_DIR)/parsing/validate_map.c \
+					  $(SRC_DIR)/parsing/parse_sprites.c \
 					  $(SRC_DIR)/input/input.c \
 					  $(SRC_DIR)/input/input_helper.c \
 					  $(SRC_DIR)/engine/raycast.c \
 					  $(SRC_DIR)/engine/render_background.c \
 					  $(SRC_DIR)/engine/dda.c \
 					  $(SRC_DIR)/engine/render_utils.c \
+					  $(SRC_DIR)/engine/render_sprites.c \
 					  $(SRC_DIR)/bonus/minimap.c \
 					  $(SRC_DIR)/bonus/minimap_line.c \
 					  $(SRC_DIR)/bonus/minimap_utils.c \

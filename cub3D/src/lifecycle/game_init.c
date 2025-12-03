@@ -6,7 +6,7 @@
 /*   By: tiyang <tiyang@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/11/26 10:15:14 by makhudon      #+#    #+#                 */
-/*   Updated: 2025/12/03 13:13:26 by tiyang        ########   odam.nl         */
+/*   Updated: 2025/12/03 13:36:03 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ static int	load_textures(t_game *game)
 		return (0);
 	if (!load_one_texture(game, &game->tex_door, "./textures/door_2.xpm"))
         return (0);
+	if (!load_one_texture(game, &game->tex_sprite, "./textures/gifts.xpm"))
+		return (0);
 	return (1);
 }
 
