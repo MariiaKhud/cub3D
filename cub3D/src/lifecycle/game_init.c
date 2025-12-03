@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 10:15:14 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/03 14:02:20 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/03 14:21:49 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int	load_textures(t_game *game)
 		return (0);
 	if (!load_one_texture(game, &game->tex_door, "./textures/door_2.xpm"))
         return (0);
-	if (!load_one_texture(game, &game->tex_sprite, "./textures/party.xpm"))
+	if (!load_one_texture(game, &game->tex_sprite, "./textures/ball.xpm"))
 		return (0);
 	return (1);
 }
