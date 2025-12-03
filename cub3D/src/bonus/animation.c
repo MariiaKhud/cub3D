@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 10:40:37 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/03 14:04:42 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/03 14:14:27 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	draw_player_sprite(t_game *game)
 	if (sprite->img_ptr == NULL)
 		return ;
 	screen_x = (WIDTH - sprite->width) / 2;
-	screen_y = HEIGHT - sprite->height - 10;
+	screen_y = HEIGHT - sprite->height + 100;
 	y = 0;
 	while (y < sprite->height)
 	{
