@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minimap_utils.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/01 10:39:59 by tiyang            #+#    #+#             */
-/*   Updated: 2025/12/03 12:31:32 by makhudon         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   minimap_utils.c                                    :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/12/01 10:39:59 by tiyang        #+#    #+#                 */
+/*   Updated: 2025/12/03 13:38:35 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,10 @@ int	get_tile_color(t_game *game, int map_x, int map_y)
 	tile = game->map[map_y][map_x];
 	if (tile == '1')
 		return (MM_COLOR_WALL);
+	if (tile == 'D')
+		return (MM_COLOR_DOOR_CLOSED);
+	if (tile == 'O')
+		return (MM_COLOR_DOOR_OPEN);
 	if (tile == ' ' || tile == '\0')
 		return (MM_COLOR_BLACK);
 	return (MM_COLOR_FLOOR);

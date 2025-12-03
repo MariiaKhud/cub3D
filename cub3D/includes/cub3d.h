@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/12 12:57:17 by tiyang            #+#    #+#             */
-/*   Updated: 2025/12/03 13:16:03 by makhudon         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   cub3d.h                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/12 12:57:17 by tiyang        #+#    #+#                 */
+/*   Updated: 2025/12/03 13:48:54 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # define KEY_S 115
 # define KEY_D 100
 # define KEY_M 109 // 'M' key for mouse toggle
+# define KEY_E 101 // 'E' key for interact
 # define MLX_KEY_PRESS 2
 # define MLX_DESTROY_NOTIFY 17
 # define MLX_MOTION_NOTIFY 6
@@ -39,7 +40,7 @@
 # define ROT_SPEED 0.05
 # define EXIT_SUCCESS 0
 # define EXIT_FAILURE 1
-# define MOUSE_SENSITIVITY 0.001
+# define MOUSE_SENSITIVITY 0.0005 // mouse sensitivity factor
 # define COLLISION_DIST 0.2
 # define MM_TILE_SIZE 10
 # define MM_OFFSET 20
@@ -52,6 +53,8 @@
 # define MM_COLOR_WALL 0x808080
 # define MM_COLOR_FLOOR 0xD3D3D3
 # define MM_COLOR_PLAYER 0xFF0000
+# define MM_COLOR_DOOR_CLOSED 0x800000
+# define MM_COLOR_DOOR_OPEN 0x00FF00
 # define TRANSPARENT_COLOR 0xFF00FF
 # define MAX_SPRITES 128
 
@@ -149,13 +152,14 @@ typedef struct s_game
 	t_sprite	sprites[MAX_SPRITES];       // array of sprites in the game
 	int			sprite_count;               // number of sprites
 	double		z_buffer[WIDTH];            // z-buffer for sprite rendering
-	t_img		tex_sprite;                 // sprite texture
+	t_img		tex_sprite;  // sprite texture
+	t_img		tex_door;               
 	int			mouse_locked;               // 1 = locked (gameplay), 0 = unlocked (menu)
 }	t_game;
 
 // ============ ENGINE FUNCTIONS =========== //
 // raycast.c
-void	raycast(t_game *game);
+void			raycast(t_game *game);
 
 // render_background.c
 void			render_background(t_game *game);
@@ -257,6 +261,7 @@ int				get_tile_color(t_game *game, int map_x, int map_y);
 void			draw_mm_square(t_game *game, int x, int y, int color);
 void			draw_mm_line(t_game *game, t_line *line, int color);
 void			init_and_draw_line(t_game *game, int coords[4], int color);
+
 // Mouse Input (Bonus)
 int				handle_mouse(int x, int y, t_game *game);
 
@@ -267,5 +272,8 @@ int				is_valid_pos(t_game *game, double x, double y);
 void			load_player_sprites(t_game *game);
 void			update_animation(t_game *game);
 void			draw_player_sprite(t_game *game);
+
+// Interaction
+void			interact(t_game *game);
 
 #endif

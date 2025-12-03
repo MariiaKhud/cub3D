@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parse_map_utils.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/27 10:01:16 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/02 13:32:41 by makhudon         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   parse_map_utils.c                                  :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/11/27 10:01:16 by makhudon      #+#    #+#                 */
+/*   Updated: 2025/12/03 09:26:05 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static int	is_map_content_line(char *line)
 		return (0);
 	while (line[i] && line[i] != '\n')
 	{
-		if (!ft_strchr("01NSEW ", line[i]))
+		if (!ft_strchr("01NSEW DO", line[i]))
 			return (0);
 		if (line[i] == '0' || line[i] == '1')
 			has_digit = 1;
