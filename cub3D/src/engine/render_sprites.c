@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   render_sprites.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/03 09:22:17 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/03 12:02:43 by makhudon         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   render_sprites.c                                   :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/12/03 09:22:17 by makhudon      #+#    #+#                 */
+/*   Updated: 2025/12/03 14:10:23 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ static void	draw_single_sprite(t_game *g, t_img *tex,
 				if (tex_y >= tex->height)
 					tex_y = tex->height - 1;
 				color = get_texture_pixel(tex, tex_x, tex_y);
-				if ((color & 0xFF000000) == 0)
+				if ((color & 0x00FFFFFF) != TRANSPARENT_COLOR)
 					my_mlx_pixel_put(g, stripe, y, color);
 				y++;
 			}
