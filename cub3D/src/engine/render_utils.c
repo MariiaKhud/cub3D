@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 10:19:24 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/02 10:27:20 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/03 09:11:25 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	clamp_tex(int value, int limit)
  * @param y The y-coordinate of the pixel.
  * @param color The color of the pixel in 0xAARRGGBB format.
  */
-static void	my_mlx_pixel_put(t_game *game, int x, int y, int color)
+void	my_mlx_pixel_put(t_game *game, int x, int y, int color)
 {
 	char	*dst;
 

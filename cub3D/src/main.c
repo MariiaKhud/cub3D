@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/12 15:03:37 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/12/02 13:04:59 by tiyang        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/12 15:03:37 by tiyang            #+#    #+#             */
+/*   Updated: 2025/12/03 11:42:10 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static int	game_loop(void *param)
 	t_game	*game;
 
 	game = (t_game *)param;
+	check_sprite_pickup(game);
 	update_animation(game);
 	raycast(game);
 	return (0);
@@ -72,6 +73,7 @@ static int	initialize_game(int argc, char **argv, t_game *game)
 		ft_putstr_fd("Error\nInvalid map\n", 2);
 		return (0);
 	}
+	find_sprites_in_map(game);
 	return (1);
 }
 

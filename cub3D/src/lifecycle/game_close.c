@@ -6,11 +6,27 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 10:56:34 by tiyang            #+#    #+#             */
-/*   Updated: 2025/12/02 13:46:03 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/03 10:02:32 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+
+static void	destroy_player_sprites(t_game *game)
+{
+	int i;
+
+	i = 0;
+	while (i < PLAYER_FRAMES)
+	{
+		if (game->player_anim[i].img_ptr != NULL)
+		{
+			mlx_destroy_image(game->mlx_ptr, game->player_anim[i].img_ptr);
+			game->player_anim[i].img_ptr = NULL;
+		}
+		i++;
+	}
+}
 
 /**
  * @brief Destroys all loaded player animation textures in the game.
@@ -63,6 +79,11 @@ static void	destroy_wall_and_sky_textures(t_game *game)
 		mlx_destroy_image(game->mlx_ptr, game->tex_sky.img_ptr);
 		game->tex_sky.img_ptr = NULL;
 	}
+	// if (game->tex_sprite.img_ptr != NULL)
+	// {
+	// 	mlx_destroy_image(game->mlx_ptr, game->tex_sprite.img_ptr);
+	// 	game->tex_sprite.img_ptr = NULL;
+	// }
 }
 
 /**
@@ -120,6 +141,7 @@ void	close_game(t_game *game, int exit_status)
 		game->img.img_ptr = NULL;
 	}
 	destroy_textures(game);
+	destroy_player_sprites(game);
 	if (game->win_ptr != NULL)
 	{
 		mlx_destroy_window(game->mlx_ptr, game->win_ptr);

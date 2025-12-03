@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 12:08:49 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/02 13:39:04 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/03 09:34:41 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ static int	is_all_chars_valid(char **map)
 		x = 0;
 		while (map[y][x] != '\0')
 		{
-			if (!ft_strchr("01NSEW ", map[y][x]))
+			if (!ft_strchr("01NSEW2 ", map[y][x]))
 				return (0);
 			x++;
 		}

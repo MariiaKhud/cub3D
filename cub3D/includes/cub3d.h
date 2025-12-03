@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:57:17 by tiyang            #+#    #+#             */
-/*   Updated: 2025/12/02 13:48:24 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/03 13:16:03 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 # include <math.h>
 # include "libft.h"
 
-# define WIDTH 640
-# define HEIGHT 480
+# define WIDTH 1280
+# define HEIGHT 960
 # define KEY_ESC 65307
 # define KEY_LEFT  65361
 # define KEY_RIGHT 65363
@@ -53,6 +53,15 @@
 # define MM_COLOR_FLOOR 0xD3D3D3
 # define MM_COLOR_PLAYER 0xFF0000
 # define TRANSPARENT_COLOR 0xFF00FF
+# define MAX_SPRITES 128
+
+typedef struct s_sprite
+{
+	double	x;
+	double	y;
+	int		tex_id;        // texture ID for the sprite
+	int		alive;         // 1 = alive/visible, 0 = inactive
+}	t_sprite;
 
 typedef struct s_img
 {
@@ -108,37 +117,40 @@ typedef struct s_line
 
 typedef struct s_game
 {
-	char	**map;
-	int		map_width;
-	int		map_height;
-	int		map_start;
-	int		max_width;
-	int		index;
-	double	pos_x;
-	double	pos_y;
-	double	dir_x;
-	double	dir_y;
-	double	plane_x;
-	double	plane_y;
-	void	*mlx_ptr;
-	void	*win_ptr;
-	char	*no_texture;
-	char	*so_texture;
-	char	*we_texture;
-	char	*ea_texture;
-	int		floor_color;
-	int		ceiling_color;
-	t_img	img;
-	t_img	tex_no;
-	t_img	tex_so;
-	t_img	tex_we;
-	t_img	tex_ea;
-	t_img	tex_sky;      // bonus sky texture
-	// t_img	player_anim[2];
-	t_img	player_anim[PLAYER_FRAMES]; // bonus player animation frames
-	int		anim_frame;
-	int		anim_index;
-	int		mouse_locked; // 1 = locked (gameplay), 0 = unlocked (menu/cursor)
+	char		**map;
+	int			map_width;
+	int			map_height;
+	int			map_start;
+	int			max_width;
+	int			index;
+	double		pos_x;
+	double		pos_y;
+	double		dir_x;
+	double		dir_y;
+	double		plane_x;
+	double		plane_y;
+	void		*mlx_ptr;
+	void		*win_ptr;
+	char		*no_texture;
+	char		*so_texture;
+	char		*we_texture;
+	char		*ea_texture;
+	int			floor_color;
+	int			ceiling_color;
+	t_img		img;
+	t_img		tex_no;
+	t_img		tex_so;
+	t_img		tex_we;
+	t_img		tex_ea;
+	t_img		tex_sky;                    // bonus sky texture
+	t_img		player_anim[PLAYER_FRAMES]; // bonus player animation frames
+	int			anim_frame;
+	int			anim_index;
+	t_sprite	sprites[MAX_SPRITES];       // array of sprites in the game
+	int			sprite_count;               // number of sprites
+	double		z_buffer[WIDTH];            // z-buffer for sprite rendering
+	t_img		tex_sprite;                 // sprite texture
+	int			mouse_locked;               // 1 = locked (gameplay), 0 = unlocked (menu)
 }	t_game;
 
 // ============ ENGINE FUNCTIONS =========== //
@@ -153,6 +165,7 @@ void			render_background(t_game *game);
 void			draw_vertical_line(t_game *game, t_draw_data *data);
 unsigned int	get_texture_pixel(t_img *tex, int x, int y);
 int				clamp_tex(int value, int limit);
+void			my_mlx_pixel_put(t_game *game, int x, int y, int color);
 
 // dda.c
 void			set_step_and_side_dist(t_game *game, t_ray *ray);
@@ -160,6 +173,9 @@ void			perform_dda(t_game *game, t_ray *ray);
 double			calculate_perp_wall_dist(t_ray *ray);
 void			calculate_texture_x(t_game *game, t_ray *ray,
 					double perp_wall_dist, t_draw_data *data);
+
+// render_sprites.c
+void			render_sprites(t_game *g);
 
 // ============ PARSING FUNCTIONS =========== //
 // parse_info.c
@@ -200,6 +216,9 @@ int				handle_texture(t_game *game, char *trimmed, char **target);
 // validate_map.c
 int				validate_map(t_game *game);
 
+// parse_sprites.c
+void			find_sprites_in_map(t_game *game);
+
 // ============ INPUT FUNCTIONS =========== //
 // input.c
 int				handle_keypress(int key, t_game *game);
@@ -208,7 +227,8 @@ int				handle_keypress(int key, t_game *game);
 void			move_left(t_game *game);
 void			move_right(t_game *game);
 void			move_forward(t_game *game);
-void	move_backward(t_game *game);
+void			move_backward(t_game *game);
+void			check_sprite_pickup(t_game *game);
 
 // ============ LIFECYCLE FUNCTIONS ========== //
 // game_init.c

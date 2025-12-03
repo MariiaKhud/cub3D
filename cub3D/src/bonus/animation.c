@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 10:40:37 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/02 13:09:49 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/03 12:33:50 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,12 @@ static void	load_one_player_sprite(t_game *game, t_img *dst, char *path)
  */
 void	load_player_sprites(t_game *game)
 {
+	// load_one_player_sprite(game, &game->player_anim[0],
+	// 	"./textures/11.xpm");
+	// load_one_player_sprite(game, &game->player_anim[1],
+	// 	"./textures/22.xpm");
+	// load_one_player_sprite(game, &game->player_anim[2],
+	// 	"./textures/33.xpm");
 	load_one_player_sprite(game, &game->player_anim[0],
 		"./textures/player_0.xpm");
 	load_one_player_sprite(game, &game->player_anim[1],

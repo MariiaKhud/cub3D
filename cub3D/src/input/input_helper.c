@@ -1,16 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   input_helper.c                                     :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/11/27 08:49:32 by makhudon      #+#    #+#                 */
-/*   Updated: 2025/12/01 13:11:18 by tiyang        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   input_helper.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/27 08:49:32 by makhudon          #+#    #+#             */
+/*   Updated: 2025/12/03 11:59:12 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+
+void    check_sprite_pickup(t_game *game)
+{
+    int     i;
+    double  dx;
+    double  dy;
+    double  dist;
+
+    i = 0;
+    while (i < game->sprite_count)
+    {
+        if (game->sprites[i].alive)
+        {
+            dx = game->pos_x - game->sprites[i].x;
+            dy = game->pos_y - game->sprites[i].y;
+            dist = sqrt(dx * dx + dy * dy);
+            if (dist < 0.4)
+                game->sprites[i].alive = 0;
+        }
+        i++;
+    }
+}
+
 
 /**
  * @brief Checks if the player can move to the specified position

@@ -6,11 +6,36 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 10:39:59 by tiyang            #+#    #+#             */
-/*   Updated: 2025/12/02 12:29:34 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/03 12:30:31 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
+
+void draw_minimap_sprites(t_game *g)
+{
+    int i;
+    double dx, dy;
+    int mm_x, mm_y;
+
+    for (i = 0; i < g->sprite_count; i++)
+    {
+        if (!g->sprites[i].alive)
+            continue;
+
+       
+        dx = g->sprites[i].x - g->pos_x;
+        dy = g->sprites[i].y - g->pos_y;
+
+        if (fabs(dx) > MM_VIEW_RANGE || fabs(dy) > MM_VIEW_RANGE)
+            continue;
+
+        mm_x = MM_OFFSET + (MM_VIEW_RANGE * MM_TILE_SIZE) + (dx * MM_TILE_SIZE);
+        mm_y = MM_OFFSET + (MM_VIEW_RANGE * MM_TILE_SIZE) + (dy * MM_TILE_SIZE);
+
+        draw_mm_square(g, mm_x, mm_y, 0x00FF00);
+    }
+}
 
 /** 
  * @brief Draws the minimap centered around the player's position.
@@ -100,6 +125,7 @@ void	render_minimap(t_game *game)
 	draw_map_tiles(game);
 	center_x = MM_OFFSET + MM_VIEW_RANGE * MM_TILE_SIZE;
 	center_y = MM_OFFSET + MM_VIEW_RANGE * MM_TILE_SIZE;
+	draw_minimap_sprites(game);
 	draw_player_dot(game, center_x, center_y);
 	draw_direction_vector(game, center_x, center_y);
 }
