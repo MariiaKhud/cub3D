@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 13:04:34 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/02 12:32:25 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/04 13:39:11 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,12 +103,53 @@ static int	is_valid_rgb_number(const char *s)
  * @return int The combined RGB color as an integer,
  *         or -1 on error.
  */
+// int	parse_rgb(char *line)
+// {
+// 	char	**split;
+// 	int		i;
+// 	int		result;
+
+// 	split = ft_split(line, ',');
+// 	if (split == NULL)
+// 		return (-1);
+// 	i = 0;
+// 	while (split[i] != NULL)
+// 		i++;
+// 	if (i != 3)
+// 		return (free_split(split), -1);
+// 	i = 0;
+// 	while (i < 3)
+// 	{
+// 		if (!is_valid_rgb_number(split[i]))
+// 		{
+// 			free_split(split);
+// 			return (-1);
+// 		}
+// 		i++;
+// 	}
+// 	result = convert_rgb(split[0], split[1], split[2]);
+// 	free_split(split);
+// 	return (result);
+// }
+
 int	parse_rgb(char *line)
 {
 	char	**split;
 	int		i;
 	int		result;
+	int		comma_count;
+	char	*p;
 
+	comma_count = 0;
+	p = line;
+	while (*p && *p != '\n')
+	{
+		if (*p == ',')
+			comma_count++;
+		p++;
+	}
+	if (comma_count != 2)
+		return (-1);
 	split = ft_split(line, ',');
 	if (split == NULL)
 		return (-1);
@@ -116,7 +157,10 @@ int	parse_rgb(char *line)
 	while (split[i] != NULL)
 		i++;
 	if (i != 3)
-		return (free_split(split), -1);
+	{
+		free_split(split);
+		return (-1);
+	}
 	i = 0;
 	while (i < 3)
 	{
