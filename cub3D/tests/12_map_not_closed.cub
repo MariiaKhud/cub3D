@@ -7,7 +7,7 @@ C 135,206,235
 
 1111111
 1000001
-1001001   # hole (space) reachable to outside
+10010   # hole (space) reachable to outside
 1000N01
 1000001
 1111111
