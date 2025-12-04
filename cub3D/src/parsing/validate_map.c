@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   validate_map.c                                     :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/11/25 12:08:49 by makhudon      #+#    #+#                 */
-/*   Updated: 2025/12/03 13:40:43 by tiyang        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   validate_map.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/25 12:08:49 by makhudon          #+#    #+#             */
+/*   Updated: 2025/12/04 11:10:36 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,20 @@
 /**
  * @brief Flood fill algorithm to check if the map is closed.
  * 
- * @param game The game structure containing map dimensions.
- * @param map The map to check.
- * @param y The current Y position.
- * @param x The current X position.
- * @return int 1 if the area is closed, 0 if it reaches the boundary
- * or a space.
+ * @param game The game structure containing the map.
+ * @param map A copy of the game map to modify during flood fill.
+ * @param y Current Y position.
+ * @param x Current X position.
+ * @return int 1 if the area is closed, 0 if it reaches the edge
+ * 			  of the map (not closed).
  */
 static int	floodfill_closed(t_game *game, char **map, int y, int x)
 {
-	char	c;
-
-	c = map[y][x];
 	if (y < 0 || y >= game->map_height || x < 0 || x >= game->map_width)
 		return (0);
-	if (c == ' ')
+	if (map[y][x] == ' ' || map[y][x] == '\0')
 		return (0);
-	if (c == '1' || c == 'V')
+	if (map[y][x] == '1' || map[y][x] == 'V')
 		return (1);
 	map[y][x] = 'V';
 	if (!floodfill_closed(game, map, y - 1, x))
