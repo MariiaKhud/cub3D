@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 10:40:37 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/03 14:14:27 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/04 10:30:51 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,32 +107,16 @@ static void	load_one_player_sprite(t_game *game, t_img *dst, char *path)
  */
 void	load_player_sprites(t_game *game)
 {
-	// load_one_player_sprite(game, &game->player_anim[0],
-	// 	"./textures/11.xpm");
-	// load_one_player_sprite(game, &game->player_anim[1],
-	// 	"./textures/22.xpm");
-	// load_one_player_sprite(game, &game->player_anim[2],
-	// 	"./textures/33.xpm");
-	// load_one_player_sprite(game, &game->player_anim[0],
-	// 	"./textures/player_0.xpm");
-	// load_one_player_sprite(game, &game->player_anim[1],
-	// 	"./textures/player_1.xpm");
-	// load_one_player_sprite(game, &game->player_anim[2],
-	// 	"./textures/player_2.xpm");
-	// load_one_player_sprite(game, &game->player_anim[3],
-	// 	"./textures/player_3.xpm");
-	// load_one_player_sprite(game, &game->player_anim[4],
-	// 	"./textures/player_4.xpm");
-		load_one_player_sprite(game, &game->player_anim[0],
-		"./textures/111.xpm");
+	load_one_player_sprite(game, &game->player_anim[0],
+		"./textures/player_5.xpm");
 	load_one_player_sprite(game, &game->player_anim[1],
-		"./textures/222.xpm");
+		"./textures/player_6.xpm");
 	load_one_player_sprite(game, &game->player_anim[2],
-		"./textures/333.xpm");
+		"./textures/player_7.xpm");
 	load_one_player_sprite(game, &game->player_anim[3],
-		"./textures/444.xpm");
+		"./textures/player_8.xpm");
 	load_one_player_sprite(game, &game->player_anim[4],
-		"./textures/555.xpm");
+		"./textures/player_9.xpm");
 	game->anim_frame = 0;
 	game->anim_index = 0;
 }

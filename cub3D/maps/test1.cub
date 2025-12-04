@@ -1,8 +1,8 @@
-NO ./textures/wall_1.xpm
-SO ./textures/wall_2.xpm
-WE ./textures/wall_3.xpm
-EA ./textures/wall_4.xpm
-F 220,100,0
+NO ./textures/wall_5.xpm
+SO ./textures/wall_6.xpm
+WE ./textures/wall_7.xpm
+EA ./textures/wall_8.xpm
+F 245,245,250   # Floor: W snowy white
 C 225,30,0
 
 1111111111

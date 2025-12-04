@@ -1,0 +1,10 @@
+NO ./textures/3.xpm
+SO ./textures/5.xpm
+WE ./textures/1.xpm
+EA ./textures/4.xpm
+F   10 ,   20 ,  30   # floor ok
+C  200,100 ,  70# ceiling ok
+
+111
+1E1
+111

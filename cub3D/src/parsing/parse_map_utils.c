@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   parse_map_utils.c                                  :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/11/27 10:01:16 by makhudon      #+#    #+#                 */
-/*   Updated: 2025/12/03 09:26:05 by tiyang        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   parse_map_utils.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/27 10:01:16 by makhudon          #+#    #+#             */
+/*   Updated: 2025/12/04 09:38:28 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,15 @@ static int	store_map_line(t_game *game, char *line)
 	return (1);
 }
 
-/** 
- * @brief Checks if a line contains valid map content.
+/**
+ * @brief Determines if a line contains map content.
  * 
- * A valid map content line contains at least one '0' or '1'
- * and only the characters '0', '1', 'N', 'S', 'E', 'W', ' ', and tabs.
+ * A line is considered to contain map content if it has at least one
+ * '0' or '1' character and consists only of valid map characters
+ * (spaces, tabs, '0', '1', 'N', 'S', 'E', 'W', 'D', 'O').
  * 
  * @param line The line to check.
- * @return int 1 if the line is a valid map content line, 0 otherwise
+ * @return int 1 if the line contains map content, 0 otherwise.
  */
 static int	is_map_content_line(char *line)
 {
