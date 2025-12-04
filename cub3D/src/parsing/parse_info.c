@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 11:17:46 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/04 14:20:32 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/04 14:42:18 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,8 @@ static int	set_texture_or_color(t_game *game, char *line,
 	return (0);
 }
 
-/**
- * @brief Parses texture and color information from the map file.
+/** 
+ * @brief Parses the file line by line to set textures and colors.
  * 
  * @param fd File descriptor of the map file.
  * @param game Pointer to the game structure.
@@ -93,7 +93,7 @@ static int	set_texture_or_color(t_game *game, char *line,
  * @return int 0 on success, 1 on error.
  */
 static int	parse_file_lines(int fd, t_game *game,
-							int *has_floor, int *has_ceiling)
+								int *has_floor, int *has_ceiling)
 {
 	char	*line;
 	char	*trimmed;
@@ -103,6 +103,7 @@ static int	parse_file_lines(int fd, t_game *game,
 	while ((line = get_next_line(fd)) != NULL)
 	{
 		trimmed = skip_spaces(line);
+
 		if (*trimmed == '\0' || *trimmed == '\n' || *trimmed == '#')
 		{
 			free(line);
@@ -113,6 +114,16 @@ static int	parse_file_lines(int fd, t_game *game,
 			in_map = 1;
 			free(line);
 			continue ;
+		}
+		if (in_map && (*trimmed == 'N' || *trimmed == 'S'
+				|| *trimmed == 'W' || *trimmed == 'E'
+				|| *trimmed == 'F' || *trimmed == 'C'))
+		{
+			free(line);
+			while ((line = get_next_line(fd)) != NULL)
+				free(line);
+			ft_printf("Error\nInvalid identifier order\n");
+			return (1);
 		}
 		if (in_map)
 		{
