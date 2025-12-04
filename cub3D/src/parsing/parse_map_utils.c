@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 10:01:16 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/04 11:49:11 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/04 12:08:13 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static int	is_map_content_line(char *line)
 		return (0);
 	while (line[i] && line[i] != '\n' && line[i] != '#')
 	{
-		if (!ft_strchr("01NSEW DO", line[i]))
+		if (!ft_strchr("01NSEW2 DO", line[i]))
 			return (0);
 		if (line[i] == '0' || line[i] == '1')
 			has_digit = 1;

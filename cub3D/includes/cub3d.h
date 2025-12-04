@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   cub3d.h                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/12 12:57:17 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/12/03 13:48:54 by tiyang        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/12 12:57:17 by tiyang            #+#    #+#             */
+/*   Updated: 2025/12/04 12:08:48 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,9 +178,6 @@ double			calculate_perp_wall_dist(t_ray *ray);
 void			calculate_texture_x(t_game *game, t_ray *ray,
 					double perp_wall_dist, t_draw_data *data);
 
-// render_sprites.c
-void			render_sprites(t_game *g);
-
 // ============ PARSING FUNCTIONS =========== //
 // parse_info.c
 int				parse_textures_and_colors(char *filename, t_game *game);
@@ -219,9 +216,6 @@ int				handle_texture(t_game *game, char *trimmed, char **target);
 
 // validate_map.c
 int				validate_map(t_game *game);
-
-// parse_sprites.c
-void			find_sprites_in_map(t_game *game);
 
 // ============ INPUT FUNCTIONS =========== //
 // input.c
@@ -275,5 +269,11 @@ void			draw_player_sprite(t_game *game);
 
 // Interaction
 void			interact(t_game *game);
+
+// render_sprites.c
+void			render_sprites(t_game *g);
+
+// parse_sprites.c
+void			find_sprites_in_map(t_game *game);
 
 #endif
