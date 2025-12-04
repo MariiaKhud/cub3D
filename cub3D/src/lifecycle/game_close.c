@@ -6,7 +6,7 @@
 /*   By: tiyang <tiyang@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/02 10:56:34 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/12/03 13:39:21 by tiyang        ########   odam.nl         */
+/*   Updated: 2025/12/04 11:35:01 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,11 @@ static void	destroy_wall_and_sky_textures(t_game *game)
 		mlx_destroy_image(game->mlx_ptr, game->tex_sky.img_ptr);
 		game->tex_sky.img_ptr = NULL;
 	}
-	// if (game->tex_sprite.img_ptr != NULL)
-	// {
-	// 	mlx_destroy_image(game->mlx_ptr, game->tex_sprite.img_ptr);
-	// 	game->tex_sprite.img_ptr = NULL;
-	// }
+	if (game->tex_sprite.img_ptr != NULL)
+	{
+		mlx_destroy_image(game->mlx_ptr, game->tex_sprite.img_ptr);
+		game->tex_sprite.img_ptr = NULL;
+	}
 }
 
 /**
@@ -139,7 +139,8 @@ static void	destroy_texture_path_strings(t_game *game)
  */
 void	close_game(t_game *game, int exit_status)
 {
-	ft_printf("\n--- Closing Game ---\n");
+	if (exit_status == EXIT_SUCCESS)
+		ft_printf("\n--- Closing Game ---\n");
 	if (game->img.img_ptr != NULL)
 	{
 		mlx_destroy_image(game->mlx_ptr, game->img.img_ptr);
