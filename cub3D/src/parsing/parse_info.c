@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 11:17:46 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/02 12:57:23 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/04 11:48:42 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,37 +84,34 @@ static int	set_texture_or_color(t_game *game, char *line,
 }
 
 /**
- * @brief Reads the file line by line and sets textures or colors.
+ * @brief Parses lines from the map file to set textures and colors.
  * 
- * @param fd File descriptor of the opened map file.
- * @param game Game structure to populate.
- * @param has_floor Pointer to a flag for floor color.
- * @param has_ceiling Pointer to a flag for ceiling color.
- * @return 0 on success, 1 on error.
+ * @param fd File descriptor of the map file.
+ * @param game Pointer to the game structure.
+ * @param has_floor Pointer to floor flag.
+ * @param has_ceiling Pointer to ceiling flag.
+ * @return int 0 on success, 1 on error.
  */
-static int	parse_file_lines(int fd, t_game *game, int *has_floor,
-													int *has_ceiling)
+static int	parse_file_lines(int fd, t_game *game,
+								int *has_floor, int *has_ceiling)
 {
 	char	*line;
+	int		done;
 
-	while (1)
+	done = 0;
+	while ((line = get_next_line(fd)) != NULL)
 	{
-		line = get_next_line(fd);
-		if (line == NULL)
-			break ;
-		if (*line != '\n' && *line != '\0')
+		if (!done && *line)
 		{
 			if (!set_texture_or_color(game, line, has_floor, has_ceiling))
 			{
 				free(line);
-				line = get_next_line(fd);
-				while (line != NULL)
-				{
+				while ((line = get_next_line(fd)) != NULL)
 					free(line);
-					line = get_next_line(fd);
-				}
 				return (1);
 			}
+			if (all_identifiers_set(game, *has_floor, *has_ceiling))
+				done = 1;
 		}
 		free(line);
 	}

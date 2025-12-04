@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 10:01:16 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/04 09:38:28 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/04 11:49:11 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,11 @@ static int	store_map_line(t_game *game, char *line)
 	return (1);
 }
 
-/**
- * @brief Determines if a line contains map content.
+/** 
+ * @brief Checks if a line contains valid map content.
  * 
- * A line is considered to contain map content if it has at least one
- * '0' or '1' character and consists only of valid map characters
- * (spaces, tabs, '0', '1', 'N', 'S', 'E', 'W', 'D', 'O').
+ * A valid map content line contains at least one '0' or '1'
+ * and only valid map characters ('0', '1', 'N', 'S', 'E', 'W', ' ', 'D', 'O').
  * 
  * @param line The line to check.
  * @return int 1 if the line contains map content, 0 otherwise.
@@ -79,7 +78,7 @@ static int	is_map_content_line(char *line)
 		i++;
 	if (line[i] == '\0' || line[i] == '\n')
 		return (0);
-	while (line[i] && line[i] != '\n')
+	while (line[i] && line[i] != '\n' && line[i] != '#')
 	{
 		if (!ft_strchr("01NSEW DO", line[i]))
 			return (0);
@@ -90,36 +89,33 @@ static int	is_map_content_line(char *line)
 	return (has_digit);
 }
 
-/**
+/** 
  * @brief Processes a single line from the map file.
  * 
- * - Skips leading spaces.
- * - Handles empty lines before or during the map.
- * - Checks for invalid identifier order after the map starts.
- * - Marks the start of the map and stores map lines.
- * - Replaces empty lines inside the map with a single space.
+ * Determines if the line is part of the map and stores it
+ * in the game structure if so. Handles errors for invalid
+ * lines after the map has started.
  * 
  * @param game Pointer to the game structure.
- * @param line Line to process (will be freed or stored).
- * @return -1 on invalid identifier order or memory allocation failure,
- *          0 if the line is ignored,
- *          1 if the line is successfully stored or processed.
+ * @param line The line to process.
+ * @return int 1 on success, 0 to skip line, -1 on error.
  */
 static int	process_map_line(t_game *game, char *line)
 {
 	char	*trimmed;
 
 	trimmed = skip_spaces(line);
-	if (game->map_start == 0 && (*line == '\n' || *line == '\0'))
+	if (game->map_start == 0 && (*trimmed == '\0' || *trimmed == '\n'))
 		return (free(line), 0);
 	if (check_invalid_identifier_order(game, trimmed, line))
 		return (-1);
-	if (game->map_start == 1 && (*line == '\n' || *line == '\0'))
+	if (game->map_start == 1 && !is_map_content_line(line))
 	{
+		if (*trimmed == '\0' || *trimmed == '\n')
+			return (free(line), 0);
+		ft_printf("Error\nExtra content after map\n");
 		free(line);
-		line = ft_strdup(" ");
-		if (line == NULL)
-			return (-1);
+		return (-1);
 	}
 	if (game->map_start == 0 && is_map_content_line(line))
 		game->map_start = 1;
