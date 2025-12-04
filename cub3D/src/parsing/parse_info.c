@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 11:17:46 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/04 11:48:42 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/04 14:20:32 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static int	set_texture_or_color(t_game *game, char *line,
 }
 
 /**
- * @brief Parses lines from the map file to set textures and colors.
+ * @brief Parses texture and color information from the map file.
  * 
  * @param fd File descriptor of the map file.
  * @param game Pointer to the game structure.
@@ -93,25 +93,38 @@ static int	set_texture_or_color(t_game *game, char *line,
  * @return int 0 on success, 1 on error.
  */
 static int	parse_file_lines(int fd, t_game *game,
-								int *has_floor, int *has_ceiling)
+							int *has_floor, int *has_ceiling)
 {
 	char	*line;
-	int		done;
+	char	*trimmed;
+	int		in_map;
 
-	done = 0;
+	in_map = 0;
 	while ((line = get_next_line(fd)) != NULL)
 	{
-		if (!done && *line)
+		trimmed = skip_spaces(line);
+		if (*trimmed == '\0' || *trimmed == '\n' || *trimmed == '#')
 		{
-			if (!set_texture_or_color(game, line, has_floor, has_ceiling))
-			{
+			free(line);
+			continue ;
+		}
+		if (*trimmed == '1' || *trimmed == '0' || *trimmed == ' ')
+		{
+			in_map = 1;
+			free(line);
+			continue ;
+		}
+		if (in_map)
+		{
+			free(line);
+			continue ;
+		}
+		if (!set_texture_or_color(game, line, has_floor, has_ceiling))
+		{
+			free(line);
+			while ((line = get_next_line(fd)) != NULL)
 				free(line);
-				while ((line = get_next_line(fd)) != NULL)
-					free(line);
-				return (1);
-			}
-			if (all_identifiers_set(game, *has_floor, *has_ceiling))
-				done = 1;
+			return (1);
 		}
 		free(line);
 	}

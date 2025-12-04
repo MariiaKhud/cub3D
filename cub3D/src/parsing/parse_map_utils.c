@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 10:01:16 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/04 13:14:31 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/04 14:00:22 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static int	store_map_line(t_game *game, char *line)
  * @param line The line to check.
  * @return int 1 if the line contains map content, 0 otherwise.
  */
-static int	is_map_content_line(char *line)
+int	is_map_content_line(char *line)
 {
 	int	i;
 	int	has_digit;

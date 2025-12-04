@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   cub3d.h                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/12 12:57:17 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/12/04 13:28:11 by tiyang        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/12 12:57:17 by tiyang            #+#    #+#             */
+/*   Updated: 2025/12/04 14:00:46 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,6 +200,7 @@ int				parse_map_file(char *filename, t_game *game);
 
 // parse_map_utils.c
 int				read_map_file(int fd, t_game *game);
+int				is_map_content_line(char *line);
 
 // utils.c
 int				ft_strlen_without_newline(char *line);
