@@ -1,39 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minimap.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/01 10:39:59 by tiyang            #+#    #+#             */
-/*   Updated: 2025/12/03 12:30:31 by makhudon         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   minimap.c                                          :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/12/01 10:39:59 by tiyang        #+#    #+#                 */
+/*   Updated: 2025/12/04 13:32:53 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-void draw_minimap_sprites(t_game *g)
+void	draw_minimap_sprites(t_game *g)
 {
-    int i;
-    double dx, dy;
-    int mm_x, mm_y;
+	int	i;
+    int	dx;
+    int	dy;
+    int	mm_x;
+    int	mm_y;
 
-    for (i = 0; i < g->sprite_count; i++)
+	i = 0;
+	while (i < g->sprite_count)
     {
         if (!g->sprites[i].alive)
+        {
+            i++;
             continue;
-
-       
-        dx = g->sprites[i].x - g->pos_x;
-        dy = g->sprites[i].y - g->pos_y;
-
-        if (fabs(dx) > MM_VIEW_RANGE || fabs(dy) > MM_VIEW_RANGE)
-            continue;
-
-        mm_x = MM_OFFSET + (MM_VIEW_RANGE * MM_TILE_SIZE) + (dx * MM_TILE_SIZE);
-        mm_y = MM_OFFSET + (MM_VIEW_RANGE * MM_TILE_SIZE) + (dy * MM_TILE_SIZE);
-
-        draw_mm_square(g, mm_x, mm_y, 0x00FF00);
+        }
+		dx = (int)g->sprites[i].x - (int)g->pos_x;
+        dy = (int)g->sprites[i].y - (int)g->pos_y;
+		if (abs(dx) <= MM_VIEW_RANGE && abs(dy) <= MM_VIEW_RANGE)
+        {
+            mm_x = MM_OFFSET + (MM_VIEW_RANGE * MM_TILE_SIZE) + (dx * MM_TILE_SIZE);
+            mm_y = MM_OFFSET + (MM_VIEW_RANGE * MM_TILE_SIZE) + (dy * MM_TILE_SIZE);
+            draw_mm_square(g, mm_x, mm_y, 0x00FF00); 
+        }
+        i++;
     }
 }
 
