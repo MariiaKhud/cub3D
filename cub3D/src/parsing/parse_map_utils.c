@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 10:01:16 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/04 12:08:13 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/04 13:14:31 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ static int	process_map_line(t_game *game, char *line)
 		return (-1);
 	if (game->map_start == 1 && !is_map_content_line(line))
 	{
-		if (*trimmed == '\0' || *trimmed == '\n')
+		if (*trimmed == '\0')
 			return (free(line), 0);
 		ft_printf("Error\nExtra content after map\n");
 		free(line);
