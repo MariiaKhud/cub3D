@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 11:29:46 by tiyang            #+#    #+#             */
-/*   Updated: 2025/12/01 13:13:25 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/04 11:16:19 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,31 +87,38 @@ int	validate_textures(t_game *game)
 }
 
 /**
- * @brief Creates a deep copy of the game map.
+ * @brief Creates a copy of the game map.
  * 
- * @param game The game structure containing the map.
- * @return char** A newly allocated copy of the map,
- *         or NULL on failure.
+ * Allocates memory for a new 2D array and copies the contents
+ * of the game's map into it.
+ * 
+ * @param game Pointer to the game structure.
+ * @return char** Pointer to the copied map, or NULL on failure.
  */
 char	**copy_map(t_game *game)
 {
 	char	**map_copy;
 	int		y;
-
-	y = 0;
+	int		width;
+	
+	width = game->map_width;
 	map_copy = malloc(sizeof(char *) * (game->map_height + 1));
 	if (map_copy == NULL)
 		return (NULL);
+	y = 0;
 	while (y < game->map_height)
 	{
-		map_copy[y] = ft_strdup(game->map[y]);
+		map_copy[y] = malloc(width + 1);
 		if (map_copy[y] == NULL)
 		{
-			while (y > 0)
-				free(map_copy[--y]);
+			while (--y >= 0)
+				free(map_copy[y]);
 			free(map_copy);
 			return (NULL);
 		}
+		ft_memset(map_copy[y], ' ', width);
+		ft_memcpy(map_copy[y], game->map[y], ft_strlen(game->map[y]));
+		map_copy[y][width] = '\0';
 		y++;
 	}
 	map_copy[y] = NULL;
