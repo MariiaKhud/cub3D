@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 13:33:40 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/02 13:22:07 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/04 09:29:43 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,21 +122,22 @@ int	is_id(const char *s, const char *id2)
 }
 
 /**
- * @brief Sets the file path for a texture based on its identifier.
- * Determines which texture (NO, SO, WE, EA) the line defines, extracts the 
- * file path, trims trailing whitespace, and stores it in the game structure.
+ * @brief Sets the texture path in the game structure
+ * based on the identifier in the trimmed line.
  * 
- * @param game Pointer to the game structure to update.
- * @param trimmed Line containing the texture identifier and path.
+ * @param game Pointer to the game structure.
+ * @param trimmed The line trimmed of leading spaces.
  */
 void	set_texture(t_game *game, char *trimmed)
 {
 	char	*path_start;
 	char	**target;
+	int		i;
 	int		len;
 
-	target = NULL;
+	i = 0;
 	len = 0;
+	target = NULL;
 	if (is_id(trimmed, "NO"))
 		target = &game->no_texture;
 	else if (is_id(trimmed, "SO"))
@@ -147,12 +148,15 @@ void	set_texture(t_game *game, char *trimmed)
 		target = &game->ea_texture;
 	if (target == NULL)
 		return ;
-	path_start = skip_spaces(trimmed + 2);
+	i = 2;
+	while (trimmed[i] == ' ' || trimmed[i] == '\t')
+		i++;
+	path_start = &trimmed[i];
 	while (path_start[len] && path_start[len] != '\n'
 		&& path_start[len] != '#')
 		len++;
 	free(*target);
 	*target = ft_substr(path_start, 0, len);
-	if (*target == NULL)
+	if (*target)
 		trim_trailing_whitespace(*target);
 }
