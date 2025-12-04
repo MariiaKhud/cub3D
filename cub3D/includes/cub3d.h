@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/12 12:57:17 by tiyang            #+#    #+#             */
-/*   Updated: 2025/12/04 12:08:48 by makhudon         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   cub3d.h                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/12 12:57:17 by tiyang        #+#    #+#                 */
+/*   Updated: 2025/12/04 13:28:11 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@
 # define MM_COLOR_FLOOR 0xD3D3D3
 # define MM_COLOR_PLAYER 0xFF0000
 # define MM_COLOR_DOOR_CLOSED 0x800000
-# define MM_COLOR_DOOR_OPEN 0x00FF00
+# define MM_COLOR_DOOR_OPEN 0xFFA500
 # define TRANSPARENT_COLOR 0xFF00FF
 # define MAX_SPRITES 128
 
@@ -269,6 +269,8 @@ void			draw_player_sprite(t_game *game);
 
 // Interaction
 void			interact(t_game *game);
+int				is_door_enclosed(t_game *game, int x, int y);
+int				validate_doors(t_game *game);
 
 // render_sprites.c
 void			render_sprites(t_game *g);

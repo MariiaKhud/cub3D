@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   validate_map.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/25 12:08:49 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/04 11:10:36 by makhudon         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   validate_map.c                                     :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/11/25 12:08:49 by makhudon      #+#    #+#                 */
+/*   Updated: 2025/12/04 12:26:47 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,8 @@ int	validate_map(t_game *game)
 	if (player_count != 1)
 		return (0);
 	if (!find_player_pos(game, &player_y, &player_x))
+		return (0);
+	if (!validate_doors(game))
 		return (0);
 	map_copy = copy_map(game);
 	if (map_copy == NULL)
