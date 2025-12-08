@@ -6,44 +6,11 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 13:04:34 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/04 13:44:28 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/08 09:11:33 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
-
-/** 
- * @brief Checks if a line starts with the given identifier.
- * 
- * @param line The line to check.
- * @param id The identifier to look for (e.g., "NO", "SO").
- * @return int 1 if the line starts with the identifier, 0 otherwise.
- */
-int	process_texture_id(t_game *game, char *trimmed)
-{
-	if (is_id(trimmed, "NO"))
-		return (handle_texture(game, trimmed, &game->no_texture));
-	if (is_id(trimmed, "SO"))
-		return (handle_texture(game, trimmed, &game->so_texture));
-	if (is_id(trimmed, "WE"))
-		return (handle_texture(game, trimmed, &game->we_texture));
-	if (is_id(trimmed, "EA"))
-		return (handle_texture(game, trimmed, &game->ea_texture));
-	return (-1);
-}
-
-/** 
- * @brief Skips leading spaces and tabs in a string.
- * 
- * @param s The string to process.
- * @return char* Pointer to the first non-space character.
- */
-char	*skip_spaces(char *s)
-{
-	while (*s == ' ' || *s == '\t')
-		s++;
-	return (s);
-}
 
 /**
  * @brief Converts RGB string components to a single integer color.
@@ -97,49 +64,73 @@ static int	is_valid_rgb_number(const char *s)
 }
 
 /**
- * @brief Parses an RGB color from a string in the format "R,G,B".
+ * @brief Validates that the RGB components are correct.
  * 
- * @param line The string containing the RGB values.
+ * @param split Array of strings representing RGB components.
+ * @return int 1 if valid, 0 otherwise.
+ */
+static int	validate_rgb_components(char **split)
+{
+	int	i;
+
+	i = 0;
+	while (split[i] != NULL)
+		i++;
+	if (i != 3)
+		return (0);
+	i = 0;
+	while (i < 3)
+	{
+		if (!is_valid_rgb_number(split[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+/** 
+ * @brief Counts the number of commas in a string.
+ * 
+ * @param line The input string.
+ * @return int The number of commas found.
+ */
+static int	count_commas(char *line)
+{
+	int		count;
+	char	*ptr;
+
+	count = 0;
+	ptr = line;
+	while (*ptr && *ptr != '\n')
+	{
+		if (*ptr == ',')
+			count++;
+		ptr++;
+	}
+	return (count);
+}
+
+/**
+ * @brief Parses an RGB color from a string in the format "R,G,B".
+ * Validates the format and range of each component.
+ * 
+ * @param line The input string containing the RGB values.
  * @return int The combined RGB color as an integer, or -1 on error.
  */
 int	parse_rgb(char *line)
 {
 	char	**split;
-	int		i;
 	int		result;
-	int		comma_count;
-	char	*ptr;
 
-	comma_count = 0;
-	ptr = line;
-	while (*ptr && *ptr != '\n')
-	{
-		if (*ptr == ',')
-			comma_count++;
-		ptr++;
-	}
-	if (comma_count != 2)
+	if (count_commas(line) != 2)
 		return (-1);
 	split = ft_split(line, ',');
 	if (split == NULL)
 		return (-1);
-	i = 0;
-	while (split[i] != NULL)
-		i++;
-	if (i != 3)
+	if (!validate_rgb_components(split))
 	{
 		free_split(split);
 		return (-1);
-	}
-	i = 0;
-	while (i < 3)
-	{
-		if (!is_valid_rgb_number(split[i]))
-		{
-			free_split(split);
-			return (-1);
-		}
-		i++;
 	}
 	result = convert_rgb(split[0], split[1], split[2]);
 	free_split(split);

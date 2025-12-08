@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 13:33:40 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/04 13:33:37 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/08 09:15:00 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,20 +105,24 @@ int	set_color(t_game *game, char *trimmed, int *has_floor, int *has_ceiling)
 }
 
 /**
- * @brief Checks if a string starts with a given 2-character
- * identifier followed by space or tab.
+ * @brief Returns a pointer to the texture path
+ * in the game structure based on the identifier.
  * 
- * @param s String to check.
- * @param id2 2-character identifier to match.
- * @return 1 if `s` matches `id2` followed by a space or tab, 0 otherwise.
+ * @param game Pointer to the game structure.
+ * @param trimmed The line trimmed of leading spaces.
+ * @return char** Pointer to the texture path string.
  */
-int	is_id(const char *s, const char *id2)
+static char	**get_texture_target(t_game *game, char *trimmed)
 {
-	if (s[0] != id2[0] || s[1] != id2[1])
-		return (0);
-	if (s[2] != ' ' && s[2] != '\t')
-		return (0);
-	return (1);
+	if (is_id(trimmed, "NO"))
+		return (&game->no_texture);
+	if (is_id(trimmed, "SO"))
+		return (&game->so_texture);
+	if (is_id(trimmed, "WE"))
+		return (&game->we_texture);
+	if (is_id(trimmed, "EA"))
+		return (&game->ea_texture);
+	return (NULL);
 }
 
 /**
@@ -130,28 +134,19 @@ int	is_id(const char *s, const char *id2)
  */
 void	set_texture(t_game *game, char *trimmed)
 {
-	char	*path_start;
 	char	**target;
+	char	*path_start;
 	int		i;
 	int		len;
 
-	i = 0;
-	len = 0;
-	target = NULL;
-	if (is_id(trimmed, "NO"))
-		target = &game->no_texture;
-	else if (is_id(trimmed, "SO"))
-		target = &game->so_texture;
-	else if (is_id(trimmed, "WE"))
-		target = &game->we_texture;
-	else if (is_id(trimmed, "EA"))
-		target = &game->ea_texture;
+	target = get_texture_target(game, trimmed);
 	if (target == NULL)
 		return ;
 	i = 2;
 	while (trimmed[i] == ' ' || trimmed[i] == '\t')
 		i++;
 	path_start = &trimmed[i];
+	len = 0;
 	while (path_start[len] && path_start[len] != '\n'
 		&& path_start[len] != '#')
 		len++;

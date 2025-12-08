@@ -1,16 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   input.c                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/11/25 12:38:02 by makhudon      #+#    #+#                 */
-/*   Updated: 2025/12/03 09:33:31 by tiyang        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   input.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/25 12:38:02 by makhudon          #+#    #+#             */
+/*   Updated: 2025/12/08 09:39:12 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+
+/**
+ * @brief Checks if the player is close enough to any sprite
+ *        to pick it up, and marks it as not alive if so.
+ * @param game The game structure containing player and sprite info.
+ */
+void	check_sprite_pickup(t_game *game)
+{
+	int		i;
+	double	dx;
+	double	dy;
+	double	dist;
+
+	i = 0;
+	while (i < game->sprite_count)
+	{
+		if (game->sprites[i].alive)
+		{
+			dx = game->pos_x - game->sprites[i].x;
+			dy = game->pos_y - game->sprites[i].y;
+			dist = sqrt(dx * dx + dy * dy);
+			if (dist < 0.4)
+				game->sprites[i].alive = 0;
+		}
+		i++;
+	}
+}
 
 /**
  * @brief Rotates the player's direction and camera plane to the left.

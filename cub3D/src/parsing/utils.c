@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 11:29:46 by tiyang            #+#    #+#             */
-/*   Updated: 2025/12/04 14:12:22 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/08 09:18:17 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ char	**copy_map(t_game *game)
 	char	**map_copy;
 	int		y;
 	int		width;
-	
+
 	width = game->map_width;
 	map_copy = malloc(sizeof(char *) * (game->map_height + 1));
 	if (map_copy == NULL)
@@ -113,8 +113,7 @@ char	**copy_map(t_game *game)
 		{
 			while (--y >= 0)
 				free(map_copy[y]);
-			free(map_copy);
-			return (NULL);
+			return (free(map_copy), NULL);
 		}
 		ft_memset(map_copy[y], ' ', width);
 		ft_memcpy(map_copy[y], game->map[y], ft_strlen(game->map[y]));

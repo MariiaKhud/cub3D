@@ -6,50 +6,11 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 11:17:46 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/04 14:42:18 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/08 09:06:41 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
-
-/**
- * @brief Checks if all necessary textures and colors have been set.
- * 
- * @param game Pointer to the game structure.
- * @param has_floor Flag indicating if floor color is set.
- * @param has_ceiling Flag indicating if ceiling color is set.
- * @return int 1 if all identifiers are set, 0 otherwise.
- */
-static int	all_identifiers_set(t_game *game,
-							int has_floor, int has_ceiling)
-{
-	if (!game->no_texture || !game->so_texture
-		|| !game->we_texture || !game->ea_texture)
-		return (0);
-	if (!has_floor || !has_ceiling)
-		return (0);
-	return (1);
-}
-
-/**
- * @brief Trim trailing '\n' and spaces from a string (in-place).
- * 
- * @param s The string to trim.
- */
-void	trim_trailing_whitespace(char *s)
-{
-	int	len;
-
-	if (s == NULL)
-		return ;
-	len = (int)ft_strlen(s);
-	while (len > 0 && (s[len - 1] == '\n' || s[len - 1] == ' '
-			|| s[len - 1] == '\t'))
-	{
-		s[len - 1] = '\0';
-		len--;
-	}
-}
 
 /** 
  * @brief Sets texture or color based on the line identifier.
@@ -84,61 +45,90 @@ static int	set_texture_or_color(t_game *game, char *line,
 }
 
 /** 
- * @brief Parses the file line by line to set textures and colors.
+ * @brief Handles identifiers or errors in a line.
  * 
- * @param fd File descriptor of the map file.
+ * @param game Pointer to the game structure.
+ * @param line The line to process.
+ * @param st Pointer to the parse state structure.
+ * @return int 0 to continue, -1 on error.
+ */
+static int	handle_identifier_or_error(t_game *game, char *line,
+					t_parse_state *st)
+{
+	char	*trimmed;
+
+	trimmed = skip_spaces(line);
+	if (*trimmed == '\0' || *trimmed == '\n' || *trimmed == '#')
+		return (0);
+	if (*trimmed == '1' || *trimmed == '0' || *trimmed == ' ')
+	{
+		st->in_map = 1;
+		return (0);
+	}
+	if (st->in_map && (*trimmed == 'N' || *trimmed == 'S'
+			|| *trimmed == 'W' || *trimmed == 'E'
+			|| *trimmed == 'F' || *trimmed == 'C'))
+	{
+		ft_printf("Error\nInvalid identifier order\n");
+		return (-1);
+	}
+	if (!st->in_map)
+	{
+		if (!set_texture_or_color(game, line,
+				&st->has_floor, &st->has_ceiling))
+			return (-1);
+	}
+	return (0);
+}
+
+/** 
+ * @brief Reads the next line from the file descriptor.
+ * 
+ * @param fd File descriptor to read from.
+ * @param line Pointer to store the read line.
+ * @return int 1 if a line was read, 0 on EOF.
+ */
+static int	read_next_line(int fd, char **line)
+{
+	*line = get_next_line(fd);
+	if (*line == NULL)
+		return (0);
+	return (1);
+}
+
+/** 
+ * @brief Parses the file lines for textures and colors.
+ * 
+ * @param fd File descriptor of the opened map file.
  * @param game Pointer to the game structure.
  * @param has_floor Pointer to floor flag.
  * @param has_ceiling Pointer to ceiling flag.
  * @return int 0 on success, 1 on error.
  */
 static int	parse_file_lines(int fd, t_game *game,
-								int *has_floor, int *has_ceiling)
+				int *has_floor, int *has_ceiling)
 {
-	char	*line;
-	char	*trimmed;
-	int		in_map;
+	char			*line;
+	t_parse_state	st;
+	int				result;
 
-	in_map = 0;
-	while ((line = get_next_line(fd)) != NULL)
+	st.has_floor = *has_floor;
+	st.has_ceiling = *has_ceiling;
+	st.in_map = 0;
+	while (read_next_line(fd, &line))
 	{
-		trimmed = skip_spaces(line);
-
-		if (*trimmed == '\0' || *trimmed == '\n' || *trimmed == '#')
+		result = handle_identifier_or_error(game, line, &st);
+		if (result == -1)
 		{
 			free(line);
-			continue ;
-		}
-		if (*trimmed == '1' || *trimmed == '0' || *trimmed == ' ')
-		{
-			in_map = 1;
-			free(line);
-			continue ;
-		}
-		if (in_map && (*trimmed == 'N' || *trimmed == 'S'
-				|| *trimmed == 'W' || *trimmed == 'E'
-				|| *trimmed == 'F' || *trimmed == 'C'))
-		{
-			free(line);
-			while ((line = get_next_line(fd)) != NULL)
-				free(line);
-			ft_printf("Error\nInvalid identifier order\n");
-			return (1);
-		}
-		if (in_map)
-		{
-			free(line);
-			continue ;
-		}
-		if (!set_texture_or_color(game, line, has_floor, has_ceiling))
-		{
-			free(line);
-			while ((line = get_next_line(fd)) != NULL)
+			while (read_next_line(fd, &line))
 				free(line);
 			return (1);
 		}
 		free(line);
 	}
+	*has_floor = st.has_floor;
+	*has_ceiling = st.has_ceiling;
 	return (0);
 }
 

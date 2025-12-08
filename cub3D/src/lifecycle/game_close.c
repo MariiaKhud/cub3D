@@ -1,89 +1,74 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   game_close.c                                       :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/07/02 10:56:34 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/12/04 11:35:01 by tiyang        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   game_close.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/02 10:56:34 by tiyang            #+#    #+#             */
+/*   Updated: 2025/12/08 09:32:34 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-static void	destroy_player_sprites(t_game *game)
-{
-	int i;
-
-	i = 0;
-	while (i < PLAYER_FRAMES)
-	{
-		if (game->player_anim[i].img_ptr != NULL)
-		{
-			mlx_destroy_image(game->mlx_ptr, game->player_anim[i].img_ptr);
-			game->player_anim[i].img_ptr = NULL;
-		}
-		i++;
-	}
-}
-
 /**
- * @brief Destroys all loaded player animation textures in the game.
+ * @brief Destroys the extra textures (sky and sprite) in the game.
  * 
  * @param game The game structure.
  */
-static void	destroy_player_textures(t_game *game)
+static void	destroy_extra_textures(t_game *game)
 {
-	if (game->player_anim[0].img_ptr != NULL)
-	{
-		mlx_destroy_image(game->mlx_ptr, game->player_anim[0].img_ptr);
-		game->player_anim[0].img_ptr = NULL;
-	}
-	if (game->player_anim[1].img_ptr != NULL)
-	{
-		mlx_destroy_image(game->mlx_ptr, game->player_anim[1].img_ptr);
-		game->player_anim[1].img_ptr = NULL;
-	}
-}
-
-/**
- * @brief Destroys all loaded wall and sky textures in the game.
- * 
- * @param game The game structure.
- */
-static void	destroy_wall_and_sky_textures(t_game *game)
-{
-	if (game->tex_no.img_ptr != NULL)
-	{
-		mlx_destroy_image(game->mlx_ptr, game->tex_no.img_ptr);
-		game->tex_no.img_ptr = NULL;
-	}
-	if (game->tex_so.img_ptr != NULL)
-	{
-		mlx_destroy_image(game->mlx_ptr, game->tex_so.img_ptr);
-		game->tex_so.img_ptr = NULL;
-	}
-	if (game->tex_we.img_ptr != NULL)
-	{
-		mlx_destroy_image(game->mlx_ptr, game->tex_we.img_ptr);
-		game->tex_we.img_ptr = NULL;
-	}
-	if (game->tex_ea.img_ptr != NULL)
-	{
-		mlx_destroy_image(game->mlx_ptr, game->tex_ea.img_ptr);
-		game->tex_ea.img_ptr = NULL;
-	}
-	if (game->tex_sky.img_ptr != NULL)
+	if (game->tex_sky.img_ptr)
 	{
 		mlx_destroy_image(game->mlx_ptr, game->tex_sky.img_ptr);
 		game->tex_sky.img_ptr = NULL;
 	}
-	if (game->tex_sprite.img_ptr != NULL)
+	if (game->tex_sprite.img_ptr)
 	{
 		mlx_destroy_image(game->mlx_ptr, game->tex_sprite.img_ptr);
 		game->tex_sprite.img_ptr = NULL;
 	}
+}
+
+/**
+ * @brief Destroys the basic wall textures in the game.
+ * 
+ * @param game The game structure.
+ */
+static void	destroy_basic_textures(t_game *game)
+{
+	if (game->tex_no.img_ptr)
+	{
+		mlx_destroy_image(game->mlx_ptr, game->tex_no.img_ptr);
+		game->tex_no.img_ptr = NULL;
+	}
+	if (game->tex_so.img_ptr)
+	{
+		mlx_destroy_image(game->mlx_ptr, game->tex_so.img_ptr);
+		game->tex_so.img_ptr = NULL;
+	}
+	if (game->tex_we.img_ptr)
+	{
+		mlx_destroy_image(game->mlx_ptr, game->tex_we.img_ptr);
+		game->tex_we.img_ptr = NULL;
+	}
+	if (game->tex_ea.img_ptr)
+	{
+		mlx_destroy_image(game->mlx_ptr, game->tex_ea.img_ptr);
+		game->tex_ea.img_ptr = NULL;
+	}
+}
+
+/**
+ * @brief Destroys all wall and sky textures in the game.
+ * 
+ * @param game The game structure.
+ */
+void	destroy_wall_and_sky_textures(t_game *game)
+{
+	destroy_basic_textures(game);
+	destroy_extra_textures(game);
 }
 
 /**
@@ -99,35 +84,6 @@ static void	destroy_textures(t_game *game)
 	{
 		mlx_destroy_image(game->mlx_ptr, game->tex_door.img_ptr);
 		game->tex_door.img_ptr = NULL;
-	}
-}
-
-/**
- * @brief Frees the texture path strings in the game structure.
- * 
- * @param game The game structure.
- */
-static void	destroy_texture_path_strings(t_game *game)
-{
-	if (game->no_texture != NULL)
-	{
-		free(game->no_texture);
-		game->no_texture = NULL;
-	}
-	if (game->so_texture != NULL)
-	{
-		free(game->so_texture);
-		game->so_texture = NULL;
-	}
-	if (game->we_texture != NULL)
-	{
-		free(game->we_texture);
-		game->we_texture = NULL;
-	}
-	if (game->ea_texture != NULL)
-	{
-		free(game->ea_texture);
-		game->ea_texture = NULL;
 	}
 }
 

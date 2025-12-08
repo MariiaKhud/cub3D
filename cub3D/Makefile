@@ -6,7 +6,7 @@
 #    By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/30 10:51:21 by tiyang            #+#    #+#              #
-#    Updated: 2025/12/04 11:57:58 by makhudon         ###   ########.fr        #
+#    Updated: 2025/12/08 09:34:44 by makhudon         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,11 +26,13 @@ INCLUDES            = -I$(LIBFT_DIR) -I$(SRC_DIR) -I$(MINILIBX_DIR) -I.
 SRCS                = $(SRC_DIR)/main.c \
 					  $(SRC_DIR)/lifecycle/game_init.c \
 					  $(SRC_DIR)/lifecycle/game_close.c \
+					  $(SRC_DIR)/lifecycle/game_close_helper.c \
 					  $(SRC_DIR)/lifecycle/player_init.c \
 					  $(SRC_DIR)/lifecycle/player_position.c \
 					  $(SRC_DIR)/parsing/parse_info.c \
 					  $(SRC_DIR)/parsing/parse_info_rgb.c \
 					  $(SRC_DIR)/parsing/parse_info_utils.c \
+					  $(SRC_DIR)/parsing/parse_info_helper.c \
 					  $(SRC_DIR)/parsing/free_utils.c \
 					  $(SRC_DIR)/parsing/parse_map.c \
 					  $(SRC_DIR)/parsing/parse_map_utils.c \

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   validate_map.c                                     :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/11/25 12:08:49 by makhudon      #+#    #+#                 */
-/*   Updated: 2025/12/04 12:26:47 by tiyang        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   validate_map.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/25 12:08:49 by makhudon          #+#    #+#             */
+/*   Updated: 2025/12/08 09:23:09 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,6 @@ static int	is_all_chars_valid(char **map)
  */
 int	validate_map(t_game *game)
 {
-	int		player_count;
 	int		player_y;
 	int		player_x;
 	char	**map_copy;
@@ -160,10 +159,9 @@ int	validate_map(t_game *game)
 		return (0);
 	if (!is_all_chars_valid(game->map))
 		return (0);
-	player_count = check_element_count(game, 'N')
-		+ check_element_count(game, 'S') + check_element_count(game, 'E')
-		+ check_element_count(game, 'W');
-	if (player_count != 1)
+	if ((check_element_count(game, 'N') + check_element_count(game, 'S')
+			+ check_element_count(game, 'E')
+			+ check_element_count(game, 'W')) != 1)
 		return (0);
 	if (!find_player_pos(game, &player_y, &player_x))
 		return (0);

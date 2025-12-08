@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:57:17 by tiyang            #+#    #+#             */
-/*   Updated: 2025/12/04 14:00:46 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/08 09:37:39 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,20 +179,32 @@ void			calculate_texture_x(t_game *game, t_ray *ray,
 					double perp_wall_dist, t_draw_data *data);
 
 // ============ PARSING FUNCTIONS =========== //
+
+typedef struct s_parse_state
+{
+	int	has_floor;
+	int	has_ceiling;
+	int	in_map;
+}	t_parse_state;
+
 // parse_info.c
 int				parse_textures_and_colors(char *filename, t_game *game);
-void			trim_trailing_whitespace(char *s);
 
 // parse_info_rgb.c
 int				parse_rgb(char *line);
-char			*skip_spaces(char *s);
-int				process_texture_id(t_game *game, char *trimmed);
 
 // parse_info_utils.c
-int				is_id(const char *s, const char *id2);
 void			set_texture(t_game *game, char *trimmed);
 int				set_color(t_game *game, char *trimmed,
 					int *has_floor, int *has_ceiling);
+
+// parse_info_helper.c
+int				all_identifiers_set(t_game *game,
+							int has_floor, int has_ceiling);
+void			trim_trailing_whitespace(char *s);
+char			*skip_spaces(char *s);
+int				process_texture_id(t_game *game, char *trimmed);
+int				is_id(const char *s, const char *id2);
 
 // parse_map.c
 int				is_cub_file(char *filename);
@@ -221,13 +233,13 @@ int				validate_map(t_game *game);
 // ============ INPUT FUNCTIONS =========== //
 // input.c
 int				handle_keypress(int key, t_game *game);
+void			check_sprite_pickup(t_game *game);
 
 // input_helper.c
 void			move_left(t_game *game);
 void			move_right(t_game *game);
 void			move_forward(t_game *game);
 void			move_backward(t_game *game);
-void			check_sprite_pickup(t_game *game);
 
 // ============ LIFECYCLE FUNCTIONS ========== //
 // game_init.c
@@ -237,6 +249,11 @@ void			register_mlx_hooks(t_game *game);
 // game_close.c
 int				handle_close(t_game *game);
 void			close_game(t_game *game, int exit_status);
+
+// game_close_helper.c
+void			destroy_texture_path_strings(t_game *game);
+void			destroy_player_sprites(t_game *game);
+void			destroy_player_textures(t_game *game);
 
 // player_init.c
 void			set_direction_north(t_game *game);
