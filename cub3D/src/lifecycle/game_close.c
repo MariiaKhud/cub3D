@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   game_close.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/02 10:56:34 by tiyang            #+#    #+#             */
-/*   Updated: 2025/12/08 09:32:34 by makhudon         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   game_close.c                                       :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/07/02 10:56:34 by tiyang        #+#    #+#                 */
+/*   Updated: 2025/12/08 09:54:55 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ static void	destroy_textures(t_game *game)
 void	close_game(t_game *game, int exit_status)
 {
 	if (exit_status == EXIT_SUCCESS)
-		ft_printf("\n--- Closing Game ---\n");
+		ft_printf("--- Closing Game ---\n");
 	if (game->img.img_ptr != NULL)
 	{
 		mlx_destroy_image(game->mlx_ptr, game->img.img_ptr);

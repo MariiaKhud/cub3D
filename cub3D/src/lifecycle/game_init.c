@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   game_init.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/26 10:15:14 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/08 09:35:19 by makhudon         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   game_init.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/11/26 10:15:14 by makhudon      #+#    #+#                 */
+/*   Updated: 2025/12/08 09:56:43 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static int	load_textures(t_game *game)
 		return (0);
 	if (!load_one_texture(game, &game->tex_sky, "./textures/sky.xpm"))
 		return (0);
-	if (!load_one_texture(game, &game->tex_door, "./textures/door_3.xpm"))
+	if (!load_one_texture(game, &game->tex_door, "./textures/door.xpm"))
 		return (0);
 	if (!load_one_texture(game, &game->tex_sprite, "./textures/ball.xpm"))
 		return (0);
