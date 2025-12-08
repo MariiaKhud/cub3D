@@ -6,30 +6,11 @@
 /*   By: tiyang <tiyang@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/01 10:39:59 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/12/03 13:38:35 by tiyang        ########   odam.nl         */
+/*   Updated: 2025/12/08 13:26:21 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
-
-/** 
- * @brief Puts a pixel of a specific color at (x, y) in the game's image.
- * 
- * @param game The game structure containing the image.
- * @param x The x-coordinate of the pixel.
- * @param y The y-coordinate of the pixel.
- * @param color The color of the pixel in 0xAARRGGBB format.
- */
-void	mm_pixel_put(t_game *game, int x, int y, int color)
-{
-	char	*dst;
-
-	if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
-		return ;
-	dst = game->img.addr + (y * game->img.line_length
-			+ x * (game->img.bpp / 8));
-	*(unsigned int *)dst = color;
-}
 
 /**
  * @brief Determines the color of a minimap tile based on map content.
@@ -78,7 +59,7 @@ void	draw_mm_square(t_game *game, int x, int y, int color)
 		j = 0;
 		while (j < MM_TILE_SIZE)
 		{
-			mm_pixel_put(game, x + j, y + i, color);
+			my_mlx_pixel_put(game, x + j, y + i, color);
 			j++;
 		}
 		i++;

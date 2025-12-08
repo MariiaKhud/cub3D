@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 10:39:59 by tiyang            #+#    #+#             */
-/*   Updated: 2025/12/08 13:31:17 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/08 13:33:16 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	draw_line_step(t_game *game, t_line *line, int color)
 {
 	int	e2;
 
-	mm_pixel_put(game, line->x0, line->y0, color);
+	my_mlx_pixel_put(game, line->x0, line->y0, color);
 	e2 = 2 * line->err;
 	if (e2 > -(line->dy))
 	{

@@ -6,26 +6,11 @@
 /*   By: tiyang <tiyang@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/02 10:40:37 by makhudon      #+#    #+#                 */
-/*   Updated: 2025/12/04 11:39:01 by tiyang        ########   odam.nl         */
+/*   Updated: 2025/12/08 13:28:08 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
-
-/**
- * @brief Local helper to put a pixel on the main game image.
- * Duplicated here because the engine version is static.
- */
-static void	anim_pixel_put(t_game *game, int x, int y, int color)
-{
-	char	*dst;
-
-	if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
-		return ;
-	dst = game->img.addr + (y * game->img.line_length
-			+ x * (game->img.bpp / 8));
-	*(unsigned int *)dst = color;
-}
 
 /**
  * @brief Draws the current player sprite at the center-bottom of the window.
@@ -56,7 +41,7 @@ void	draw_player_sprite(t_game *game)
 		{
 			if ((get_texture_pixel(sprite, x, y) & 0x00FFFFFF)
 				!= TRANSPARENT_COLOR)
-				anim_pixel_put(game, screen_x + x, screen_y + y,
+				my_mlx_pixel_put(game, screen_x + x, screen_y + y,
 					get_texture_pixel(sprite, x, y));
 			x++;
 		}

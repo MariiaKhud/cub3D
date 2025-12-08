@@ -6,7 +6,7 @@
 /*   By: tiyang <tiyang@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/01 10:39:59 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/12/08 08:58:30 by tiyang        ########   odam.nl         */
+/*   Updated: 2025/12/08 13:26:33 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ static void	draw_player(t_game *game, int center_x, int center_y)
 		j = 0;
 		while (j < MM_PLAYER_SIZE)
 		{
-			mm_pixel_put(game, center_x + MM_PLAYER_OFFSET + j,
+			my_mlx_pixel_put(game, center_x + MM_PLAYER_OFFSET + j,
 				center_y + MM_PLAYER_OFFSET + i, MM_COLOR_PLAYER);
 			j++;
 		}
