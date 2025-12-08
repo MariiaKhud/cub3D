@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   minimap.c                                          :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/12/01 10:39:59 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/12/08 13:26:33 by tiyang        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   minimap.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/01 10:39:59 by tiyang            #+#    #+#             */
+/*   Updated: 2025/12/08 13:55:46 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,18 @@
 /**
  * @brief Calculates the minimap position for a sprite.
  * 
- * @param g The game structure.
+ * @param game The game structure.
  * @param i The index of the sprite.
  * @param mm_x Pointer to store the calculated minimap x-coordinate.
  * @param mm_y Pointer to store the calculated minimap y-coordinate.
  */
-static void	calculate_sprite_position(t_game *g, int i, int *mm_x, int *mm_y)
+static void	calculate_sprite_position(t_game *game, int i, int *mm_x, int *mm_y)
 {
 	int	dx;
 	int	dy;
 
-	dx = (int)g->sprites[i].x - (int)g->pos_x;
-	dy = (int)g->sprites[i].y - (int)g->pos_y;
+	dx = (int)game->sprites[i].x - (int)game->pos_x;
+	dy = (int)game->sprites[i].y - (int)game->pos_y;
 	*mm_x = MM_OFFSET + (MM_VIEW_RANGE * MM_TILE_SIZE) + (dx * MM_TILE_SIZE);
 	*mm_y = MM_OFFSET + (MM_VIEW_RANGE * MM_TILE_SIZE) + (dy * MM_TILE_SIZE);
 }
@@ -34,9 +34,9 @@ static void	calculate_sprite_position(t_game *g, int i, int *mm_x, int *mm_y)
 /**
  * @brief Draws the sprites on the minimap within the view range.
  * 
- * @param g The game structure containing sprite and player info.
+ * @param game The game structure containing sprite and player info.
  */
-void	draw_minimap_sprites(t_game *g)
+void	draw_minimap_sprites(t_game *game)
 {
 	int	i;
 	int	dx;
@@ -45,19 +45,19 @@ void	draw_minimap_sprites(t_game *g)
 	int	mm_y;
 
 	i = 0;
-	while (i < g->sprite_count)
+	while (i < game->sprite_count)
 	{
-		if (!g->sprites[i].alive)
+		if (!game->sprites[i].alive)
 		{
 			i++;
 			continue ;
 		}
-		dx = (int)g->sprites[i].x - (int)g->pos_x;
-		dy = (int)g->sprites[i].y - (int)g->pos_y;
+		dx = (int)game->sprites[i].x - (int)game->pos_x;
+		dy = (int)game->sprites[i].y - (int)game->pos_y;
 		if (abs(dx) <= MM_VIEW_RANGE && abs(dy) <= MM_VIEW_RANGE)
 		{
-			calculate_sprite_position(g, i, &mm_x, &mm_y);
-			draw_mm_square(g, mm_x, mm_y, 0x00FF00);
+			calculate_sprite_position(game, i, &mm_x, &mm_y);
+			draw_mm_square(game, mm_x, mm_y, 0x00FF00);
 		}
 		i++;
 	}

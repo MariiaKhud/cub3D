@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   parse_sprites.c                                    :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/12/03 09:12:23 by makhudon      #+#    #+#                 */
-/*   Updated: 2025/12/08 09:24:29 by tiyang        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   parse_sprites.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/03 09:12:23 by makhudon          #+#    #+#             */
+/*   Updated: 2025/12/08 13:57:41 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,11 @@ void	find_sprites_in_map(t_game *game)
  * @brief Sorts sprites based on their distance from the player.
  * Uses a simple bubble sort for demonstration purposes.
  * 
- * @param g The game structure containing sprite and player info.
+ * @param game The game structure containing sprite and player info.
  * @param order An array of sprite indices to be sorted.
  * @param dist An array of squared distances from the player.
  */
-void	sort_sprites(t_game *g, int *order, double *dist)
+void	sort_sprites(t_game *game, int *order, double *dist)
 {
 	int		i;
 	int		j;
@@ -75,10 +75,10 @@ void	sort_sprites(t_game *g, int *order, double *dist)
 	double	tmp_d;
 
 	i = 0;
-	while (i < g->sprite_count - 1)
+	while (i < game->sprite_count - 1)
 	{
 		j = 0;
-		while (j < g->sprite_count - 1 - i)
+		while (j < game->sprite_count - 1 - i)
 		{
 			if (dist[j] < dist[j + 1])
 			{
@@ -98,22 +98,22 @@ void	sort_sprites(t_game *g, int *order, double *dist)
 /**
  * @brief Initializes sprite order and distance arrays.
  * 
- * @param g The game structure containing sprite and player info.
+ * @param game The game structure containing sprite and player info.
  * @param order An array to hold the sprite indices.
  * @param dist An array to hold the squared distances from the player.
  */
-void	init_sprite_arrays(t_game *g, int *order, double *dist)
+void	init_sprite_arrays(t_game *game, int *order, double *dist)
 {
 	int		i;
 	double	dx;
 	double	dy;
 
 	i = 0;
-	while (i < g->sprite_count)
+	while (i < game->sprite_count)
 	{
 		order[i] = i;
-		dx = g->sprites[i].x - g->pos_x;
-		dy = g->sprites[i].y - g->pos_y;
+		dx = game->sprites[i].x - game->pos_x;
+		dy = game->sprites[i].y - game->pos_y;
 		dist[i] = dx * dx + dy * dy;
 		i++;
 	}

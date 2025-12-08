@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   sprite_utils.c                                     :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/12/08 00:00:00 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/12/08 09:35:48 by tiyang        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   sprite_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/08 00:00:00 by tiyang            #+#    #+#             */
+/*   Updated: 2025/12/08 14:00:34 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ void	calc_sprite_dims(t_sprite_render *sr,
  * @param sx Pointer to store the sprite's x position relative to the player.
  * @param sy Pointer to store the sprite's y position relative to the player.
  */
-void	calc_sprite_pos(t_game *g, int idx, double *sx, double *sy)
+void	calc_sprite_pos(t_game *game, int idx, double *sx, double *sy)
 {
-	*sx = g->sprites[idx].x - g->pos_x;
-	*sy = g->sprites[idx].y - g->pos_y;
+	*sx = game->sprites[idx].x - game->pos_x;
+	*sy = game->sprites[idx].y - game->pos_y;
 }
