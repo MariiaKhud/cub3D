@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   raycast.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/24 11:46:59 by tiyang            #+#    #+#             */
-/*   Updated: 2025/12/03 12:02:19 by makhudon         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   raycast.c                                          :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/11/24 11:46:59 by tiyang        #+#    #+#                 */
+/*   Updated: 2025/12/08 09:37:40 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ static void	cast_single_ray(t_game *game, int x)
 	calculate_texture_x(game, &ray, perp_wall_dist, &data);
 	data.x = x;
 	draw_vertical_line(game, &data);
-	// game->z_buffer[x] = perp_wall_dist;
 }
 
 /** 

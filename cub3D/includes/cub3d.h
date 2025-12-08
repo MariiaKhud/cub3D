@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/12 12:57:17 by tiyang            #+#    #+#             */
-/*   Updated: 2025/12/04 14:00:46 by makhudon         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   cub3d.h                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/12 12:57:17 by tiyang        #+#    #+#                 */
+/*   Updated: 2025/12/08 09:21:31 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,17 @@ typedef struct s_sprite
 	int		tex_id;        // texture ID for the sprite
 	int		alive;         // 1 = alive/visible, 0 = inactive
 }	t_sprite;
+
+typedef struct s_sprite_render
+{
+	int		screen_x;
+	int		height;
+	int		width;
+	int		start_y;
+	int		end_y;
+	int		start_x;
+	int		end_x;
+}	t_sprite_render;
 
 typedef struct s_img
 {
@@ -278,5 +289,12 @@ void			render_sprites(t_game *g);
 
 // parse_sprites.c
 void			find_sprites_in_map(t_game *game);
+void			init_sprite_arrays(t_game *g, int *order, double *dist);
+void			sort_sprites(t_game *g, int *order, double *dist);
+
+// sprite_utils.c
+void			calc_sprite_dims(t_sprite_render *sr,
+					double trans_x, double trans_y);
+void			calc_sprite_pos(t_game *g, int idx, double *sx, double *sy);
 
 #endif

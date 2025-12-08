@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/06/30 10:51:21 by tiyang            #+#    #+#              #
-#    Updated: 2025/12/04 11:57:58 by makhudon         ###   ########.fr        #
+#                                                         ::::::::             #
+#    Makefile                                           :+:    :+:             #
+#                                                      +:+                     #
+#    By: tiyang <tiyang@student.42.fr>                +#+                      #
+#                                                    +#+                       #
+#    Created: 2025/06/30 10:51:21 by tiyang        #+#    #+#                  #
+#    Updated: 2025/12/08 09:15:48 by tiyang        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,8 @@ SRCS                = $(SRC_DIR)/main.c \
 					  $(SRC_DIR)/bonus/animation.c \
 					  $(SRC_DIR)/bonus/interact.c \
 					  $(SRC_DIR)/bonus/render_sprites.c \
-					  $(SRC_DIR)/bonus/parse_sprites.c
+					  $(SRC_DIR)/bonus/parse_sprites.c \
+					  $(SRC_DIR)/bonus/sprite_utils.c
 
 OBJS                = $(SRCS:$(SRC_DIR)/%.c=$(OBJDIR)/%.o)
 
