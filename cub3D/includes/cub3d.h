@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:57:17 by tiyang            #+#    #+#             */
-/*   Updated: 2025/12/08 09:42:55 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/08 09:57:31 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@
 # define MOUSE_SENSITIVITY 0.0005 // mouse sensitivity factor
 # define COLLISION_DIST 0.2
 # define MM_TILE_SIZE 10
-# define MM_OFFSET 20
+# define MM_OFFSET 20 // minimap offset from window edge
 # define MM_VIEW_RANGE 10
-# define MM_PLAYER_OFFSET 3
+# define MM_PLAYER_OFFSET 3 // player offset on the minimap
 # define MM_PLAYER_SIZE 4
 # define PLAYER_FRAMES 5 // pixels between animation frames
 # define MM_DIR_LENGTH 15
@@ -58,14 +58,24 @@
 # define TRANSPARENT_COLOR 0xFF00FF
 # define MAX_SPRITES 128
 
+/**
+ * @brief Structure representing a sprite in the game.
+ * 
+ * Contains the position, texture ID, and state of the sprite.
+ */
 typedef struct s_sprite
 {
 	double	x;
 	double	y;
-	int		tex_id;        // texture ID for the sprite
-	int		alive;         // 1 = alive/visible, 0 = inactive
+	int		tex_id; // texture ID for the sprite
+	int		alive; // 1 = alive/visible, 0 = inactive
 }	t_sprite;
 
+/**
+ * @brief Structure for rendering sprite parameters.
+ * 
+ * Contains screen position and dimensions for rendering a sprite.
+ */
 typedef struct s_sprite_render
 {
 	int		screen_x;
@@ -77,17 +87,39 @@ typedef struct s_sprite_render
 	int		end_x;
 }	t_sprite_render;
 
+/**
+ * @brief Structure to track parsing state.
+ * 
+ * Used to ensure correct order of identifiers and map data.
+ */
+typedef struct s_parse_state
+{
+	int	has_floor;
+	int	has_ceiling;
+	int	in_map;
+}	t_parse_state;
+
+/**
+ * @brief Structure representing an image/texture.
+ * 
+ * Contains pointers and metadata for image manipulation.
+ */
 typedef struct s_img
 {
-	void	*img_ptr;      // drawing canvas
-	char	*addr;         // pointer to the start of pixel data
-	int		bpp;           // bits_per_pixel (32 for RGBA)
-	int		line_length;   // number of bytes for one row of pixels
-	int		endian;        // how bytes are ordered (0 or 1)
-	int		width;         // sprite dimensions
-	int		height;        // sprite dimensions
+	void	*img_ptr; // drawing canvas
+	char	*addr; // pointer to the start of pixel data
+	int		bpp; // bits_per_pixel (32 for RGBA)
+	int		line_length; // number of bytes for one row of pixels
+	int		endian; // how bytes are ordered (0 or 1)
+	int		width; // sprite dimensions
+	int		height; // sprite dimensions
 }	t_img;
 
+/**
+ * @brief Structure for drawing vertical lines on the screen.
+ * 
+ * Contains parameters needed for rendering a vertical slice of a wall.
+ */
 typedef struct s_draw_data
 {
 	int		x;
@@ -99,6 +131,11 @@ typedef struct s_draw_data
 	t_img	*tex;
 }	t_draw_data;
 
+/**
+ * @brief Structure representing a ray in the raycasting engine.
+ * 
+ * Contains parameters for ray direction, position, and collision detection.
+ */
 typedef struct s_ray
 {
 	double	camera_x;
@@ -116,6 +153,11 @@ typedef struct s_ray
 	int		side;
 }	t_ray;
 
+/**
+ * @brief Structure for Bresenham's line drawing algorithm.
+ * 
+ * Contains parameters needed to draw a line between two points.
+ */
 typedef struct s_line
 {
 	int	x0;
@@ -129,6 +171,12 @@ typedef struct s_line
 	int	err;
 }	t_line;
 
+/**
+ * @brief Structure representing the overall game state.
+ * 
+ * Contains map data, player position and direction, textures,
+ * and rendering information.
+ */
 typedef struct s_game
 {
 	char		**map;
@@ -156,16 +204,16 @@ typedef struct s_game
 	t_img		tex_so;
 	t_img		tex_we;
 	t_img		tex_ea;
-	t_img		tex_sky;                    // bonus sky texture
+	t_img		tex_sky; // bonus sky texture
 	t_img		player_anim[PLAYER_FRAMES]; // bonus player animation frames
 	int			anim_frame;
 	int			anim_index;
-	t_sprite	sprites[MAX_SPRITES];       // array of sprites in the game
-	int			sprite_count;               // number of sprites
-	double		z_buffer[WIDTH];            // z-buffer for sprite rendering
-	t_img		tex_sprite;  // sprite texture
-	t_img		tex_door;               
-	int			mouse_locked;               // 1 = locked (gameplay), 0 = unlocked (menu)
+	t_sprite	sprites[MAX_SPRITES]; // array of sprites in the game
+	int			sprite_count; // number of sprites
+	double		z_buffer[WIDTH]; // z-buffer for sprite rendering
+	t_img		tex_sprite; // sprite texture
+	t_img		tex_door;
+	int			mouse_locked; // 1 = locked (gameplay), 0 = unlocked (menu)
 }	t_game;
 
 // ============ ENGINE FUNCTIONS =========== //
@@ -191,13 +239,6 @@ void			calculate_texture_x(t_game *game, t_ray *ray,
 
 // ============ PARSING FUNCTIONS =========== //
 
-typedef struct s_parse_state
-{
-	int	has_floor;
-	int	has_ceiling;
-	int	in_map;
-}	t_parse_state;
-
 // parse_info.c
 int				parse_textures_and_colors(char *filename, t_game *game);
 
@@ -211,7 +252,7 @@ int				set_color(t_game *game, char *trimmed,
 
 // parse_info_helper.c
 int				all_identifiers_set(t_game *game,
-							int has_floor, int has_ceiling);
+					int has_floor, int has_ceiling);
 void			trim_trailing_whitespace(char *s);
 char			*skip_spaces(char *s);
 int				process_texture_id(t_game *game, char *trimmed);
