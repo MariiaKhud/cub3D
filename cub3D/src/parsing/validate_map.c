@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 12:08:49 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/08 09:23:09 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/08 12:01:50 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,8 @@ int	validate_map(t_game *game)
 	if (game == NULL || game->map == NULL)
 		return (0);
 	if (!is_all_chars_valid(game->map))
+		return (0);
+	if (has_open_on_border(game))
 		return (0);
 	if ((check_element_count(game, 'N') + check_element_count(game, 'S')
 			+ check_element_count(game, 'E')
