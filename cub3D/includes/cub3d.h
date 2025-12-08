@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:57:17 by tiyang            #+#    #+#             */
-/*   Updated: 2025/12/08 09:57:31 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/08 12:03:11 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -281,6 +281,9 @@ int				handle_texture(t_game *game, char *trimmed, char **target);
 
 // validate_map.c
 int				validate_map(t_game *game);
+
+// validate_map_utils.c
+int				has_open_on_border(t_game *game);
 
 // ============ INPUT FUNCTIONS =========== //
 // input.c
