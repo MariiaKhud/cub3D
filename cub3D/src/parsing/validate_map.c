@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 12:08:49 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/08 12:01:50 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/08 12:08:14 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,6 @@ int	validate_map(t_game *game)
 	int		player_y;
 	int		player_x;
 	char	**map_copy;
-	int		is_closed;
 
 	if (game == NULL || game->map == NULL)
 		return (0);
@@ -172,9 +171,8 @@ int	validate_map(t_game *game)
 	map_copy = copy_map(game);
 	if (map_copy == NULL)
 		return (0);
-	is_closed = floodfill_closed(game, map_copy, player_y, player_x);
+	if (!floodfill_closed(game, map_copy, player_y, player_x))
+		return (free_map(map_copy), 0);
 	free_map(map_copy);
-	if (is_closed == 0)
-		return (0);
 	return (1);
 }
