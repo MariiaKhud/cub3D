@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/12 12:57:17 by tiyang            #+#    #+#             */
-/*   Updated: 2025/12/08 12:03:11 by makhudon         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   cub3d.h                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/12 12:57:17 by tiyang        #+#    #+#                 */
+/*   Updated: 2025/12/08 13:30:34 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -323,7 +323,6 @@ void			init_player_orientation(t_game *game);
 // ============ BONUS ======================== //
 // Minimap (Bonus)
 void			render_minimap(t_game *game);
-void			mm_pixel_put(t_game *game, int x, int y, int color);
 int				get_tile_color(t_game *game, int map_x, int map_y);
 void			draw_mm_square(t_game *game, int x, int y, int color);
 void			draw_mm_line(t_game *game, t_line *line, int color);
