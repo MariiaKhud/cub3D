@@ -6,7 +6,7 @@
 /*   By: tiyang <tiyang@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/11/25 11:14:23 by makhudon      #+#    #+#                 */
-/*   Updated: 2025/12/08 12:12:47 by tiyang        ########   odam.nl         */
+/*   Updated: 2025/12/08 12:25:20 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,21 +117,30 @@ int	parse_map_file(char *filename, t_game *game)
 	return (1);
 }
 
-/**
- * @brief Checks if the given filename has a .cub extension.
+/** 
+ * @brief Checks if the given filename has a valid .cub extension.
  * 
- * @param filename The name of the file to check.
- * @return int 1 if the file has a .cub or .ber extension,
- * 0 otherwise.
+ * @param filename The filename to check.
+ * @return int 1 if valid .cub file, 0 otherwise.
  */
 int	is_cub_file(char *filename)
 {
-	int	len;
+	int		len;
+	char	*base;
 
+	if (!filename)
+		return (0);
 	len = (int)ft_strlen(filename);
 	if (len < 5)
 		return (0);
-	if (!ft_strncmp(filename + len - 4, ".cub", 4))
-		return (1);
-	return (0);
+	if (ft_strncmp(filename + len - 4, ".cub", 4) != 0)
+		return (0);
+	base = ft_strrchr(filename, '/');
+	if (base)
+		base++;
+	else
+		base = filename;
+	if (ft_strlen(base) == 4 && !ft_strncmp(base, ".cub", 4))
+		return (0);
+	return (1);
 }

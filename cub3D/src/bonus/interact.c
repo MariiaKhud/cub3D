@@ -6,7 +6,7 @@
 /*   By: tiyang <tiyang@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/03 09:30:51 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/12/08 08:54:16 by tiyang        ########   odam.nl         */
+/*   Updated: 2025/12/08 12:19:16 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ int	validate_doors(t_game *game)
 			{
 				if (!is_door_enclosed(game, x, y))
 				{
-					ft_printf("Door at (%d, %d) is not inside a wall.\n", x, y);
 					return (0);
 				}
 			}
