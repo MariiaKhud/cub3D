@@ -1,96 +1,90 @@
 ```mermaid
 flowchart TD
-    %% Entry Point
-    Start([main]) --> Init[initialize_game]
-    Init --> CheckExt{Ends with .cub?}
-    CheckExt -- No --> ErrType[Error: Wrong map file type]
-    CheckExt -- Yes --> ParseConfig[parse_textures_and_colors]
+    Start([main called]) --> Init[initialize_game]
+    Init --> CheckFile{Valid .cub extension?}
+    CheckFile -- No --> ErrorExt[Error: Wrong file type]
+    CheckFile -- Yes --> ParseConfig[parse_textures_and_colors]
 
-    %% Pass 1: Textures & Colors
-    subgraph Pass1 [Pass 1: Textures & Colors]
-        ParseConfig --> OpenFile1[Open File]
-        OpenFile1 --> ReadLoop1{Get Next Line}
+    %% Phase 1: Configuration Parsing
+    subgraph ConfigPhase [Phase 1: Config Parsing]
+        ParseConfig --> OpenFD[Open File]
+        OpenFD --> ReadLoop1{Get Next Line}
         
-        ReadLoop1 -- Line Found --> Trim[Skip Spaces & Trim]
-        Trim --> CheckID{Identify Prefix}
+        ReadLoop1 -- Line Read --> Trim[Skip Spaces]
+        Trim --> CheckType{Line Type?}
         
-        CheckID -- NO/SO/WE/EA --> SetTex[set_texture]
-        SetTex --> DupTex{Duplicate?}
-        DupTex -- Yes --> ErrDup[Error: Duplicate texture]
-        DupTex -- No --> StorePath[Store Texture Path]
+        %% Texture Handling
+        CheckType -- "NO, SO, WE, EA" --> HandleTex[handle_texture]
+        HandleTex --> DupCheck{Duplicate?}
+        DupCheck -- Yes --> ErrorDup[Error: Duplicate ID]
+        DupCheck -- No --> SetPath[set_texture: Store Path]
+        SetPath --> ReadLoop1
         
-        CheckID -- F/C --> SetCol[set_color]
-        SetCol --> ParseRGB[parse_rgb]
-        ParseRGB --> ValidRGB{0-255 & Valid Format?}
-        ValidRGB -- No --> ErrRGB[Error: Invalid RGB]
-        ValidRGB -- Yes --> StoreRGB[Store HEX Color]
+        %% Color Handling
+        CheckType -- "F, C" --> HandleCol[set_color]
+        HandleCol --> ParseRGB[parse_rgb]
+        ParseRGB --> ValidateRGB{Valid 0-255?}
+        ValidateRGB -- No --> ErrorRGB[Error: Invalid Color]
+        ValidateRGB -- Yes --> StoreCol[Store Hex Color]
+        StoreCol --> ReadLoop1
         
-        CheckID -- Map/Other --> Ignore1[Ignore Line]
+        %% Map Start Detection (Premature)
+        CheckType -- "1, 0" --> MarkMap[Set in_map flag]
+        MarkMap --> ReadLoop1
         
-        StorePath --> ReadLoop1
-        StoreRGB --> ReadLoop1
-        Ignore1 --> ReadLoop1
-        
-        ReadLoop1 -- EOF --> Close1[Close File]
-        Close1 --> CheckAllSet{All 4 Tex & 2 Colors Set?}
-        CheckAllSet -- No --> ErrMiss[Error: Missing identifiers]
-        CheckAllSet -- Yes --> ValidPaths[validate_textures]
-        ValidPaths --> PathCheck{Paths valid?}
-        PathCheck -- No --> ErrPath[Error: Invalid texture path]
+        %% Validation of Phase 1
+        ReadLoop1 -- EOF --> CloseFD[Close File]
+        CloseFD --> CheckAllSet{All Textures & Colors Set?}
+        CheckAllSet -- No --> ErrorMiss[Error: Missing Info]
+        CheckAllSet -- Yes --> ValTex[validate_textures]
+        ValTex --> PathCheck{Path has quotes/spaces?}
+        PathCheck -- Yes --> ErrorPath[Error: Invalid Texture Path]
+        PathCheck -- No --> ParseMap[parse_map_file]
     end
 
-    PathCheck -- Yes --> ParseMap[parse_map_file]
-
-    %% Pass 2: Map Extraction
-    subgraph Pass2 [Pass 2: Map Extraction]
-        ParseMap --> OpenFile2[Open File Again]
-        OpenFile2 --> ReadLoop2{Get Next Line}
+    %% Phase 2: Map Extraction
+    subgraph MapPhase [Phase 2: Map Extraction]
+        ParseMap --> ReOpen[Re-Open File]
+        ReOpen --> ReadLoop2{Get Next Line}
         
-        ReadLoop2 -- Line Found --> ProcessLine[process_map_line]
-        ProcessLine --> CheckStart{Map Started?}
+        ReadLoop2 -- Line Read --> ProcLine[process_map_line]
+        ProcLine --> CheckStarted{Map Started?}
         
-        CheckStart -- No --> CheckContent{Is Map Content?}
+        %% Before Map Starts
+        CheckStarted -- No --> CheckContent{Is Map Content?}
+        CheckContent -- No --> CheckOrder{"Is ID (NO/SO...)?"}
+        CheckOrder -- Yes --> ErrorOrder[Error: Invalid Identifier Order]
         CheckContent -- Yes --> SetStart[Set map_start = 1]
-        SetStart --> StoreLine[store_map_line]
+        SetStart --> Store[store_map_line]
         
-        CheckStart -- Yes --> OrderCheck{Found Texture ID?}
-        OrderCheck -- Yes --> ErrOrder[Error: Invalid identifier order]
-        OrderCheck -- No --> StoreLine
-        
-        StoreLine --> UpdateMax[Update max_width]
-        UpdateMax --> ReadLoop2
+        %% After Map Starts
+        CheckStarted -- Yes --> ValidContent{Valid Chars?}
+        ValidContent -- No --> ErrorContent[Error: Extra Content/Invalid Char]
+        ValidContent -- Yes --> Store
+        Store --> ReadLoop2
         
         ReadLoop2 -- EOF --> FinishMap[finish_map]
-        FinishMap --> Normalize[Pad lines with spaces]
-        Normalize --> Close2[Close File]
+        FinishMap --> Normalize[Pad lines with spaces to max_width]
     end
 
-    Close2 --> ValidateMap[validate_map]
+    Normalize --> Validate[validate_map]
 
-    %% Validation Logic
-    subgraph Validation [Map Validation]
-        ValidateMap --> CharCheck{Only 01NSEW or space?}
-        CharCheck -- No --> ErrChar[Error: Invalid map char]
-        
-        CharCheck -- Yes --> CountPlayer{Exact 1 Player?}
-        CountPlayer -- No --> ErrPlayer[Error: Player count != 1]
-        
-        CountPlayer -- Yes --> FindPos[Find Player X,Y]
-        FindPos --> FloodFill[floodfill_closed]
-        
-        FloodFill --> CheckBounds{Hit Boundary/Space?}
-        CheckBounds -- Yes --> ErrWall[Error: Map not closed]
-        CheckBounds -- No --> Success([Parsing Success])
+    %% Phase 3: Validation
+    subgraph ValidatePhase [Phase 3: Validation]
+        Validate --> CharCheck[is_all_chars_valid]
+        CharCheck -- Fail --> ErrorMap[Error: Invalid Map]
+        CharCheck -- Pass --> BorderCheck[has_open_on_border]
+        BorderCheck -- Fail (Open) --> ErrorMap
+        BorderCheck -- Pass --> PlayerCount{Exactly 1 Player?}
+        PlayerCount -- No --> ErrorMap
+        PlayerCount -- Yes --> DoorCheck[validate_doors]
+        DoorCheck -- Fail (Not enclosed) --> ErrorMap
+        DoorCheck -- Pass --> FloodFill[floodfill_closed]
+        FloodFill -- Fail (Not Closed) --> ErrorMap
     end
 
-    %% Error Handling Connections
-    ErrType --> Exit[Exit Failure]
-    ErrDup --> Exit
-    ErrRGB --> Exit
-    ErrMiss --> Exit
-    ErrPath --> Exit
-    ErrOrder --> Exit
-    ErrChar --> Exit
-    ErrPlayer --> Exit
-    ErrWall --> Exit
+    FloodFill -- Pass --> FindSprites[find_sprites_in_map]
+    FindSprites --> Success([Parsing Complete])
+    
+    ErrorExt & ErrorDup & ErrorRGB & ErrorMiss & ErrorPath & ErrorOrder & ErrorContent & ErrorMap --> Fail([Exit Failure])
 ```

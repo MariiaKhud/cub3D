@@ -1,54 +1,57 @@
 ```mermaid
-flowchart TD
-    Start([main in src/main.c]) --> InitGame[initialize_game]
-
-    subgraph Parsing [Parsing Phase]
+graph TD
+    Start((Start ./cub3d map.cub)) --> Main[main src/main.c]
+    
+    subgraph Parsing ["Phase 1: Parsing & Validation"]
+        Main --> InitGame[initialize_game]
         InitGame --> ParseTex[parse_textures_and_colors]
-        ParseTex --> ParseMap[parse_map_file]
-        ParseMap --> Validate[validate_map]
-        Validate -- Invalid --> Error[Print Error & Exit]
+        ParseTex --> |Read NO, SO, WE, EA, F, C| StoreTex[Store Paths/Colors]
+        InitGame --> ParseMap[parse_map_file]
+        ParseMap --> |Read 1s and 0s| StoreMap[Store Map Grid]
+        InitGame --> Validate[validate_map]
+        Validate --> FloodFill{Map Closed?}
+        FloodFill -- No --> Error[Print Error & Exit]
+        FloodFill -- Yes --> FindSprites[find_sprites_in_map]
     end
 
-    Validate -- Valid --> StartGame[start_game]
-
-    subgraph Setup [MLX & Player Setup]
-        StartGame --> InitPos[init_player_orientation]
+    subgraph Setup ["Phase 2: Graphics & Resources"]
+        Main --> StartGame[start_game]
+        StartGame --> InitPlayer[init_player_orientation]
         StartGame --> LoadGame[load_game]
-        LoadGame --> InitMLX[mlx_init & mlx_new_window]
-        InitMLX --> LoadTex[load_textures & load_player_sprites]
-        LoadGame --> Hooks[register_mlx_hooks]
+        LoadGame --> MLXInit[mlx_init]
+        LoadGame --> LoadTex[load_textures & load_player_sprites]
+        LoadTex --> |Convert .xpm to image| MLXWin[mlx_new_window]
+        StartGame --> Hooks[register_mlx_hooks]
     end
 
-    Hooks --> MLXLoop[mlx_loop]
-
-    subgraph GameLoop [The Game Loop - Every Frame]
-        MLXLoop -.-> LoopHook[game_loop]
-        LoopHook --> Anim[update_animation]
-        Anim --> Raycast[raycast]
+    subgraph GameLoop ["Phase 3: The Game Loop"]
+        Hooks --> LoopHook[mlx_loop_hook -> game_loop]
+        LoopHook --> SpritePickup[check_sprite_pickup]
+        SpritePickup --> AnimUpdate[update_animation]
+        AnimUpdate --> Raycast[raycast src/engine/raycast.c]
         
-        subgraph Rendering [Raycasting Engine]
-            Raycast --> RenderBG[render_background]
-            RenderBG --> CastRays[Loop x=0 to WIDTH]
-            CastRays --> InitRay[init_ray]
+        subgraph Rendering ["Raycasting Engine"]
+            Raycast --> DrawBG[render_background]
+            DrawBG --> WallLoop{x < WIDTH}
+            WallLoop --> InitRay[init_ray]
             InitRay --> DDA[perform_dda]
             DDA --> CalcDist[calculate_perp_wall_dist]
-            CalcDist --> DrawWall[draw_vertical_line]
-            DrawWall --> NextRay{Next x?}
-            NextRay -- Yes --> InitRay
-            NextRay -- No --> Minimap[render_minimap]
-            Minimap --> Sprite[draw_player_sprite]
-            Sprite --> PushImg[mlx_put_image_to_window]
+            CalcDist --> DrawLine[draw_vertical_line]
+            DrawLine --> WallLoop
+            WallLoop -- Done --> DrawSprites[render_sprites]
+            DrawSprites --> DrawMini[render_minimap]
+            DrawMini --> DrawWeapon[draw_player_sprite]
+            DrawWeapon --> PushFrame[mlx_put_image_to_window]
         end
     end
 
-    subgraph Events [Event Handling]
-        MLXLoop -.-> KeyPress[handle_keypress]
-        KeyPress --> MoveRot[Update pos_x/dir_x]
-        
-        MLXLoop -.-> MouseMove[handle_mouse]
-        MouseMove --> RotView[Rotate View]
-        
-        MLXLoop -.-> Destroy[handle_close]
-        Destroy --> CleanExit[close_game & free_game]
+    subgraph Inputs ["Events (Async)"]
+        KeyPress[handle_keypress] -.-> |Update pos/dir| LoopHook
+        Mouse[handle_mouse] -.-> |Update dir| LoopHook
+        Close[handle_close] --> CleanExit
     end
+
+    PushFrame --> LoopHook
+    Error --> CleanExit[close_game]
+    CleanExit --> Stop((End))
 ```
