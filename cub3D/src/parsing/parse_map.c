@@ -6,7 +6,7 @@
 /*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 11:14:23 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/08 12:23:15 by makhudon         ###   ########.fr       */
+/*   Updated: 2025/12/08 12:25:21 by makhudon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,12 @@ int	parse_map_file(char *filename, t_game *game)
 	if (!read_map_file(fd, game))
 		return (0);
 	finish_map(game);
-	return (game->map_height > 0);
+	if (game->map_height <= 0)
+	{
+		ft_printf("Error\nNo map content found\n");
+		return (0);
+	}
+	return (1);
 }
 
 /** 
