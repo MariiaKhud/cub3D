@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parse_info.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/24 11:17:46 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/08 09:06:41 by makhudon         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   parse_info.c                                       :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/11/24 11:17:46 by makhudon      #+#    #+#                 */
+/*   Updated: 2025/12/08 10:26:31 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	set_texture_or_color(t_game *game, char *line,
 		return (set_color(game, trimmed, has_floor, has_ceiling));
 	if (*trimmed == '1' || *trimmed == '0' || *trimmed == ' ')
 		return (1);
-	ft_printf("Error\nInvalid identifier: %s\n", line);
+	ft_printf("Error\nInvalid identifier: %s", line);
 	return (0);
 }
 
