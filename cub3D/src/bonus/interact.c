@@ -6,7 +6,7 @@
 /*   By: tiyang <tiyang@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/03 09:30:51 by tiyang        #+#    #+#                 */
-/*   Updated: 2025/12/04 12:52:03 by tiyang        ########   odam.nl         */
+/*   Updated: 2025/12/08 08:54:16 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ void	interact(t_game *game)
 
 	target_x = (int)(game->pos_x + game->dir_x);
 	target_y = (int)(game->pos_y + game->dir_y);
-	if (target_x < 0 || target_x >= game->map_width || 
-		target_y < 0 || target_y >= game->map_height)
+	if (target_x < 0 || target_x >= game->map_width
+		|| target_y < 0 || target_y >= game->map_height)
 		return ;
 	if (game->map[target_y][target_x] == 'D')
 		game->map[target_y][target_x] = 'O';
