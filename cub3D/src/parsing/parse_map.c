@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parse_map.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/25 11:14:23 by makhudon          #+#    #+#             */
-/*   Updated: 2025/12/04 12:07:29 by makhudon         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   parse_map.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/11/25 11:14:23 by makhudon      #+#    #+#                 */
+/*   Updated: 2025/12/08 12:12:47 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,12 @@ int	parse_map_file(char *filename, t_game *game)
 	if (!read_map_file(fd, game))
 		return (0);
 	finish_map(game);
-	return (game->map_height > 0);
+	if (game->map_height <= 0)
+	{
+		ft_printf("Error\nNo map content found\n");
+		return (0);
+	}
+	return (1);
 }
 
 /**
