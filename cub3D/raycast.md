@@ -1,89 +1,53 @@
 ```mermaid
 flowchart TD
-    %% Entry Point
-    Start([raycast in src/engine/raycast.c]) --> RenderBG[render_background]
+    Start([raycast called]) --> DrawBG[render_background: Fill Floor/Ceiling]
+    DrawBG --> InitLoop[Set x = 0]
     
-    subgraph Background [Phase 1: Background]
-        RenderBG --> CheckSky{Has Sky Texture?}
-        CheckSky -- Yes --> RenderSkyTex[Draw Sky Texture]
-        CheckSky -- No --> RenderSkyCol[Draw Sky Color]
-        RenderSkyTex --> RenderFloor[Draw Floor Color]
-        RenderSkyCol --> RenderFloor
-    end
-
-    RenderFloor --> InitLoop[x = 0]
-
-    %% The Main Ray Loop
-    subgraph RayLoop [Phase 2: The Ray Loop]
-        InitLoop --> LoopCondition{x < WIDTH?}
+    subgraph RayLoop [For Every Vertical Screen Stripe x]
+        InitLoop --> CheckX{x < WIDTH?}
+        CheckX -- No --> DrawSprites[render_sprites]
         
-        LoopCondition -- Yes --> CastRay[cast_single_ray]
+        %% Step 1: Initialization
+        CheckX -- Yes --> InitRay[init_ray: Calculate ray_dir & delta_dist]
+        InitRay --> SetStep[set_step_and_side_dist: Calculate step direction & initial side_dist]
+        SetStep --> DDAStart{hit == 0?}
         
-        %% Step 1: Ray Initialization
-        CastRay --> InitRay[init_ray]
-        InitRay --> CalcCam[Calculate camera_x]
-        CalcCam --> CalcDir[Calculate ray_dir]
-        CalcDir --> CalcDelta[Calculate delta_dist]
-        
-        %% Step 2: DDA Prep
-        CalcDelta --> SetStep[set_step_and_side_dist]
-        SetStep --> CheckDirX{Ray Dir X < 0?}
-        CheckDirX -- Yes --> StepLeft[step_x = -1\ncalc side_dist_x]
-        CheckDirX -- No --> StepRight[step_x = 1\ncalc side_dist_x]
-        
-        StepLeft --> CheckDirY{Ray Dir Y < 0?}
-        StepRight --> CheckDirY
-        CheckDirY -- Yes --> StepUp[step_y = -1\ncalc side_dist_y]
-        CheckDirY -- No --> StepDown[step_y = 1\ncalc side_dist_y]
-
-        %% Step 3: DDA Algorithm
-        StepUp --> DDA[perform_dda]
-        StepDown --> DDA
-        
-        subgraph DDA_Algo [DDA Algorithm]
-            DDA --> DDALoop{Hit == 0?}
-            DDALoop -- Yes --> CompareDist{side_dist_x < side_dist_y?}
-            
-            CompareDist -- Yes --> JumpX[side_dist_x += delta_x\nmap_x += step_x\nside = 0]
-            CompareDist -- No --> JumpY[side_dist_y += delta_y\nmap_y += step_y\nside = 1]
-            
-            JumpX --> CheckWall{Map Hit '1'?}
-            JumpY --> CheckWall
-            
-            CheckWall -- No --> DDALoop
-            CheckWall -- Yes --> HitFound[Set hit = 1]
+        %% Step 2: DDA Algorithm
+        subgraph DDA [DDA Algorithm]
+            DDAStart -- Yes --> CompareDist{side_dist_x < side_dist_y?}
+            CompareDist -- Yes (Side 0) --> JumpX[Jump X: map_x += step_x, side_dist_x += delta_x]
+            CompareDist -- No (Side 1) --> JumpY[Jump Y: map_y += step_y, side_dist_y += delta_y]
+            JumpX --> CheckHit{Map == Wall/Door?}
+            JumpY --> CheckHit
+            CheckHit -- Yes --> SetHit[hit = 1]
+            CheckHit -- No --> DDAStart
+            SetHit --> DDAStart
         end
-
-        HitFound --> CalcDist[calculate_perp_wall_dist]
         
-        %% Step 4: Drawing Calculations
-        CalcDist --> CalcHeight[calculate_draw_params]
-        CalcHeight --> LineH[Calc line_height]
-        LineH --> DrawStartEnd[Calc draw_start & draw_end]
+        %% Step 3: Geometry Calculations
+        DDAStart -- No (Hit!) --> CalcDist[calculate_perp_wall_dist: Fix Fisheye Effect]
+        CalcDist --> SaveZ[Store z_buffer at x = dist]
+        SaveZ --> CalcHeight[calculate_draw_params: Calculate line_height, draw_start, draw_end]
+        CalcHeight --> CalcTexX[calculate_texture_x: Calculate precise wall_x & tex_x]
         
-        DrawStartEnd --> CalcTexX[calculate_texture_x]
-        CalcTexX --> SelectTex["Select Texture (NO/SO/WE/EA)"]
-        SelectTex --> WallX[Calc exact wall_x hit point]
-        WallX --> TexX[Calc tex_x coordinate]
-        
-        %% Step 5: Texture Rendering
-        TexX --> DrawLine[draw_vertical_line]
-        
-        subgraph DrawPixels [Texture Mapping]
-            DrawLine --> PixelLoop{y < draw_end?}
-            PixelLoop -- Yes --> CalcTexY[Calculate tex_y]
+        %% Step 4: Texture Drawing
+        CalcTexX --> DrawLineStart[Set y = draw_start]
+        subgraph DrawTexture [Texture Mapping Loop]
+            DrawLineStart --> CheckY{y < draw_end?}
+            CheckY -- Yes --> CalcTexY[calculate_tex_y: Map screen y to texture y]
             CalcTexY --> GetColor[get_texture_pixel]
             GetColor --> PutPixel[my_mlx_pixel_put]
-            PutPixel --> IncY[y++]
-            IncY --> PixelLoop
+            PutPixel --> NextY[y++]
+            NextY --> CheckY
         end
         
-        PixelLoop -- No --> NextRay[x++]
-        NextRay --> LoopCondition
+        CheckY -- No --> NextX[x++]
+        NextX --> CheckX
     end
 
-    %% Phase 3: Bonus Rendering
-    LoopCondition -- No --> Minimap[render_minimap]
-    Minimap --> Sprite[draw_player_sprite]
-    Sprite --> PushFrame[mlx_put_image_to_window]
+    %% Step 5: Post-Processing
+    DrawSprites --> DrawMini[render_minimap]
+    DrawMini --> DrawWeapon[draw_player_sprite]
+    DrawWeapon --> PushWin[mlx_put_image_to_window]
+    PushWin --> End([End Frame])
 ```
