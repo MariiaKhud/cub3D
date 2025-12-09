@@ -1,4 +1,5 @@
 ```mermaid
+%%{init: {'themeVariables': { 'fontSize': '120px'}}}%%
 graph TD
     Start((Start ./cub3d map.cub)) --> Main[main src/main.c]
     

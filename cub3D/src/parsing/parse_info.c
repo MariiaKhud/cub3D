@@ -6,7 +6,7 @@
 /*   By: tiyang <tiyang@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/11/24 11:17:46 by makhudon      #+#    #+#                 */
-/*   Updated: 2025/12/08 10:26:31 by tiyang        ########   odam.nl         */
+/*   Updated: 2025/12/09 09:54:22 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ int	parse_textures_and_colors(char *filename, t_game *game)
 	has_ceiling = 0;
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
-		return (printf("Error: cannot open file %s\n", filename), 1);
+		return (printf("Error\nCannot open file %s\n", filename), 1);
 	if (parse_file_lines(fd, game, &has_floor, &has_ceiling))
 	{
 		close(fd);

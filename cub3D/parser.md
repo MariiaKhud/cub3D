@@ -1,4 +1,5 @@
 ```mermaid
+%%{init: {'themeVariables': { 'fontSize': '120px'}}}%%
 flowchart TD
     Start([main called]) --> Init[initialize_game]
     Init --> CheckFile{Valid .cub extension?}

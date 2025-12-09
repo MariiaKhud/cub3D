@@ -1,4 +1,5 @@
 ```mermaid
+%%{init: {'themeVariables': { 'fontSize': '120px'}}}%%
 flowchart TD
     Start([raycast called]) --> DrawBG[render_background: Fill Floor/Ceiling]
     DrawBG --> InitLoop[Set x = 0]

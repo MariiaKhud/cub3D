@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/06/30 10:51:21 by tiyang            #+#    #+#              #
-#    Updated: 2025/12/08 12:03:23 by makhudon         ###   ########.fr        #
+#                                                         ::::::::             #
+#    Makefile                                           :+:    :+:             #
+#                                                      +:+                     #
+#    By: tiyang <tiyang@student.42.fr>                +#+                      #
+#                                                    +#+                       #
+#    Created: 2025/06/30 10:51:21 by tiyang        #+#    #+#                  #
+#    Updated: 2025/12/09 10:14:23 by tiyang        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,16 +45,16 @@ SRCS                = $(SRC_DIR)/main.c \
 					  $(SRC_DIR)/engine/render_background.c \
 					  $(SRC_DIR)/engine/dda.c \
 					  $(SRC_DIR)/engine/render_utils.c \
-					  $(SRC_DIR)/bonus/minimap.c \
-					  $(SRC_DIR)/bonus/minimap_line.c \
-					  $(SRC_DIR)/bonus/minimap_utils.c \
-					  $(SRC_DIR)/bonus/mouse.c \
-					  $(SRC_DIR)/bonus/collision.c \
-					  $(SRC_DIR)/bonus/animation.c \
-					  $(SRC_DIR)/bonus/interact.c \
-					  $(SRC_DIR)/bonus/render_sprites.c \
-					  $(SRC_DIR)/bonus/parse_sprites.c \
-					  $(SRC_DIR)/bonus/sprite_utils.c
+					  $(SRC_DIR)/bonus/minimap_bonus.c \
+					  $(SRC_DIR)/bonus/minimap_line_bonus.c \
+					  $(SRC_DIR)/bonus/minimap_utils_bonus.c \
+					  $(SRC_DIR)/bonus/mouse_bonus.c \
+					  $(SRC_DIR)/bonus/collision_bonus.c \
+					  $(SRC_DIR)/bonus/animation_bonus.c \
+					  $(SRC_DIR)/bonus/interact_bonus.c \
+					  $(SRC_DIR)/bonus/render_sprites_bonus.c \
+					  $(SRC_DIR)/bonus/parse_sprites_bonus.c \
+					  $(SRC_DIR)/bonus/sprite_utils_bonus.c
 
 OBJS                = $(SRCS:$(SRC_DIR)/%.c=$(OBJDIR)/%.o)
 
@@ -63,6 +63,8 @@ MKDIR               = mkdir -p
 MAKE_LIBFT          = make -C $(LIBFT_DIR)
 
 all: $(NAME)
+
+bonus: $(NAME)
 
 $(NAME): $(LIBFT) $(MLX_LIB) $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) \
