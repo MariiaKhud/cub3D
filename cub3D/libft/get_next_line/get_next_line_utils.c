@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: makhudon <makhudon@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/05 15:56:35 by tiyang            #+#    #+#             */
-/*   Updated: 2025/11/28 10:02:22 by makhudon         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   get_next_line_utils.c                              :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tiyang <tiyang@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/05/05 15:56:35 by tiyang        #+#    #+#                 */
+/*   Updated: 2025/12/09 10:31:21 by tiyang        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,6 @@ char	*gnl_ft_substr(char const *s, unsigned int start, size_t len)
 	if (!s)
 		return (NULL);
 	slen = gnl_ft_strlen(s);
-	// if (start >= slen)
-	// 	len = 0;
 	if (start >= slen || len == 0)
 		return (NULL);
 	else if (len > slen - start)
