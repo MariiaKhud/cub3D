@@ -1,7 +1,5 @@
 *This project has been created as part of the 42 curriculum by makhudon and tiyang*
 
-![alt text](cub3D.png)
-
 # cub3D
 
 ## Description
